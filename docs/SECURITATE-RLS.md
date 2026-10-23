@@ -69,9 +69,9 @@ Rate limiting-ul este persistent în PostgreSQL (`rate_limit_events`), nu doar �
 - Cookie-uri de sesiune gestionate de Supabase; `HttpOnly`, `Secure` în producție (HTTPS).
 - Erorile afișate utilizatorului sunt traduse; nu se expun stive, chei sau detalii SQL.
 
-## 6. Teste rulate (23/23)
+## 6. Teste rulate (24/24)
 
-Fișier: `tests/db/rls.test.ts`. Rezultate pe PostgreSQL 18.4, 23 octombrie 2026.
+Fișier: `tests/db/rls.test.ts`. Rezultate pe PostgreSQL 18.4, 24 octombrie 2026.
 
 | # | Test | Rezultat |
 |---|---|---|
@@ -98,6 +98,7 @@ Fișier: `tests/db/rls.test.ts`. Rezultate pe PostgreSQL 18.4, 23 octombrie 2026
 | 21 | export GDPR înregistrat și auditat | ✅ |
 | 22 | funcții interne neexpuse | ✅ |
 | 23 | suspendare/reactivare auditate, profil public ascuns | ✅ |
+| 24 | ștergere psiholog cu programări: cascadă profil + programări | ✅ |
 
 Testele sunt rulate pe un PostgreSQL real cu un stub care reproduce `auth.uid()`, rolurile Supabase
 și `auth.users`. Nu înlocuiesc un test pe proiectul Supabase găzduit, dar validează logica SQL/RLS.

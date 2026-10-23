@@ -73,7 +73,7 @@ create index if not exists availability_exceptions_psychologist_date_idx
 create table if not exists public.appointments (
   id uuid primary key default gen_random_uuid(),
   client_id uuid not null references public.profiles (id) on delete cascade,
-  psychologist_id uuid not null references public.psychologist_profiles (user_id) on delete restrict,
+  psychologist_id uuid not null references public.psychologist_profiles (user_id) on delete cascade,
   cabinet_id uuid references public.cabinets (id) on delete set null,
   starts_at timestamptz not null,
   ends_at timestamptz not null,

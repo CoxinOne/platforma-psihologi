@@ -1,4 +1,5 @@
-import type { ComponentProps, ReactNode } from "react";
+import type { ComponentProps, ReactElement, ReactNode } from "react";
+import { cloneElement, isValidElement } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn, initials } from "@/lib/utils";
@@ -191,6 +192,18 @@ export function Field({
   children: ReactNode;
   className?: string;
 }) {
+  const describedBy =
+    [hint ? `${htmlFor}-hint` : null, error ? `${htmlFor}-error` : null]
+      .filter(Boolean)
+      .join(" ") || undefined;
+
+  const control = isValidElement(children)
+    ? cloneElement(children as ReactElement<Record<string, unknown>>, {
+        "aria-describedby": describedBy,
+        ...(error ? { "aria-invalid": true } : {}),
+      })
+    : children;
+
   return (
     <div className={cn("space-y-1.5", className)}>
       <label htmlFor={htmlFor} className="block text-sm font-semibold text-ink">
@@ -198,14 +211,14 @@ export function Field({
         {required ? <span className="ml-1 text-danger">*</span> : null}
         {!required ? <span className="ml-2 text-xs font-normal text-muted">(opțional)</span> : null}
       </label>
-      {children}
+      {control}
       {hint ? (
         <p id={`${htmlFor}-hint`} className="text-xs text-muted">
           {hint}
         </p>
       ) : null}
       {error ? (
-        <p id={`${htmlFor}-error`} className="text-sm font-medium text-danger">
+        <p id={`${htmlFor}-error`} role="alert" className="text-sm font-medium text-danger">
           {error}
         </p>
       ) : null}

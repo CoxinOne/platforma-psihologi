@@ -864,4 +864,27 @@ describeDb("Securitate și izolare (PostgreSQL + RLS)", () => {
     );
     expect(pending.rows[0].status).toBe("pending");
   });
+
+  it("ștergerea unui psiholog elimină în cascadă programările și profilul profesional", async () => {
+    const appointmentId = await insertAppointment({
+      clientId: IDS.clientA,
+      startsAt: "2027-02-15T07:00:00Z",
+      status: "pending",
+    });
+
+    const deleted = await admin.query("delete from auth.users where id = $1", [IDS.psychA]);
+    expect(deleted.rowCount).toBe(1);
+
+    const appointments = await admin.query(
+      "select count(*)::int as count from public.appointments where id = $1",
+      [appointmentId],
+    );
+    expect(appointments.rows[0].count).toBe(0);
+
+    const profile = await admin.query(
+      "select count(*)::int as count from public.psychologist_profiles where user_id = $1",
+      [IDS.psychA],
+    );
+    expect(profile.rows[0].count).toBe(0);
+  });
 });

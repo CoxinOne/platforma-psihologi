@@ -22,7 +22,6 @@ export function getServerConfig() {
       contactInbox: process.env.CONTACT_INBOX_EMAIL ?? "",
       configured: Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM),
     },
-    maintenanceSecret: process.env.MAINTENANCE_SECRET ?? "",
     contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@exemplu.ro",
   } as const;
 }

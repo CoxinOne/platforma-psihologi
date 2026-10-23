@@ -13,7 +13,7 @@ npm run build
 `npm run check` rulează typecheck + lint + teste unitare + build (fără testele DB, care necesită
 PostgreSQL/Docker).
 
-## 2. Rezultate (23 octombrie 2026)
+## 2. Rezultate (24 octombrie 2026)
 
 Mediu: Windows 11, Node 24.15.0, npm 11.12.1, PostgreSQL 18.4 (local), Next.js 16.4.3.
 
@@ -22,7 +22,7 @@ Mediu: Windows 11, Node 24.15.0, npm 11.12.1, PostgreSQL 18.4 (local), Next.js 1
 | `tsc --noEmit` | ✅ | 0 erori, `strict` + `noUncheckedIndexedAccess` |
 | `eslint .` | ✅ | 0 erori, 0 warnings |
 | `vitest run tests/unit` | ✅ | 15 teste |
-| `vitest run tests/db` | ✅ | 23 teste |
+| `vitest run tests/db` | ✅ | 24 teste |
 | `next build` | ✅ | compilare + TypeScript + toate rutele |
 
 ### Teste unitare (15)

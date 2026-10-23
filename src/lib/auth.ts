@@ -22,9 +22,10 @@ export const getSessionContext = cache(async (): Promise<SessionContext | null> 
     if (!user) return null;
 
     const { data, error } = await supabase.rpc("get_my_profile");
-    if (error || !data) return null;
+    const profile = Array.isArray(data) ? data[0] : data;
+    if (error || !profile) return null;
 
-    return { supabase, user, profile: data as Profile };
+    return { supabase, user, profile: profile as Profile };
   } catch {
     // Configurare lipsă sau serviciu indisponibil: aplicația afișează starea publică.
     return null;

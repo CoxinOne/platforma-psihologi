@@ -15,7 +15,7 @@ profesionale verificate, mesagerie privată în timp real și programări cu pre
 | Frontend Next.js 16 (App Router) | implementat |
 | Autentificare Supabase (email + parolă, confirmare, resetare) | implementat |
 | Roluri client / psiholog / administrator | implementat, verificate pe server și în DB |
-| RLS pe toate tabelele private | implementat și testat (23 teste SQL) |
+| RLS pe toate tabelele private | implementat și testat (24 teste SQL) |
 | Directoriu, căutare, specializări, cabinete | implementat |
 | Profil profesional cu aprobare administrativă | implementat |
 | Mesagerie privată + Realtime + notificări | implementat |
@@ -98,7 +98,7 @@ platforma-psihologi/
 │  └─ tests/00_supabase_stub.sql   stub local pentru roluri/auth
 ├─ tests/
 │  ├─ unit/logic.test.ts           15 teste
-│  └─ db/rls.test.ts               23 teste PostgreSQL
+│  └─ db/rls.test.ts               24 teste PostgreSQL
 ├─ scripts/
 │  ├─ db-setup.mjs                 PostgreSQL efemer în Docker
 │  ├─ db-teardown.mjs
@@ -318,14 +318,14 @@ Detalii pe tabel și matricea de teste: [`docs/SECURITATE-RLS.md`](docs/SECURITA
 
 ## 9. Teste și verificări (rezultate reale)
 
-Rulate la **23 octombrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 local.
+Rulate la **24 octombrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 local.
 
 | Verificare | Comandă | Rezultat |
 |---|---|---|
 | TypeScript strict | `npm run typecheck` | ✅ 0 erori |
 | ESLint | `npm run lint` | ✅ 0 erori, 0 warnings |
 | Teste unitare | `npm test` | ✅ **15/15** |
-| Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **23/23** |
+| Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **24/24** |
 | Build producție | `npm run build` | ✅ compilat, toate rutele generate |
 
 Testele DB acoperă: acces anon, izolarea profilurilor și programărilor, blocarea auto-modificării
