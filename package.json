@@ -1,0 +1,49 @@
+{
+  "name": "platforma-psihologi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Platformă pentru psihologi: profiluri profesionale, mesagerie privată și programări.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run tests/unit",
+    "test:watch": "vitest tests/unit",
+    "test:db": "node scripts/db-setup.mjs && vitest run tests/db",
+    "db:setup": "node scripts/db-setup.mjs",
+    "db:teardown": "node scripts/db-teardown.mjs",
+    "seed:demo": "node scripts/seed-demo.mjs",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.12.7",
+    "@supabase/supabase-js": "2.118.0",
+    "clsx": "2.1.1",
+    "date-fns": "4.4.0",
+    "date-fns-tz": "3.2.0",
+    "lucide-react": "1.61.0",
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tailwind-merge": "3.7.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "26.6.5",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.3",
+    "pg": "8.23.1",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

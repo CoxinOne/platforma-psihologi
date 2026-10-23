@@ -1,0 +1,41 @@
+# dependențe
+/node_modules
+/.pnp
+.pnp.*
+
+# build
+/.next
+/out
+/build
+
+# mediu
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# teste
+/coverage
+/test-results
+/playwright-report
+
+# editor / sistem
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Supabase local
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# unelte locale de test (nu se livrează)
+.pgbin
+.pgdata
+.eslint-out.txt
+.npm-cache
+*.tsbuildinfo

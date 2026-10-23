@@ -1,0 +1,381 @@
+#!/usr/bin/env node
+/**
+ * Populează proiectul Supabase cu date DEMONSTRATIVE, fictive.
+ * Necesită SUPABASE_SERVICE_ROLE_KEY în .env.local.
+ *
+ * Conturi create (parola: Demo1234!):
+ *   admin@demo.exemplu.test
+ *   ana@demo.exemplu.test
+ *   mihai@demo.exemplu.test
+ *   elena@demo.exemplu.test
+ *   radu@demo.exemplu.test
+ *
+ * Toate profilurile au is_demo = true și sunt marcate vizual în aplicație.
+ */
+import { existsSync, readFileSync } from "node:fs";
+import { createClient } from "@supabase/supabase-js";
+import { fromZonedTime } from "date-fns-tz";
+
+const PASSWORD = "Demo12345!";
+const TIMEZONE = "Europe/Bucharest";
+
+function loadEnvFile(file) {
+  if (!existsSync(file)) return;
+  for (const line of readFileSync(file, "utf8").split(/\r?\n/)) {
+    const match = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+    if (!match) continue;
+    const [, key, rawValue] = match;
+    if (process.env[key] !== undefined) continue;
+    process.env[key] = rawValue.replace(/^["']|["']$/g, "");
+  }
+}
+
+loadEnvFile(".env.local");
+loadEnvFile(".env");
+
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!url || !serviceKey) {
+  console.error(
+    "Lipsește NEXT_PUBLIC_SUPABASE_URL sau SUPABASE_SERVICE_ROLE_KEY. Completează .env.local.",
+  );
+  process.exit(1);
+}
+
+const admin = createClient(url, serviceKey, {
+  auth: { persistSession: false, autoRefreshToken: false },
+});
+
+const ACCOUNTS = [
+  { key: "admin", email: "admin@demo.exemplu.test", fullName: "Administrator Demo", role: "admin" },
+  { key: "ana", email: "ana@demo.exemplu.test", fullName: "Ana Popescu", role: "psychologist" },
+  { key: "mihai", email: "mihai@demo.exemplu.test", fullName: "Mihai Ionescu", role: "psychologist" },
+  { key: "elena", email: "elena@demo.exemplu.test", fullName: "Elena Dumitrescu", role: "client" },
+  { key: "radu", email: "radu@demo.exemplu.test", fullName: "Radu Marinescu", role: "client" },
+];
+
+function nextWeekday(targetDay, minimumDaysAhead = 7) {
+  const now = new Date();
+  const result = new Date(now);
+  result.setUTCHours(9, 0, 0, 0);
+  result.setUTCDate(result.getUTCDate() + minimumDaysAhead);
+  while (result.getUTCDay() !== targetDay) {
+    result.setUTCDate(result.getUTCDate() + 1);
+  }
+  return result.toISOString().slice(0, 10);
+}
+
+async function findUsers() {
+  const { data, error } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
+  if (error) throw error;
+  return data.users;
+}
+
+async function ensureUser(account, usersByEmail) {
+  const existing = usersByEmail.get(account.email);
+  if (existing) return existing;
+
+  const { data, error } = await admin.auth.admin.createUser({
+    email: account.email,
+    password: PASSWORD,
+    email_confirm: true,
+    user_metadata: {
+      full_name: account.fullName,
+      requested_role: account.role === "psychologist" ? "psychologist" : "client",
+      terms_accepted_at: new Date().toISOString(),
+    },
+  });
+
+  if (error) throw new Error(`Creare ${account.email}: ${error.message}`);
+  return data.user;
+}
+
+async function main() {
+  console.log("› Se creează conturile demonstrative…");
+  const users = await findUsers();
+  const usersByEmail = new Map(users.map((user) => [user.email, user]));
+
+  const ids = {};
+  for (const account of ACCOUNTS) {
+    const user = await ensureUser(account, usersByEmail);
+    ids[account.key] = user.id;
+    const { error } = await admin
+      .from("profiles")
+      .update({
+        role: account.role,
+        requested_role: null,
+        full_name: account.fullName,
+        status: "active",
+        is_demo: true,
+        terms_accepted_at: new Date().toISOString(),
+        privacy_accepted_at: new Date().toISOString(),
+      })
+      .eq("id", user.id);
+    if (error) throw new Error(`Profil ${account.email}: ${error.message}`);
+  }
+
+  console.log("› Se creează cabinetele demonstrative…");
+  const cabinets = [
+    {
+      slug: "cabinet-demo-central",
+      name: "Cabinet Demo Central",
+      address_line: "Strada Exemplu nr. 10, etaj 2",
+      city: "București",
+      county: "București",
+      postal_code: "010101",
+      phone: "0210000000",
+      description:
+        "Date demonstrative. Adresa este fictivă și nu corespunde unui cabinet real. Se folosește doar pentru testarea platformei.",
+      is_active: true,
+      is_demo: true,
+    },
+    {
+      slug: "cabinet-demo-cluj",
+      name: "Cabinet Demo Cluj",
+      address_line: "Bulevardul Exemplu nr. 25",
+      city: "Cluj-Napoca",
+      county: "Cluj",
+      postal_code: "400001",
+      phone: "0264000000",
+      description:
+        "Date demonstrative. Locație fictivă pentru testarea programărilor în cabinet.",
+      is_active: true,
+      is_demo: true,
+    },
+  ];
+
+  const cabinetIds = {};
+  for (const cabinet of cabinets) {
+    const { data, error } = await admin
+      .from("cabinets")
+      .upsert(cabinet, { onConflict: "slug" })
+      .select("id")
+      .single();
+    if (error) throw new Error(`Cabinet ${cabinet.slug}: ${error.message}`);
+    cabinetIds[cabinet.slug] = data.id;
+  }
+
+  const { data: specialties, error: specialtyError } = await admin
+    .from("specialties")
+    .select("id, slug");
+  if (specialtyError) throw specialtyError;
+  const specialtyBySlug = new Map(specialties.map((item) => [item.slug, item.id]));
+
+  const profiles = [
+    {
+      user_id: ids.ana,
+      slug: "ana-popescu-demo",
+      display_name: "Ana Popescu",
+      professional_title: "Psiholog clinician, psihoterapeut",
+      bio: "Profil demonstrativ. Acompaniez adulții care se confruntă cu anxietate, epuizare și dificultăți de adaptare. Lucrăm într-un ritm clar, cu obiective stabilite împreună. Textul este fictiv și servește exclusiv testării platformei.",
+      education:
+        "Studii demonstrative: licență în psihologie, masterat în psihologie clinică și formare în psihoterapie cognitiv-comportamentală. Calificările nu sunt reale.",
+      experience:
+        "Experiență demonstrativă: consiliere individuală pentru adulți, ateliere de gestionare a stresului. Nu reprezintă o persoană reală.",
+      languages: ["română", "engleză"],
+      consultation_modes: ["online", "in_person"],
+      session_duration_minutes: 50,
+      price_ron: 250,
+      status: "approved",
+      verified_at: new Date().toISOString(),
+      verified_by: ids.admin,
+      published_at: new Date().toISOString(),
+      is_demo: true,
+      is_accepting_new_clients: true,
+      professional_registry_number: "DEMO-001",
+      timezone: TIMEZONE,
+      specialties: ["anxietate", "psihoterapie-cognitiv-comportamentala", "depresie"],
+      cabinet: "cabinet-demo-central",
+    },
+    {
+      user_id: ids.mihai,
+      slug: "mihai-ionescu-demo",
+      display_name: "Mihai Ionescu",
+      professional_title: "Psihoterapeut sistemic",
+      bio: "Profil demonstrativ. Lucrez cu cupluri și familii care vor să îmbunătățească comunicarea și să traverseze mai bine perioadele dificile. Datele sunt fictive, pentru testare.",
+      education:
+        "Studii demonstrative: psihologie, formare în psihoterapie sistemică de familie și cuplu. Nu sunt calificări reale.",
+      experience:
+        "Experiență demonstrativă: consiliere de cuplu și intervenții familiale. Profil fictiv.",
+      languages: ["română", "maghiară"],
+      consultation_modes: ["online", "in_person"],
+      session_duration_minutes: 60,
+      price_ron: 300,
+      status: "approved",
+      verified_at: new Date().toISOString(),
+      verified_by: ids.admin,
+      published_at: new Date().toISOString(),
+      is_demo: true,
+      is_accepting_new_clients: true,
+      professional_registry_number: "DEMO-002",
+      timezone: TIMEZONE,
+      specialties: ["consiliere-cuplu", "psihoterapie-sistemica"],
+      cabinet: "cabinet-demo-cluj",
+    },
+  ];
+
+  console.log("› Se creează profilurile profesionale…");
+  for (const profile of profiles) {
+    const { specialties: specialtySlugs, cabinet, ...record } = profile;
+    const { error } = await admin
+      .from("psychologist_profiles")
+      .upsert(record, { onConflict: "user_id" });
+    if (error) throw new Error(`Profil ${profile.slug}: ${error.message}`);
+
+    await admin.from("psychologist_specialties").delete().eq("psychologist_id", record.user_id);
+    const links = specialtySlugs.map((slug) => ({
+      psychologist_id: record.user_id,
+      specialty_id: specialtyBySlug.get(slug),
+    }));
+    if (links.every((link) => link.specialty_id)) {
+      const { error: linkError } = await admin.from("psychologist_specialties").insert(links);
+      if (linkError) throw linkError;
+    }
+
+    await admin.from("psychologist_cabinets").delete().eq("psychologist_id", record.user_id);
+    const { error: cabinetLinkError } = await admin.from("psychologist_cabinets").insert({
+      psychologist_id: record.user_id,
+      cabinet_id: cabinetIds[cabinet],
+      is_primary: true,
+    });
+    if (cabinetLinkError) throw cabinetLinkError;
+
+    await admin.from("availability_rules").delete().eq("psychologist_id", record.user_id);
+
+    if (record.user_id === ids.ana) {
+      const weekdays = [1, 2, 3, 4, 5];
+      const { error: ruleError } = await admin.from("availability_rules").insert(
+        weekdays.map((weekday) => ({
+          psychologist_id: record.user_id,
+          weekday,
+          start_time: "09:00",
+          end_time: "13:00",
+          slot_step_minutes: 30,
+          mode: "online",
+        })),
+      );
+      if (ruleError) throw ruleError;
+
+      const { error: cabinetRuleError } = await admin.from("availability_rules").insert(
+        [2, 4].map((weekday) => ({
+          psychologist_id: record.user_id,
+          weekday,
+          start_time: "14:00",
+          end_time: "18:00",
+          slot_step_minutes: 30,
+          mode: "in_person",
+          cabinet_id: cabinetIds["cabinet-demo-central"],
+        })),
+      );
+      if (cabinetRuleError) throw cabinetRuleError;
+    } else {
+      const { error: ruleError } = await admin.from("availability_rules").insert(
+        [1, 3, 5].map((weekday) => ({
+          psychologist_id: record.user_id,
+          weekday,
+          start_time: "10:00",
+          end_time: "16:00",
+          slot_step_minutes: 30,
+          mode: "online",
+        })),
+      );
+      if (ruleError) throw ruleError;
+    }
+  }
+
+  console.log("› Se creează o conversație demonstrativă…");
+  const { data: existingConversation } = await admin
+    .from("conversations")
+    .select("id")
+    .eq("client_id", ids.elena)
+    .eq("psychologist_id", ids.ana)
+    .maybeSingle();
+
+  let conversationId = existingConversation?.id;
+  if (!conversationId) {
+    const { data, error } = await admin
+      .from("conversations")
+      .insert({ client_id: ids.elena, psychologist_id: ids.ana })
+      .select("id")
+      .single();
+    if (error) throw error;
+    conversationId = data.id;
+
+    await admin.from("conversation_participants").insert([
+      { conversation_id: conversationId, user_id: ids.elena, role_in_conversation: "client" },
+      { conversation_id: conversationId, user_id: ids.ana, role_in_conversation: "psychologist" },
+    ]);
+
+    const { error: messageError } = await admin.from("messages").insert([
+      {
+        conversation_id: conversationId,
+        sender_id: ids.elena,
+        body: "Bună ziua! Aș dori o primă discuție despre gestionarea anxietății. (mesaj demonstrativ)",
+      },
+      {
+        conversation_id: conversationId,
+        sender_id: ids.ana,
+        body: "Bună, Elena! Îți mulțumesc pentru mesaj. Putem începe cu o ședință de 50 de minute, online sau la cabinet. (răspuns demonstrativ)",
+      },
+    ]);
+    if (messageError) throw messageError;
+  }
+
+  console.log("› Se creează programări demonstrative…");
+  await admin
+    .from("appointments")
+    .delete()
+    .in("client_id", [ids.elena, ids.radu])
+    .in("psychologist_id", [ids.ana, ids.mihai]);
+
+  const monday = nextWeekday(1, 10);
+  const tuesday = nextWeekday(2, 11);
+  const mondayStart = fromZonedTime(`${monday}T11:00:00`, TIMEZONE);
+  const tuesdayStart = fromZonedTime(`${tuesday}T10:00:00`, TIMEZONE);
+
+  const { error: appointmentError } = await admin.from("appointments").insert([
+    {
+      client_id: ids.elena,
+      psychologist_id: ids.ana,
+      starts_at: mondayStart.toISOString(),
+      ends_at: new Date(mondayStart.getTime() + 50 * 60 * 1000).toISOString(),
+      duration_minutes: 50,
+      mode: "online",
+      status: "confirmed",
+      timezone: TIMEZONE,
+      price_ron: 250,
+      client_note: "Programare demonstrativă pentru testarea interfeței.",
+      confirmed_at: new Date().toISOString(),
+    },
+    {
+      client_id: ids.radu,
+      psychologist_id: ids.ana,
+      starts_at: tuesdayStart.toISOString(),
+      ends_at: new Date(tuesdayStart.getTime() + 50 * 60 * 1000).toISOString(),
+      duration_minutes: 50,
+      mode: "online",
+      status: "pending",
+      timezone: TIMEZONE,
+      price_ron: 250,
+      client_note: "Solicitare demonstrativă, în așteptare.",
+    },
+  ]);
+
+  if (appointmentError) {
+    console.warn("  ! Programările demonstrative nu au putut fi create:", appointmentError.message);
+  }
+
+  console.log("\n✓ Date demonstrative pregătite.");
+  console.log("  Parola pentru toate conturile: " + PASSWORD);
+  for (const account of ACCOUNTS) {
+    console.log(`  ${account.role.padEnd(13)} ${account.email}`);
+  }
+  console.log("\n  Toate datele sunt fictive și marcate is_demo=true.");
+  console.log(`  Aplicație: ${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}`);
+}
+
+main().catch((error) => {
+  console.error("✗ Seed eșuat:", error.message);
+  process.exitCode = 1;
+});

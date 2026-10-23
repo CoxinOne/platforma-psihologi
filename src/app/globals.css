@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #f6f3ec;
+  --color-surface: #fffefa;
+  --color-ink: #1c2a27;
+  --color-muted: #5e6c67;
+  --color-brand: #1f4f49;
+  --color-brand-strong: #143b37;
+  --color-brand-soft: #e6efe9;
+  --color-brand-line: #c8d8ce;
+  --color-sand: #efe6d7;
+  --color-line: #dde4de;
+  --color-danger: #96372c;
+  --color-danger-soft: #f8e9e5;
+  --color-warning: #7d5414;
+  --color-warning-soft: #faf0db;
+  --color-success: #25624c;
+  --color-success-soft: #e4f1e9;
+
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia,
+    serif;
+
+  --radius-card: 1.35rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid #2f6f66;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: #cfe3d8;
+    color: #143b37;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    border-radius: 0.75rem;
+    background: var(--color-brand);
+    color: white;
+    padding: 0.75rem 1rem;
+    transition: top 150ms ease;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  .prose-legal h2 {
+    font-size: 1.35rem;
+    margin-top: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-legal h3 {
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 650;
+  }
+
+  .prose-legal p,
+  .prose-legal li {
+    color: var(--color-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-legal ul {
+    list-style: disc;
+    padding-left: 1.4rem;
+  }
+
+  .prose-legal a {
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .hairline {
+    background-image: linear-gradient(to right, transparent, var(--color-line), transparent);
+    height: 1px;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+/* Pattern decorativ discret, fără imagini externe. */
+.pattern-soft {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(31, 79, 73, 0.06), transparent 42%),
+    radial-gradient(circle at 85% 10%, rgba(180, 148, 96, 0.1), transparent 38%),
+    radial-gradient(circle at 50% 100%, rgba(31, 79, 73, 0.04), transparent 48%);
+}
