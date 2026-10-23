@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BadgeCheck, MapPin, Monitor, Video } from "lucide-react";
 import type { PublicPsychologist } from "@/lib/types";
 import { MODE_LABELS } from "@/lib/constants";
+import { formatPriceRon } from "@/lib/utils";
 import { Badge, Card, DemoBadge } from "@/components/ui";
 import { Avatar } from "@/components/ui";
 
@@ -88,7 +89,7 @@ export function PsychologistCard({ psychologist }: { psychologist: PublicPsychol
         <div>
           <dt className="text-xs text-muted">Tarif</dt>
           <dd className="mt-0.5 font-medium text-ink">
-            {psychologist.price_ron !== null ? `${psychologist.price_ron} RON` : "La solicitare"}
+            {psychologist.price_ron !== null ? formatPriceRon(psychologist.price_ron) : "La solicitare"}
           </dd>
         </div>
       </dl>

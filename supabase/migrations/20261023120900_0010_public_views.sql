@@ -139,6 +139,14 @@ grant select on public.public_cabinets to anon, authenticated;
 grant select on public.public_psychologist_specialties to anon, authenticated;
 grant select on public.public_psychologist_cabinets to anon, authenticated;
 
+-- Cheia de serviciu este folosită pe server pentru operațiuni administrative
+-- și pentru verificări operaționale; are nevoie de SELECT pe view-uri.
+grant select on public.public_psychologists to service_role;
+grant select on public.public_specialties to service_role;
+grant select on public.public_cabinets to service_role;
+grant select on public.public_psychologist_specialties to service_role;
+grant select on public.public_psychologist_cabinets to service_role;
+
 -- View-urile nu trebuie să fie modificabile.
 revoke insert, update, delete on public.public_psychologists from anon, authenticated;
 revoke insert, update, delete on public.public_specialties from anon, authenticated;

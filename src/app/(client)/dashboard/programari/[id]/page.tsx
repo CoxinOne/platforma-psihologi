@@ -5,6 +5,7 @@ import { requireClient } from "@/lib/auth";
 import { getAppointmentById } from "@/lib/data/user";
 import { canClientCancel } from "@/lib/permissions";
 import { formatDateTime, formatDuration } from "@/lib/time";
+import { formatPriceRon } from "@/lib/utils";
 import { APPOINTMENT_STATUS_LABELS, MODE_LABELS } from "@/lib/constants";
 import { AppointmentStatusBadge } from "@/components/appointment-badges";
 import { CancelAppointmentForm, RescheduleForm } from "@/components/appointment-actions";
@@ -92,7 +93,7 @@ export default async function ClientAppointmentDetailPage({
               <div>
                 <dt className="text-xs font-semibold uppercase tracking-wide text-muted">Tarif</dt>
                 <dd className="mt-1 font-medium text-ink">
-                  {appointment.price_ron !== null ? `${appointment.price_ron} RON` : "La solicitare"}
+                  {appointment.price_ron !== null ? formatPriceRon(appointment.price_ron) : "La solicitare"}
                 </dd>
                 <dd className="text-xs text-muted">Plata nu se face online în această versiune.</dd>
               </div>

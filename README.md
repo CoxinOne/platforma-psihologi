@@ -193,6 +193,11 @@ alter table public.profiles enable trigger profiles_guard_update;
 Contul trebuie să existe deja (înregistrare prin aplicație). Verifică apoi în aplicație că
 `/admin` este accesibil.
 
+> **Actualizare pentru proiecte create înainte de 24.10.2026:** rulează o singură dată
+> `supabase/patches/2026-10-24-audit-fixes.sql` în SQL Editor. Patch-ul schimbă ștergerea
+> programărilor la `ON DELETE CASCADE` (altfel ștergerea unui psiholog cu programări eșuează) și
+> acordă cheii de serviciu acces la view-urile publice. Instalările noi nu au nevoie de el.
+
 ### 5.3. Date demonstrative (opțional, recomandat pentru testare)
 
 ```powershell
@@ -327,11 +332,18 @@ Rulate la **24 octombrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 loca
 | Teste unitare | `npm test` | ✅ **15/15** |
 | Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **24/24** |
 | Build producție | `npm run build` | ✅ compilat, toate rutele generate |
+| Verificare live Supabase (citiri publice, autentificare demo, RLS pe roluri) | rulată pe proiectul configurat în `.env.local` | ✅ 2 profile publice, login pentru client/psiholog/admin, izolare corectă, `/api/health` 200 |
 
 Testele DB acoperă: acces anon, izolarea profilurilor și programărilor, blocarea auto-modificării
 rolului, rezervări duplicate și **simultane**, fereastra de anulare, confirmare/respingere,
 conversații private, imutabilitatea mesajelor, notificări izolate, aprobare profil cu audit,
-fus orar la DST, cabinet obligatoriu, raportări, export GDPR și suspendare/reactivare.
+fus orar la DST, cabinet obligatoriu, raportări, export GDPR, suspendare/reactivare și ștergerea
+în cascadă a unui psiholog cu programări.
+
+Pe proiectul Supabase configurat local, verificarea live a confirmat: pagina publică afișează cele
+două profiluri demo, autentificarea funcționează pentru toate cele trei roluri, iar RLS returnează
+fiecărui rol doar propriile programări/conversații (admin: 0, client: 1, psiholog: 2). E-mailul
+este **neconfigurat** (`email_configured:false`), deci numai notificările din aplicație sunt active.
 
 ### Cum rulezi testele DB
 
@@ -359,8 +371,10 @@ constrângeri, nu sunt concepute pentru reaplicare pe aceeași bază).
 
 ### Ce **nu** a fost testat integral
 
-- Fluxul end-to-end împotriva unui proiect Supabase găzduit (nu au fost disponibile credențiale).
-- Trimiterea reală de e-mailuri prin Resend/SMTP.
+- Fluxurile de scriere end-to-end prin interfață (creare cont reală, rezervare din browser,
+  trimitere mesaj din chat, aprobare din panoul admin). Logica lor este acoperită de testele DB, iar
+  citirile/autentificarea au fost verificate live.
+- Trimiterea reală de e-mailuri prin Resend/SMTP (furnizorul nu este configurat).
 - Realtime live între două browsere (publicația și politicile sunt configurate, dar nu au fost
   testate cu un proiect real).
 - Upload-ul în Supabase Storage (bucket-ul și politicile sunt în migrație).

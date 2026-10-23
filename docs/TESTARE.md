@@ -39,19 +39,30 @@ Mediu: Windows 11, Node 24.15.0, npm 11.12.1, PostgreSQL 18.4 (local), Next.js 1
 - cabinet obligatoriu pentru `in_person`;
 - traducerea erorilor cunoscute.
 
-### Teste DB/RLS (23)
+### Teste DB/RLS (24)
 
-Vezi tabelul din [`SECURITATE-RLS.md`](SECURITATE-RLS.md#6-teste-rulate-2323). Rulează pe un
+Vezi tabelul din [`SECURITATE-RLS.md`](SECURITATE-RLS.md#6-teste-rulate-2424). Rulează pe un
 PostgreSQL real, cu stub Supabase (`auth.uid()`, roluri, `auth.users`) și toate migrațiile aplicate.
+
+### Verificare live pe proiectul Supabase configurat
+
+Pe 24 octombrie 2026, folosind proiectul din `.env.local` (fără a modifica date):
+
+- `/api/health` → **200**, `database:true`, latență ~70 ms, `email_configured:false`;
+- paginile publice `/`, `/psihologi`, `/cauta`, `/specializari`, `/cabinete`,
+  `/psihologi/ana-popescu-demo` → 200, cu cele 2 profiluri demo afișate corect;
+- autentificare demo reușită pentru client, psiholog și administrator;
+- RLS live: psihologul vede 2 programări / 1 conversație / 2 mesaje, clientul 1 / 1 / 2,
+  administratorul 0 / 0 / 0; `admin_dashboard_stats` funcționează doar pentru admin.
 
 ## 3. Teste care nu au putut fi rulate
 
 | Zonă | Motiv | Ce trebuie făcut |
 |---|---|---|
-| End-to-end pe Supabase găzduit | lipsă credențiale de proiect | creează proiect, aplică migrațiile, rulează fluxurile |
+| Fluxuri de scriere prin UI pe Supabase | nu au fost executate pentru a nu modifica datele demo | creează un cont de test, rezervă, trimite mesaj, aprobă din admin |
 | Trimitere e-mail reală | lipsă cheie Resend/SMTP | configurează și verifică primirea |
-| Realtime între două browsere | necesită proiect Supabase | deschide două conturi, verifică mesajele live |
-| Storage upload | necesită bucket real | încarcă o fotografie și verifică politicile |
+| Realtime între două browsere | nu a fost deschis un al doilea browser | deschide două conturi, verifică mesajele live |
+| Storage upload | nu a fost încărcată o fotografie | încarcă o fotografie și verifică politicile |
 | Teste de browser (Playwright) | neincluse | adaugă pentru fluxurile critice |
 | Scanare de securitate externă | neefectuată | pentest înainte de lansare |
 

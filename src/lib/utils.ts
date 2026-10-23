@@ -23,3 +23,8 @@ export function truncate(value: string, max: number): string {
   if (value.length <= max) return value;
   return `${value.slice(0, max - 1).trimEnd()}…`;
 }
+
+export function formatPriceRon(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "La solicitare";
+  return `${new Intl.NumberFormat("ro-RO", { maximumFractionDigits: 2 }).format(value)} RON`;
+}

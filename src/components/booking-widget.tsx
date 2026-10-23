@@ -120,7 +120,7 @@ export function BookingWidget({
           {duration} min
         </Badge>
         <Badge tone="sand">
-          {price !== null ? `${price} RON` : "Tarif la solicitare"}
+          {price !== null ? `${new Intl.NumberFormat("ro-RO", { maximumFractionDigits: 2 }).format(price)} RON` : "Tarif la solicitare"}
         </Badge>
       </div>
 

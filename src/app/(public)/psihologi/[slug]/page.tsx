@@ -17,6 +17,7 @@ import { getPsychologistBySlug } from "@/lib/data/public";
 import { getSessionContext } from "@/lib/auth";
 import { MODE_LABELS } from "@/lib/constants";
 import { formatDuration } from "@/lib/time";
+import { formatPriceRon } from "@/lib/utils";
 import { Avatar, Badge, Card, DemoBadge } from "@/components/ui";
 import { BookingWidget } from "@/components/booking-widget";
 import { ContactPsychologist } from "@/components/contact-psychologist";
@@ -49,11 +50,7 @@ export default async function PsychologistProfilePage({
   const isAuthenticated = Boolean(session);
   const isClient = session?.profile.role === "client";
   const price =
-    psychologist.price_ron !== null
-      ? new Intl.NumberFormat("ro-RO", { style: "currency", currency: "RON" }).format(
-          psychologist.price_ron,
-        )
-      : "Tarif la solicitare";
+    psychologist.price_ron !== null ? formatPriceRon(psychologist.price_ron) : "Tarif la solicitare";
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
