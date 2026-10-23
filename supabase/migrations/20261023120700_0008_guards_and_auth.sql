@@ -73,7 +73,8 @@ security definer
 set search_path = public
 as $$
 begin
-  if public.is_admin() or auth.role() = 'service_role' then
+  if public.is_admin()
+     or coalesce(current_setting('request.jwt.claims', true)::jsonb ->> 'role', '') = 'service_role' then
     return new;
   end if;
 
@@ -123,7 +124,8 @@ security definer
 set search_path = public
 as $$
 begin
-  if public.is_admin() or auth.role() = 'service_role' then
+  if public.is_admin()
+     or coalesce(current_setting('request.jwt.claims', true)::jsonb ->> 'role', '') = 'service_role' then
     return new;
   end if;
 
@@ -177,7 +179,8 @@ security definer
 set search_path = public
 as $$
 begin
-  if not public.is_admin() and auth.role() <> 'service_role'
+  if not public.is_admin()
+     and coalesce(current_setting('request.jwt.claims', true)::jsonb ->> 'role', '') <> 'service_role'
      and auth.uid() is distinct from new.psychologist_id then
     raise exception 'NOT_ALLOWED' using errcode = 'P0001';
   end if;
@@ -209,7 +212,8 @@ security definer
 set search_path = public
 as $$
 begin
-  if not public.is_admin() and auth.role() <> 'service_role'
+  if not public.is_admin()
+     and coalesce(current_setting('request.jwt.claims', true)::jsonb ->> 'role', '') <> 'service_role'
      and auth.uid() is distinct from new.psychologist_id then
     raise exception 'NOT_ALLOWED' using errcode = 'P0001';
   end if;
