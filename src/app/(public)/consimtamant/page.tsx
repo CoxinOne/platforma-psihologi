@@ -30,8 +30,8 @@ export default function ConsentPage() {
       <h2>3. Comunicări de marketing</h2>
       <p>
         Consimțământul pentru e-mailuri de marketing este separat de crearea contului și poate fi
-        modificat oricând din profilul tău. Notificările tranzacționale (de exemplu, confirmarea
-        unei programări) nu depind de consimțământul de marketing.
+        modificat oricând din profilul tău. Notificările tranzacționale (de exemplu, un mesaj nou)
+        nu depind de consimțământul de marketing.
       </p>
 
       <h2>4. Preferințele tale în acest browser</h2>

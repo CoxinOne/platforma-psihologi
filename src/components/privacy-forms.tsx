@@ -22,8 +22,8 @@ export function ExportDataForm() {
         Solicită exportul datelor
       </SubmitButton>
       <p className="text-xs text-muted">
-        Exportul include datele contului, profilul profesional (dacă există), programările,
-        mesajele, notificările și raportările tale.
+        Exportul include datele contului, profilul profesional (dacă există), mesajele,
+        notificările și raportările tale.
       </p>
     </form>
   );
@@ -59,8 +59,8 @@ export function DeleteAccountForm({ hasPendingRequest }: { hasPendingRequest: bo
           Ștergerea este ireversibilă
         </p>
         <p className="mt-1">
-          Programările viitoare trebuie anulate înainte. Mesajele și istoricul vor fi eliminate.
-          Unele date pot fi păstrate dacă există o obligație legală.
+          Mesajele și istoricul vor fi eliminate. Unele date pot fi păstrate dacă există o
+          obligație legală.
         </p>
       </div>
       <Field label="Motivul solicitării" htmlFor="delete-reason" hint="Opțional, ne ajută să înțelegem decizia.">

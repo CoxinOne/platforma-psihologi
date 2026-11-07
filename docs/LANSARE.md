@@ -1,5 +1,8 @@
 # Lansare
 
+> **Actualizare 24.10.2026:** verificările de programări/plăți nu se mai aplică. Platforma oferă
+> profiluri publice și mesagerie privată; tariful se discută direct, în funcție de complexitate.
+
 ## 1. Checklist tehnic
 
 - [ ] `npm ci` pe o mașină curată.
@@ -25,15 +28,14 @@
 2. Resetare parolă.
 3. Psiholog: solicitare cont → admin acordă rol → profil → trimitere spre verificare → admin aprobă
    → profil public.
-4. Client: căutare → mesaj → programare → psiholog confirmă → notificări la ambele conturi.
-5. Anulare client cu >24 h și refuz cu <24 h.
-6. Reprogramare → status pending → confirmare.
-7. Două browsere care rezervă simultan același interval → una singură reușește.
-8. Admin: suspendare cont → login blocat → reactivare.
-9. Export GDPR → JSON descărcat; cerere ștergere → admin șterge contul.
-10. Raportare abuz → admin o vede → o închide.
-11. Upload fotografie → apare pe profilul public.
-12. Verificare acces: un client nu poate deschide `/admin` sau `/cabinet`.
+4. Client: căutare → mesaj privat → psiholog răspunde → notificări la ambele conturi.
+5. Verifică afișarea „Prețul este în funcție de complexitate” pe card, profil și dashboard.
+6. Admin: suspendare cont → login blocat → reactivare.
+7. Export GDPR → JSON descărcat; cerere ștergere → admin șterge contul.
+8. Raportare abuz → admin o vede → o închide.
+9. Upload fotografie → apare pe profilul public.
+10. Verificare acces: un client nu poate deschide `/admin` sau `/cabinet`; rutele de programări nu
+    mai există.
 
 ## 3. Verificări juridice și operaționale
 

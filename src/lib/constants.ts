@@ -99,3 +99,13 @@ export const ABUSE_CATEGORIES = [
 
 export const MAX_MESSAGE_LENGTH = 4000;
 export const DEFAULT_PAGE_SIZE = 12;
+
+/** Tipuri istorice de notificări pentru modulul de programări, eliminat din UI. */
+export const LEGACY_APPOINTMENT_NOTIFICATION_TYPES = [
+  "appointment_requested",
+  "appointment_confirmed",
+  "appointment_rejected",
+  "appointment_cancelled",
+  "appointment_rescheduled",
+  "appointment_completed",
+] as const;

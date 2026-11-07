@@ -3,6 +3,7 @@ import { Bell, CheckCheck } from "lucide-react";
 import { requireClient } from "@/lib/auth";
 import { getNotificationPreferences, listNotifications } from "@/lib/data/user";
 import { formatDateTime } from "@/lib/time";
+import { notificationHref } from "@/lib/notifications";
 import { markAllNotificationsReadAction, markNotificationReadAction } from "@/lib/actions/notifications";
 import { NotificationPreferencesForm } from "@/components/account-forms";
 import { Badge, Card, EmptyState, PageHeader } from "@/components/ui";
@@ -21,7 +22,7 @@ export default async function ClientNotificationsPage() {
       <PageHeader
         eyebrow="Notificări"
         title="Notificările mele"
-        description="Aici apar mesajele noi, confirmările și modificările programărilor. Conținutul mesajelor private nu este inclus."
+        description="Aici apar mesajele noi și notificările despre cont. Conținutul mesajelor private nu este inclus."
         action={
           unread > 0 ? (
             <form action={markAllNotificationsReadAction}>
@@ -58,9 +59,9 @@ export default async function ClientNotificationsPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       {!notification.read_at ? <Badge tone="brand">Necitită</Badge> : null}
-                      {notification.action_url ? (
+                      {notificationHref(notification.action_url) ? (
                         <Link
-                          href={notification.action_url}
+                          href={notificationHref(notification.action_url) as string}
                           className="text-sm font-semibold text-brand underline underline-offset-4"
                         >
                           Deschide
@@ -83,7 +84,7 @@ export default async function ClientNotificationsPage() {
             <EmptyState
               icon={<Bell className="h-6 w-6" />}
               title="Nu ai notificări"
-              description="Vei primi notificări aici când primești un mesaj sau când statusul unei programări se schimbă."
+              description="Vei primi notificări aici când primești un mesaj sau când se schimbă ceva în cont."
             />
           )}
         </section>
@@ -98,7 +99,6 @@ export default async function ClientNotificationsPage() {
               <NotificationPreferencesForm
                 inApp={preferences?.in_app ?? true}
                 emailMessages={preferences?.email_messages ?? false}
-                emailAppointments={preferences?.email_appointments ?? true}
               />
             </div>
           </Card>

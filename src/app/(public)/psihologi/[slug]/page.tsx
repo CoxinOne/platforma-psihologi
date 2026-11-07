@@ -5,7 +5,6 @@ import {
   BadgeCheck,
   Building2,
   CalendarDays,
-  Globe2,
   GraduationCap,
   Languages,
   MapPin,
@@ -17,9 +16,7 @@ import { getPsychologistBySlug } from "@/lib/data/public";
 import { getSessionContext } from "@/lib/auth";
 import { MODE_LABELS } from "@/lib/constants";
 import { formatDuration } from "@/lib/time";
-import { formatPriceRon } from "@/lib/utils";
-import { Avatar, Badge, Card, DemoBadge } from "@/components/ui";
-import { BookingWidget } from "@/components/booking-widget";
+import { Avatar, Badge, buttonClasses, Card, DemoBadge } from "@/components/ui";
 import { ContactPsychologist } from "@/components/contact-psychologist";
 
 export async function generateMetadata({
@@ -49,8 +46,6 @@ export default async function PsychologistProfilePage({
   const session = await getSessionContext().catch(() => null);
   const isAuthenticated = Boolean(session);
   const isClient = session?.profile.role === "client";
-  const price =
-    psychologist.price_ron !== null ? formatPriceRon(psychologist.price_ron) : "Tarif la solicitare";
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -102,10 +97,10 @@ export default async function PsychologistProfilePage({
                 </ul>
 
                 <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line pt-4 text-sm">
-                  <span className="font-semibold text-ink">{price}</span>
+                  <span className="font-semibold text-ink">Prețul este în funcție de complexitate</span>
                   <span className="text-muted">Ședință de {formatDuration(psychologist.session_duration_minutes)}</span>
                   {!psychologist.is_accepting_new_clients ? (
-                    <Badge tone="warning">Nu acceptă programări noi</Badge>
+                    <Badge tone="warning">Nu acceptă solicitări noi</Badge>
                   ) : (
                     <Badge tone="success">Acceptă solicitări</Badge>
                   )}
@@ -116,7 +111,7 @@ export default async function PsychologistProfilePage({
             {psychologist.is_demo ? (
               <div className="mt-6 rounded-xl border border-[#ead6ac] bg-warning-soft px-4 py-3 text-sm text-warning">
                 Acest profil este fictiv și marchează datele demonstrative ale platformei. Persoana,
-                studiile și tarifele nu sunt reale.
+                studiile și informațiile profesionale nu sunt reale.
               </div>
             ) : null}
           </header>
@@ -187,16 +182,19 @@ export default async function PsychologistProfilePage({
                     {mode === "online" ? "Ședință individuală online" : "Ședință individuală la cabinet"}
                   </p>
                   <p className="mt-1 text-muted">
-                    {formatDuration(psychologist.session_duration_minutes)} · {price}
+                    {formatDuration(psychologist.session_duration_minutes)}
                   </p>
                   <p className="mt-1 text-xs text-muted">
                     {mode === "online"
-                      ? "Linkul de videoconferință se transmite după confirmare."
+                      ? "Linkul de videoconferință se transmite după ce stabiliți detaliile."
                       : "Adresa cabinetului este afișată mai jos."}
                   </p>
                 </li>
               ))}
             </ul>
+            <p className="text-sm font-medium text-brand-strong">
+              Prețul este în funcție de complexitate.
+            </p>
           </section>
 
           {psychologist.cabinets.length > 0 ? (
@@ -269,43 +267,32 @@ export default async function PsychologistProfilePage({
           </section>
         </div>
 
-        <aside className="lg:sticky lg:top-24 lg:self-start" aria-labelledby="programare">
+        <aside className="lg:sticky lg:top-24 lg:self-start" aria-labelledby="contact-rapid">
           <Card className="space-y-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">Programare</p>
-              <h2 id="programare" className="mt-1 text-2xl font-semibold text-ink">Alege un interval</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">Contact</p>
+              <h2 id="contact-rapid" className="mt-1 text-2xl font-semibold text-ink">
+                Discută întâi cu psihologul
+              </h2>
               <p className="mt-1 text-sm text-muted">
-                Vezi numai orele libere, calculate în funcție de programul publicat și de
-                programările existente.
+                Trimite un mesaj privat, descrie pe scurt ce te interesează și stabiliți împreună
+                detaliile. Nu există programare automată sau plată online.
               </p>
             </div>
-            <BookingWidget
-              psychologistId={psychologist.user_id}
-              psychologistName={psychologist.display_name}
-              slug={psychologist.slug}
-              modes={psychologist.consultation_modes}
-              duration={psychologist.session_duration_minutes}
-              price={psychologist.price_ron}
-              cabinets={psychologist.cabinets.map((cabinet) => ({
-                id: cabinet.id,
-                name: cabinet.name,
-                city: cabinet.city,
-                address_line: cabinet.address_line,
-              }))}
-              isAuthenticated={isAuthenticated}
-              isClient={isClient}
-              loginNext={`/psihologi/${psychologist.slug}`}
-            />
+            <div className="rounded-2xl bg-brand-soft/60 p-4 text-sm text-brand-strong">
+              <p className="font-semibold">Prețul este în funcție de complexitate.</p>
+              <p className="mt-1 text-brand-strong/80">
+                Tariful se discută direct cu psihologul, înainte de a decide.
+              </p>
+            </div>
+            <a href="#mesaj" className={buttonClasses("primary", "md")}>
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              Trimite un mesaj
+            </a>
           </Card>
 
           <div className="mt-4 rounded-2xl border border-line bg-canvas p-4 text-xs text-muted">
-            <p className="flex items-center gap-1.5 font-semibold text-ink">
-              <Globe2 className="h-3.5 w-3.5" aria-hidden="true" />
-              Fus orar: {psychologist.timezone}
-            </p>
-            <p className="mt-1">
-              Orele sunt afișate în ora României, cu ajustarea automată la schimbarea orei.
-            </p>
+            Platforma facilitează contactul, nu intermediază plăți și nu stabilește tarife.
           </div>
         </aside>
       </div>

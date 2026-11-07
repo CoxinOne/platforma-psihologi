@@ -1,5 +1,9 @@
 # Testare
 
+> **Actualizare 24.10.2026:** testele DB pentru programări validează schema legacy; aplicația nu mai
+> are UI/API de programare. Testele unitare au fost reduse la logica folosită efectiv (fără fereastra
+> de anulare și validarea disponibilității).
+
 ## 1. Comenzi
 
 ```powershell
@@ -21,11 +25,11 @@ Mediu: Windows 11, Node 24.15.0, npm 11.12.1, PostgreSQL 18.4 (local), Next.js 1
 |---|---|---|
 | `tsc --noEmit` | ✅ | 0 erori, `strict` + `noUncheckedIndexedAccess` |
 | `eslint .` | ✅ | 0 erori, 0 warnings |
-| `vitest run tests/unit` | ✅ | 15 teste |
+| `vitest run tests/unit` | ✅ | 13 teste |
 | `vitest run tests/db` | ✅ | 24 teste |
 | `next build` | ✅ | compilare + TypeScript + toate rutele |
 
-### Teste unitare (15)
+### Teste unitare (13)
 
 - conversii UTC ↔ Europe/Bucharest înainte/după DST;
 - generare de intervale fără duplicate în ziua cu ora 03:00 inexistentă;
@@ -33,10 +37,8 @@ Mediu: Windows 11, Node 24.15.0, npm 11.12.1, PostgreSQL 18.4 (local), Next.js 1
 - formatare în română;
 - validare strictă a datelor calendaristice (`2027-02-29` respins);
 - redirectări sigure (blochează `//evil`, URL-uri absolute, backslash);
-- fereastra de anulare de 24 h;
 - schema de înregistrare (email normalizat, parolă slabă, confirmare, termeni);
 - profil/telefon;
-- cabinet obligatoriu pentru `in_person`;
 - traducerea erorilor cunoscute.
 
 ### Teste DB/RLS (24)
@@ -46,20 +48,22 @@ PostgreSQL real, cu stub Supabase (`auth.uid()`, roluri, `auth.users`) și toate
 
 ### Verificare live pe proiectul Supabase configurat
 
-Pe 24 octombrie 2026, folosind proiectul din `.env.local` (fără a modifica date):
+Pe 7 noiembrie 2026, folosind proiectul din `.env.local` (fără a modifica date):
 
-- `/api/health` → **200**, `database:true`, latență ~70 ms, `email_configured:false`;
+- `/api/health` → **200**, `database:true`, latență ~100 ms, `email_configured:false`;
 - paginile publice `/`, `/psihologi`, `/cauta`, `/specializari`, `/cabinete`,
   `/psihologi/ana-popescu-demo` → 200, cu cele 2 profiluri demo afișate corect;
+- profilul afișează „Prețul este în funcție de complexitate”, fără sume sau secțiune de programare;
+- `/api/slots` → **404**, iar rutele de programări nu mai există;
 - autentificare demo reușită pentru client, psiholog și administrator;
-- RLS live: psihologul vede 2 programări / 1 conversație / 2 mesaje, clientul 1 / 1 / 2,
-  administratorul 0 / 0 / 0; `admin_dashboard_stats` funcționează doar pentru admin.
+- RLS live: fiecare rol vede doar propriile conversații/mesaje; administratorul nu vede
+  conversațiile; `admin_dashboard_stats` funcționează doar pentru admin.
 
 ## 3. Teste care nu au putut fi rulate
 
 | Zonă | Motiv | Ce trebuie făcut |
 |---|---|---|
-| Fluxuri de scriere prin UI pe Supabase | nu au fost executate pentru a nu modifica datele demo | creează un cont de test, rezervă, trimite mesaj, aprobă din admin |
+| Fluxuri de scriere prin UI pe Supabase | nu au fost executate pentru a nu modifica datele demo | creează un cont de test, trimite mesaj, aprobă din admin |
 | Trimitere e-mail reală | lipsă cheie Resend/SMTP | configurează și verifică primirea |
 | Realtime între două browsere | nu a fost deschis un al doilea browser | deschide două conturi, verifică mesajele live |
 | Storage upload | nu a fost încărcată o fotografie | încarcă o fotografie și verifică politicile |

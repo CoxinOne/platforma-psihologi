@@ -2,7 +2,6 @@ import Link from "next/link";
 import { BadgeCheck, MapPin, Monitor, Video } from "lucide-react";
 import type { PublicPsychologist } from "@/lib/types";
 import { MODE_LABELS } from "@/lib/constants";
-import { formatPriceRon } from "@/lib/utils";
 import { Badge, Card, DemoBadge } from "@/components/ui";
 import { Avatar } from "@/components/ui";
 
@@ -35,7 +34,7 @@ export function PsychologistCard({ psychologist }: { psychologist: PublicPsychol
           <div className="mt-2 flex flex-wrap gap-1.5">
             {psychologist.is_demo ? <DemoBadge /> : null}
             {!psychologist.is_accepting_new_clients ? (
-              <Badge tone="warning">Nu acceptă programări noi</Badge>
+              <Badge tone="warning">Nu acceptă solicitări noi</Badge>
             ) : null}
           </div>
         </div>
@@ -86,13 +85,11 @@ export function PsychologistCard({ psychologist }: { psychologist: PublicPsychol
           <dt className="text-xs text-muted">Ședință</dt>
           <dd className="mt-0.5 font-medium text-ink">{psychologist.session_duration_minutes} min</dd>
         </div>
-        <div>
-          <dt className="text-xs text-muted">Tarif</dt>
-          <dd className="mt-0.5 font-medium text-ink">
-            {psychologist.price_ron !== null ? formatPriceRon(psychologist.price_ron) : "La solicitare"}
-          </dd>
-        </div>
       </dl>
+
+      <p className="text-xs font-semibold text-brand">
+        Prețul este în funcție de complexitate.
+      </p>
 
       <Link
         href={`/psihologi/${psychologist.slug}`}

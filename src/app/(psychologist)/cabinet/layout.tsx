@@ -4,11 +4,9 @@ import { AppShell, type NavItem } from "@/components/app-shell";
 
 const NAV: NavItem[] = [
   { href: "/cabinet", label: "Sumar", icon: "home" },
-  { href: "/cabinet/programari", label: "Programări", icon: "calendar" },
   { href: "/cabinet/mesaje", label: "Mesaje", icon: "message", badge: "messages" },
   { href: "/cabinet/notificari", label: "Notificări", icon: "bell", badge: "notifications" },
   { href: "/cabinet/profil", label: "Profil profesional", icon: "user" },
-  { href: "/cabinet/disponibilitate", label: "Disponibilitate", icon: "calendar" },
   { href: "/cabinet/raportari", label: "Raportări", icon: "report" },
 ];
 

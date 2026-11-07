@@ -1,7 +1,8 @@
 # Platformă Psihologi
 
 Aplicație web completă pentru un grup de psihologi din România: directoriu public, profiluri
-profesionale verificate, mesagerie privată în timp real și programări cu prevenirea conflictelor.
+profesionale verificate și mesagerie privată în timp real. Platforma nu gestionează programări,
+nu afișează tarife fixe și nu procesează plăți.
 
 > **Denumire de lucru.** Identitatea vizuală, operatorul și documentele juridice se stabilesc
 > înainte de lansarea publică. Textele legale sunt modele și necesită verificare juridică.
@@ -19,12 +20,12 @@ profesionale verificate, mesagerie privată în timp real și programări cu pre
 | Directoriu, căutare, specializări, cabinete | implementat |
 | Profil profesional cu aprobare administrativă | implementat |
 | Mesagerie privată + Realtime + notificări | implementat |
-| Programări, calendar, reprogramare, anulare | implementat |
+| Programări / calendar / disponibilitate | **eliminate din aplicație** (schema legacy păstrată în DB) |
+| Tarife fixe / plăți online | **eliminate**; se afișează „Prețul este în funcție de complexitate” |
 | Notificări în aplicație | implementat |
 | E-mail tranzacțional | implementat condiționat de configurare (Resend) |
 | Panou administrator + audit | implementat |
 | Export / ștergere GDPR | implementat (procesare manuală de administrator) |
-| Plăți online | **neimplementat** (arhitectura este pregătită) |
 | Teste unitare / RLS / build | rulate, rezultate în secțiunea 9 |
 
 ---
@@ -46,12 +47,12 @@ Toate versiunile sunt fixate în `package.json`; `package-lock.json` este inclus
 
 ## 3. Decizii arhitecturale (pe scurt)
 
-1. **Scrierile sensibile trec prin funcții PostgreSQL `security definer`** (`book_appointment`,
-   `send_message`, `admin_set_user_role` etc.). Astfel regulile de business nu pot fi ocolite apelând
-   direct API-ul REST. RLS rămâne a doua linie de apărare pentru citiri.
-2. **Anti-suprapunere în baza de date**: constrângeri `EXCLUDE USING GIST` pe intervalul
-   `tstzrange(starts_at, ends_at)` pentru psiholog și client, aplicate doar statusurilor
-   `pending`/`confirmed`. Două rezervări simultane nu pot reuși amândouă, indiferent de aplicație.
+1. **Scrierile sensibile trec prin funcții PostgreSQL `security definer`** (`send_message`,
+   `admin_set_user_role` etc.). Astfel regulile de business nu pot fi ocolite apelând direct API-ul
+   REST. RLS rămâne a doua linie de apărare pentru citiri.
+2. **Programările au fost eliminate din produs.** Rutele, componentele, rutele API și acțiunile au
+   fost șterse; tabelele și funcțiile SQL rămân doar ca schemă legacy, pentru compatibilitate și
+   eventuală reactivare. Aplicația nu mai expune niciun flux de programare.
 3. **Datele publice sunt expuse doar prin view-uri** (`public_psychologists`, `public_specialties`,
    `public_cabinets`). Tabelele `profiles` nu sunt accesibile rolului `anon`; emailul și telefonul nu
    sunt expuse public. Coloanele sensibile nu au privilegii SELECT.
@@ -60,9 +61,8 @@ Toate versiunile sunt fixate în `package.json`; `package-lock.json` este inclus
    pe server, după verificarea sesiunii și a rolului.
 5. **Mesageria folosește RLS + Realtime**. Mesajele sunt imutabile (fără UPDATE/DELETE), iar
    notificările conțin doar un text generic, niciodată conținutul mesajului.
-6. **Fus orar**: totul este stocat `timestamptz` (UTC), orele de program sunt locale în fusul
-   psihologului (`Europe/Bucharest` implicit), iar generarea intervalelor folosește conversii
-   conștiente de DST (`AT TIME ZONE`). Există teste pentru 27–28 martie și 30–31 octombrie.
+6. **Fără tarife fixe**: interfața afișează „Prețul este în funcție de complexitate”, iar detaliile se
+   discută direct cu psihologul. Platforma nu procesează plăți.
 7. **E-mailul este opțional și explicit**. Fără `RESEND_API_KEY`/`EMAIL_FROM`, aplicația afișează
    „neconfigurat” și **nu simulează** trimiterea. Notificările din aplicație funcționează independent.
 8. **Fără criptare end-to-end**. Comunicarea este protejată prin TLS și RLS; acest lucru este declarat
@@ -80,24 +80,24 @@ platforma-psihologi/
 │  │  ├─ (client)/dashboard/       zona clientului
 │  │  ├─ (psychologist)/cabinet/   zona psihologului
 │  │  ├─ (admin)/admin/            panoul administratorului
-│  │  ├─ api/slots|health|account/export
+│  │  ├─ api/health|account/export
 │  │  ├─ auth/callback|confirm/    callback Supabase Auth
 │  │  ├─ layout.tsx, error.tsx, not-found.tsx, robots.ts, sitemap.ts
 │  │  └─ globals.css
-│  ├─ components/                  UI, formulare, chat, calendar, editor disponibilitate
+│  ├─ components/                  UI, formulare, chat, raportări
 │  ├─ lib/
 │  │  ├─ actions/                  Server Actions (Zod + RPC + audit)
 │  │  ├─ data/                     interogări (public / user / admin)
 │  │  ├─ supabase/                 clienți SSR, browser, admin, proxy
 │  │  ├─ auth.ts, permissions.ts, time.ts, validation.ts, errors.ts
-│  │  ├─ types.ts, constants.ts, email.ts
+│  │  ├─ types.ts, constants.ts, email.ts, notifications.ts
 │  │  └─ ...
 │  └─ proxy.ts                     refresh sesiune + protecție rute
 ├─ supabase/
 │  ├─ migrations/                  12 migrații SQL (schema, funcții, RLS, views, realtime, storage)
 │  └─ tests/00_supabase_stub.sql   stub local pentru roluri/auth
 ├─ tests/
-│  ├─ unit/logic.test.ts           15 teste
+│  ├─ unit/logic.test.ts           13 teste
 │  └─ db/rls.test.ts               24 teste PostgreSQL
 ├─ scripts/
 │  ├─ db-setup.mjs                 PostgreSQL efemer în Docker
@@ -204,8 +204,8 @@ Contul trebuie să existe deja (înregistrare prin aplicație). Verifică apoi �
 npm run seed:demo
 ```
 
-Scriptul creează conturi **fictive** marcate `is_demo=true`, cabinete fictive, specializări,
-disponibilitate, o conversație și două programări.
+Scriptul creează conturi **fictive** marcate `is_demo=true`, cabinete fictive, specializări și o
+conversație demonstrativă. Nu creează programări și nu setează tarife.
 
 | Rol | E-mail | Parolă |
 |---|---|---|
@@ -265,8 +265,8 @@ Comportament:
 - Notificările din aplicație funcționează mereu.
 - E-mailurile nu conțin conținutul mesajelor private sau detalii clinice; trimit doar un text generic
   și un îndemn de autentificare.
-- Preferințele `email_messages` (implicit dezactivat) și `email_appointments` (implicit activat) sunt
-  respectate.
+- Preferința `email_messages` (implicit dezactivată) este respectată. Coloana legacy
+  `email_appointments` nu mai este folosită.
 - Nu există coadă de retry; dacă furnizorul eșuează, eroarea este înregistrată în consolă și
   operațiunea din aplicație rămâne validă.
 
@@ -279,17 +279,16 @@ Comportament:
 - înregistrare, confirmare e-mail, autentificare, resetare parolă;
 - directoriu, căutare după specializare/oraș/limbă/tip;
 - mesagerie privată cu psihologii;
-- solicitare programare, anulare/reprogramare cu minimum 24 de ore înainte;
+- discută direct detaliile și tariful, în funcție de complexitate;
 - notificări, preferințe, export date, solicitare ștergere, raportare abuz.
 
 ### Psiholog
 
 - cont profesional activat de administrator;
-- profil profesional (bio, studii, experiență, specializări, cabinete, limbi, tarif, durată);
+- profil profesional (bio, studii, experiență, specializări, cabinete, limbi, durată);
 - trimitere spre verificare și aprobare;
-- program săptămânal, pas de programare, excepții, zile libere;
-- confirmare/respingere/anulare programări, notă privată;
 - conversații proprii, notificări, raportări;
+- stabilește direct tariful cu persoana care îi scrie;
 - nu vede datele altor psihologi sau conversațiile care nu îi aparțin.
 
 ### Administrator
@@ -308,10 +307,10 @@ Comportament:
 - RLS activat pe toate tabelele; `anon` nu are privilegii pe tabele, doar pe view-uri publice.
 - `profiles` are SELECT doar pe coloane ne-sensibile; emailul/telefonul se citesc prin
   `get_my_profile()` pentru propriul cont. Administratorul folosește cheia de serviciu pe server.
-- Scrierea programărilor, mesajelor, notificărilor și rolurilor se face prin funcții `security definer`
+- Scrierea mesajelor, notificărilor și rolurilor se face prin funcții `security definer`
   care verifică `auth.uid()` și rolul.
 - Trigger-ele blochează auto-promovarea, auto-aprobarea profilului și modificarea mesajelor.
-- Rate limiting persistent în DB: mesaje (20/minut, 300/zi), programări (10/oră), raportări (5/zi),
+- Rate limiting persistent în DB: mesaje (20/minut, 300/zi), raportări (5/zi),
   contact (5/oră/IP), cereri GDPR (3/zi).
 - Cheia de serviciu nu este expusă în bundle; `src/lib/supabase/admin.ts` importă `server-only`.
 - Jurnalele nu conțin parole, tokenuri sau conținutul mesajelor.
@@ -329,21 +328,19 @@ Rulate la **24 octombrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 loca
 |---|---|---|
 | TypeScript strict | `npm run typecheck` | ✅ 0 erori |
 | ESLint | `npm run lint` | ✅ 0 erori, 0 warnings |
-| Teste unitare | `npm test` | ✅ **15/15** |
+| Teste unitare | `npm test` | ✅ **13/13** |
 | Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **24/24** |
 | Build producție | `npm run build` | ✅ compilat, toate rutele generate |
 | Verificare live Supabase (citiri publice, autentificare demo, RLS pe roluri) | rulată pe proiectul configurat în `.env.local` | ✅ 2 profile publice, login pentru client/psiholog/admin, izolare corectă, `/api/health` 200 |
 
-Testele DB acoperă: acces anon, izolarea profilurilor și programărilor, blocarea auto-modificării
-rolului, rezervări duplicate și **simultane**, fereastra de anulare, confirmare/respingere,
-conversații private, imutabilitatea mesajelor, notificări izolate, aprobare profil cu audit,
-fus orar la DST, cabinet obligatoriu, raportări, export GDPR, suspendare/reactivare și ștergerea
-în cascadă a unui psiholog cu programări.
+Testele DB acoperă RLS-ul, izolarea datelor, autentificarea/rolurile și schema legacy de programări
+(păstrată în baza de date, dar eliminată din UI). Testele unitare acoperă validarea, fusul orar,
+redirectările sigure și mesajele de eroare.
 
 Pe proiectul Supabase configurat local, verificarea live a confirmat: pagina publică afișează cele
 două profiluri demo, autentificarea funcționează pentru toate cele trei roluri, iar RLS returnează
-fiecărui rol doar propriile programări/conversații (admin: 0, client: 1, psiholog: 2). E-mailul
-este **neconfigurat** (`email_configured:false`), deci numai notificările din aplicație sunt active.
+fiecărui rol doar propriile conversații și mesaje. E-mailul este **neconfigurat**
+(`email_configured:false`), deci numai notificările din aplicație sunt active.
 
 ### Cum rulezi testele DB
 
@@ -371,9 +368,9 @@ constrângeri, nu sunt concepute pentru reaplicare pe aceeași bază).
 
 ### Ce **nu** a fost testat integral
 
-- Fluxurile de scriere end-to-end prin interfață (creare cont reală, rezervare din browser,
-  trimitere mesaj din chat, aprobare din panoul admin). Logica lor este acoperită de testele DB, iar
-  citirile/autentificarea au fost verificate live.
+- Fluxurile de scriere end-to-end prin interfață (creare cont reală, trimitere mesaj din chat,
+  aprobare din panoul admin). Logica lor este acoperită de testele DB, iar citirile/autentificarea
+  au fost verificate live.
 - Trimiterea reală de e-mailuri prin Resend/SMTP (furnizorul nu este configurat).
 - Realtime live între două browsere (publicația și politicile sunt configurate, dar nu au fost
   testate cu un proiect real).
@@ -387,8 +384,8 @@ Aceste puncte sunt marcate și în lista de mai jos.
 
 ## 10. Probleme cunoscute și funcții neimplementate
 
-1. **Plăți online** — nu există; câmpul `price_ron` este informativ. Arhitectura permite adăugarea
-   unui furnizor și a unui status de plată.
+1. **Fără plăți online și fără tarife fixe** — interfața afișează „Prețul este în funcție de
+   complexitate”. Coloana legacy `price_ron` există în DB, dar nu este afișată și nu este editabilă.
 2. **E-mail fără coadă/retry** — trimiterea este best-effort; nu există outbox sau reluare.
 3. **Fără notificări push** — doar în aplicație și e-mail (dacă este configurat).
 4. **Fără criptare end-to-end** — doar TLS + RLS.
@@ -397,13 +394,15 @@ Aceste puncte sunt marcate și în lista de mai jos.
 6. **Ștergerea contului este hard-delete** prin Admin API, fără perioadă de grație; nu există
    anulare a cererii din interfață.
 7. **Fără export CSV/PDF** — exportul este JSON.
-8. **Fără programări recurente, ICS sau sincronizare calendar extern.**
-9. **Fără marcare „neprezentare” în UI** — statusul există în DB, dar nu are acțiune dedicată.
+8. **Modulul de programări a fost eliminat din aplicație.** Tabelele și funcțiile SQL rămân ca
+   schemă legacy; nu există UI/API de programare. Pot fi eliminate ulterior printr-o migrație.
+9. **Notificările istorice de programări** pot exista în DB; linkurile lor sunt redirecționate, iar
+   seed-ul nou le șterge pentru conturile demo.
 10. **Fără ștergere automată a fotografiilor vechi** din bucket-ul `avatars`.
 11. **Căutarea** folosește filtre PostgREST pe view; nu există index full-text dedicat. Pentru un
     directoriu mare este necesar un index `tsvector` și o funcție de căutare.
-12. **Notificările `in_app`** sunt stocate, dar nu pot fi oprite din preferințe (nu există un consumator
-    care să le filtreze); e-mailurile respectă preferințele.
+12. **Notificările `in_app`** sunt stocate, dar nu pot fi oprite din preferințe; e-mailurile pentru
+    mesaje respectă preferința `email_messages`.
 13. **Textele juridice** sunt modele; operatorul, DPO, temeiurile, retenția și transferurile trebuie
     completate și verificate de un jurist.
 14. **Primul administrator** se creează manual prin SQL (vezi 5.2); nu există flux de invitație.
@@ -425,7 +424,7 @@ Aceste puncte sunt marcate și în lista de mai jos.
 - Identificarea operatorului, a DPO-ului și a temeiurilor legale.
 - Alegerea regiunii Supabase/hosting în SEE și evaluarea transferurilor internaționale.
 - Contracte DPA cu Supabase, furnizorul de hosting și Resend.
-- Termene de retenție pentru conturi, mesaje, programări, jurnale și backup-uri.
+- Termene de retenție pentru conturi, mesaje, jurnale și backup-uri.
 - Procedura pentru acces/export/ștergere și excepțiile legale.
 - Informarea minorilor și politica privind vârsta minimă.
 - Șabloanele de e-mail și textele de consimțământ.

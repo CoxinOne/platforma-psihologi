@@ -1,60 +1,43 @@
 import Link from "next/link";
-import {
-  AlertTriangle,
-  BadgeCheck,
-  CalendarDays,
-  Clock,
-  MessageCircle,
-  UserRound,
-} from "lucide-react";
+import { AlertTriangle, BadgeCheck, MessageCircle, UserRound } from "lucide-react";
 import { requirePsychologist } from "@/lib/auth";
 import {
   getMyPsychologistProfile,
   getUnreadBadge,
-  listAppointmentsForPsychologist,
   listConversations,
 } from "@/lib/data/user";
-import { formatDateTime } from "@/lib/time";
 import { PROFESSIONAL_STATUS_LABELS } from "@/lib/constants";
-import { AppointmentStatusBadge } from "@/components/appointment-badges";
-import { Alert, buttonClasses, Card, DemoBadge, EmptyState, PageHeader, Stat } from "@/components/ui";
+import { buttonClasses, Card, DemoBadge, PageHeader, Stat } from "@/components/ui";
 
 export default async function PsychologistHomePage() {
   const session = await requirePsychologist();
-  const [profile, appointments, conversations, badges] = await Promise.all([
+  const [profile, conversations, badges] = await Promise.all([
     getMyPsychologistProfile(session.supabase, session.user.id),
-    listAppointmentsForPsychologist(session.supabase, session.user.id),
     listConversations(session.supabase),
     getUnreadBadge(session.supabase),
   ]);
-
-  const now = Date.now();
-  const pending = appointments.filter((appointment) => appointment.status === "pending");
-  const upcoming = appointments
-    .filter(
-      (appointment) =>
-        new Date(appointment.starts_at).getTime() >= now &&
-        appointment.status === "confirmed",
-    )
-    .sort((a, b) => new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime());
 
   return (
     <div className="space-y-8">
       <PageHeader
         eyebrow="Cabinet"
         title={`Bună, ${session.profile.full_name.split(" ")[0]}`}
-        description="Solicitările, programările confirmate și mesajele tale."
+        description="Mesajele clienților și starea profilului tău profesional."
         action={
-          <Link href="/cabinet/disponibilitate" className={buttonClasses("secondary")}>
-            <Clock className="h-4 w-4" aria-hidden="true" />
-            Editează disponibilitatea
+          <Link href="/cabinet/profil" className={buttonClasses("secondary")}>
+            <UserRound className="h-4 w-4" aria-hidden="true" />
+            Editează profilul
           </Link>
         }
       />
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Solicitări în așteptare" value={pending.length} href="/cabinet/programari" />
-        <Stat label="Programări viitoare" value={upcoming.length} href="/cabinet/programari" />
+        <Stat
+          label="Stare profil"
+          value={profile ? PROFESSIONAL_STATUS_LABELS[profile.status] : "Necreat"}
+          href="/cabinet/profil"
+        />
+        <Stat label="Conversații" value={conversations.length} href="/cabinet/mesaje" />
         <Stat label="Mesaje necitite" value={badges.messages} href="/cabinet/mesaje" />
         <Stat label="Notificări" value={badges.notifications} href="/cabinet/notificari" />
       </div>
@@ -111,96 +94,67 @@ export default async function PsychologistHomePage() {
         </Card>
       )}
 
-      {pending.length > 0 ? (
-        <Alert tone="warning" title="Ai solicitări care așteaptă răspuns">
-          Confirmă sau respinge cererile din pagina de programări. Clientul primește notificare.
-        </Alert>
-      ) : null}
-
-      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <section aria-labelledby="cereri" className="space-y-3">
+      <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
+        <section aria-labelledby="conversatii" className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 id="cereri" className="text-xl font-semibold text-ink">Solicitări recente</h2>
-            <Link href="/cabinet/programari" className="text-sm font-semibold text-brand underline underline-offset-4">
-              Toate programările
+            <h2 id="conversatii" className="text-xl font-semibold text-ink">Conversații recente</h2>
+            <Link href="/cabinet/mesaje" className="text-sm font-semibold text-brand underline underline-offset-4">
+              Toate mesajele
             </Link>
           </div>
-          {pending.length > 0 ? (
-            <ul className="space-y-3">
-              {pending.slice(0, 4).map((appointment) => (
-                <li key={appointment.id}>
-                  <Card className="flex flex-col gap-2 p-5 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="font-semibold text-ink">{appointment.client?.full_name ?? "Client"}</p>
-                      <p className="text-sm text-muted">
-                        {formatDateTime(appointment.starts_at)} · {appointment.mode === "online" ? "Online" : "În cabinet"}
-                      </p>
-                    </div>
-                    <Link href="/cabinet/programari" className={buttonClasses("secondary", "sm")}>
-                      Răspunde
-                    </Link>
-                  </Card>
+          {conversations.length > 0 ? (
+            <ul className="divide-y divide-line overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface">
+              {conversations.slice(0, 6).map((conversation) => (
+                <li key={conversation.id}>
+                  <Link
+                    href={`/cabinet/mesaje/${conversation.id}`}
+                    className="flex items-center justify-between gap-3 p-4 text-sm hover:bg-brand-soft/40"
+                  >
+                    <span className="min-w-0">
+                      <span className="block truncate font-medium text-ink">
+                        {conversation.counterpart_name}
+                      </span>
+                      <span className="block truncate text-xs text-muted">
+                        {conversation.last_message_preview ?? "Conversație nouă"}
+                      </span>
+                    </span>
+                    {conversation.unread_count > 0 ? (
+                      <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-white">
+                        {conversation.unread_count}
+                      </span>
+                    ) : (
+                      <MessageCircle className="h-4 w-4 text-muted" aria-hidden="true" />
+                    )}
+                  </Link>
                 </li>
               ))}
             </ul>
           ) : (
-            <Card className="p-5 text-sm text-muted">Nu ai solicitări în așteptare.</Card>
+            <Card className="p-5 text-sm text-muted">
+              Nu ai conversații încă. Clienții îți pot scrie din profilul public, după aprobare.
+            </Card>
           )}
         </section>
 
         <div className="space-y-4">
-          <section aria-labelledby="urmatoare" className="space-y-3">
-            <h2 id="urmatoare" className="text-lg font-semibold text-ink">Următoarele ședințe</h2>
-            {upcoming.length > 0 ? (
-              <ul className="space-y-2">
-                {upcoming.slice(0, 4).map((appointment) => (
-                  <li key={appointment.id} className="rounded-2xl border border-line bg-surface p-4">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-semibold text-ink">
-                        {appointment.client?.full_name ?? "Client"}
-                      </p>
-                      <AppointmentStatusBadge status={appointment.status} />
-                    </div>
-                    <p className="mt-1 text-xs text-muted">{formatDateTime(appointment.starts_at)}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <Card className="p-5 text-sm text-muted">Nu ai ședințe confirmate în viitor.</Card>
-            )}
-          </section>
+          <Card className="p-5 text-sm text-muted">
+            <p className="font-semibold text-ink">Cum te contactează clienții</p>
+            <p className="mt-1">
+              Platforma oferă profil public și mesagerie privată. Nu gestionează programări sau
+              plăți. Tariful se discută direct, în funcție de complexitate.
+            </p>
+          </Card>
 
-          <section aria-labelledby="mesaje" className="space-y-2">
-            <div className="flex items-center justify-between">
-              <h2 id="mesaje" className="text-lg font-semibold text-ink">Conversații</h2>
-              <Link href="/cabinet/mesaje" className="text-xs font-semibold text-brand underline underline-offset-4">
-                Toate
-              </Link>
-            </div>
-            {conversations.length > 0 ? (
-              <ul className="divide-y divide-line rounded-2xl border border-line bg-surface">
-                {conversations.slice(0, 3).map((conversation) => (
-                  <li key={conversation.id}>
-                    <Link
-                      href={`/cabinet/mesaje/${conversation.id}`}
-                      className="flex items-center justify-between gap-2 p-4 text-sm hover:bg-brand-soft/40"
-                    >
-                      <span className="truncate font-medium text-ink">{conversation.counterpart_name}</span>
-                      {conversation.unread_count > 0 ? (
-                        <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-white">
-                          {conversation.unread_count}
-                        </span>
-                      ) : (
-                        <MessageCircle className="h-4 w-4 text-muted" aria-hidden="true" />
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <Card className="p-5 text-sm text-muted">Nu ai conversații încă.</Card>
-            )}
-          </section>
+          <Card className="p-5 text-sm text-muted">
+            <p className="font-semibold text-ink">Vizibilitate</p>
+            <p className="mt-1">
+              Profilul apare în directoriu numai după aprobarea administratorului și dacă datele
+              profesionale sunt complete.
+            </p>
+            <Link href="/cabinet/profil" className={buttonClasses("secondary", "sm", "mt-3")}>
+              Verifică profilul
+            </Link>
+          </Card>
         </div>
       </div>
 
@@ -215,14 +169,6 @@ export default async function PsychologistHomePage() {
             Adaugă fotografie
           </Link>
         </Card>
-      ) : null}
-
-      {appointments.length === 0 ? (
-        <EmptyState
-          icon={<CalendarDays className="h-6 w-6" />}
-          title="Nicio programare încă"
-          description="Publică disponibilitatea și aprobă profilul pentru a primi solicitări."
-        />
       ) : null}
     </div>
   );

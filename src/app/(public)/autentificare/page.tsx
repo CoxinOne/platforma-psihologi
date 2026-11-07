@@ -22,7 +22,7 @@ export default async function LoginPage({
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">Cont</p>
         <h1 className="mt-2 text-4xl font-semibold text-ink">Bine ai revenit</h1>
         <p className="mt-4 text-muted">
-          Intră în cont pentru programări, mesaje private și notificări. Sesiunea este păstrată
+          Intră în cont pentru mesaje private și notificări. Sesiunea este păstrată
           într-un cookie sigur, iar datele sunt protejate prin politici la nivel de bază de date.
         </p>
         <ul className="mt-6 space-y-3 text-sm text-muted">

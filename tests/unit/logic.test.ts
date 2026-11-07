@@ -7,14 +7,9 @@ import {
   localDateKey,
   zonedDateTimeToUtc,
 } from "@/lib/time";
-import { canClientCancel, isSafeRedirect, roleHome, safeNext } from "@/lib/permissions";
+import { isSafeRedirect, roleHome, safeNext } from "@/lib/permissions";
 import { humanizeError } from "@/lib/errors";
-import {
-  availabilityRuleSchema,
-  collectFieldErrors,
-  profileSchema,
-  signupSchema,
-} from "@/lib/validation";
+import { collectFieldErrors, profileSchema, signupSchema } from "@/lib/validation";
 
 describe("fus orar și schimbarea orei", () => {
   it("convertește ora locală în UTC înainte și după trecerea la ora de vară", () => {
@@ -82,19 +77,12 @@ describe("fus orar și schimbarea orei", () => {
 
 describe("permisiuni și redirectări", () => {
   it("acceptă doar căi interne sigure", () => {
-    expect(isSafeRedirect("/dashboard/programari")).toBe(true);
+    expect(isSafeRedirect("/dashboard/mesaje")).toBe(true);
     expect(isSafeRedirect("//evil.example")).toBe(false);
     expect(isSafeRedirect("https://evil.example")).toBe(false);
     expect(isSafeRedirect("/\\evil")).toBe(false);
     expect(safeNext("//evil.example", "/dashboard")).toBe("/dashboard");
     expect(safeNext("/cabinet", "/dashboard")).toBe("/cabinet");
-  });
-
-  it("aplică fereastra de anulare de 24 de ore", () => {
-    const now = new Date("2027-02-01T09:00:00Z");
-    expect(canClientCancel("2027-02-02T09:00:00Z", now)).toBe(true);
-    expect(canClientCancel("2027-02-02T08:59:00Z", now)).toBe(false);
-    expect(canClientCancel("invalid", now)).toBe(false);
   });
 
   it("trimite fiecare rol către zona potrivită", () => {
@@ -150,21 +138,6 @@ describe("validarea datelor", () => {
     expect(
       profileSchema.safeParse({ fullName: "Ana", phone: "abc", marketingConsent: false }).success,
     ).toBe(false);
-  });
-
-  it("cere cabinet pentru ședințele în persoană", () => {
-    const result = availabilityRuleSchema.safeParse({
-      weekday: "1",
-      startTime: "09:00",
-      endTime: "13:00",
-      stepMinutes: "30",
-      mode: "in_person",
-      cabinetId: "",
-    });
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(collectFieldErrors(result.error).cabinetId?.[0]).toContain("cabinet");
-    }
   });
 });
 

@@ -1,5 +1,6 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { LEGACY_APPOINTMENT_NOTIFICATION_TYPES } from "@/lib/constants";
 import type {
   Appointment,
   AppointmentWithNames,
@@ -186,6 +187,7 @@ export async function listNotifications(
   const { data, error } = await supabase
     .from("notifications")
     .select("*")
+    .not("type", "in", `(${LEGACY_APPOINTMENT_NOTIFICATION_TYPES.join(",")})`)
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -199,11 +201,19 @@ export async function listNotifications(
 export async function getUnreadBadge(
   supabase: SupabaseClient,
 ): Promise<{ notifications: number; messages: number }> {
-  const { data, error } = await supabase.rpc("unread_badge");
-  if (error || !data) return { notifications: 0, messages: 0 };
+  const [{ data, error }, { count }] = await Promise.all([
+    supabase.rpc("unread_badge"),
+    supabase
+      .from("notifications")
+      .select("*", { count: "exact", head: true })
+      .is("read_at", null)
+      .not("type", "in", `(${LEGACY_APPOINTMENT_NOTIFICATION_TYPES.join(",")})`),
+  ]);
+
+  if (error || !data) return { notifications: count ?? 0, messages: 0 };
   const row = Array.isArray(data) ? data[0] : data;
   return {
-    notifications: Number(row?.unread_notifications ?? 0),
+    notifications: count ?? Number(row?.unread_notifications ?? 0),
     messages: Number(row?.unread_messages ?? 0),
   };
 }

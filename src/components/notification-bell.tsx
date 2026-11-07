@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Bell } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/public-env";
+import { LEGACY_APPOINTMENT_NOTIFICATION_TYPES } from "@/lib/constants";
 
 export function NotificationBell({
   userId,
@@ -27,10 +28,17 @@ export function NotificationBell({
     let active = true;
 
     const refresh = async () => {
-      const { data } = await supabase.rpc("unread_badge");
+      const [{ data }, { count }] = await Promise.all([
+        supabase.rpc("unread_badge"),
+        supabase
+          .from("notifications")
+          .select("*", { count: "exact", head: true })
+          .is("read_at", null)
+          .not("type", "in", `(${LEGACY_APPOINTMENT_NOTIFICATION_TYPES.join(",")})`),
+      ]);
       if (!active) return;
       const row = Array.isArray(data) ? data[0] : data;
-      setNotifications(Number(row?.unread_notifications ?? 0));
+      setNotifications(count ?? Number(row?.unread_notifications ?? 0));
       setMessages(Number(row?.unread_messages ?? 0));
     };
 

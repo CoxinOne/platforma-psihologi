@@ -44,13 +44,3 @@ export function isSafeRedirect(value: string | null | undefined): value is strin
 export function safeNext(value: string | null | undefined, fallback: string): string {
   return isSafeRedirect(value) ? value : fallback;
 }
-
-export function canClientCancel(startsAt: string | Date, now: Date = new Date(), windowHours = 24): boolean {
-  const start = new Date(startsAt).getTime();
-  if (Number.isNaN(start)) return false;
-  return start - now.getTime() >= windowHours * 60 * 60 * 1000;
-}
-
-export function canReschedule(startsAt: string | Date, now: Date = new Date(), windowHours = 24): boolean {
-  return canClientCancel(startsAt, now, windowHours);
-}

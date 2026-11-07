@@ -4,7 +4,6 @@ import { AppShell, type NavItem } from "@/components/app-shell";
 
 const NAV: NavItem[] = [
   { href: "/dashboard", label: "Sumar", icon: "home" },
-  { href: "/dashboard/programari", label: "Programările mele", icon: "calendar" },
   { href: "/dashboard/mesaje", label: "Mesaje", icon: "message", badge: "messages" },
   { href: "/dashboard/notificari", label: "Notificări", icon: "bell", badge: "notifications" },
   { href: "/dashboard/profil", label: "Profil", icon: "user" },

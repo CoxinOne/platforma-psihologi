@@ -120,14 +120,11 @@ export function RequestPsychologistForm({ alreadyRequested }: { alreadyRequested
 export function NotificationPreferencesForm({
   inApp,
   emailMessages,
-  emailAppointments,
 }: {
   inApp: boolean;
   emailMessages: boolean;
-  emailAppointments: boolean;
 }) {
   const [state, formAction] = useActionState(updateNotificationPreferencesAction, null);
-
   return (
     <form action={formAction} className="space-y-4">
       {state?.ok ? <Alert tone="success">Preferințele au fost salvate.</Alert> : null}
@@ -138,21 +135,7 @@ export function NotificationPreferencesForm({
           <input type="checkbox" name="inApp" defaultChecked={inApp} className="mt-1 accent-[#1f4f49]" />
           <span>
             <span className="block font-semibold text-ink">Notificări în aplicație</span>
-            <span className="text-muted">Recomandat. Include mesaje noi și schimbări de programare.</span>
-          </span>
-        </label>
-        <label className="flex items-start gap-3 rounded-xl border border-line bg-surface p-3 text-sm">
-          <input
-            type="checkbox"
-            name="emailAppointments"
-            defaultChecked={emailAppointments}
-            className="mt-1 accent-[#1f4f49]"
-          />
-          <span>
-            <span className="block font-semibold text-ink">E-mail pentru programări</span>
-            <span className="text-muted">
-              Confirmări, anulări și reprogramări. E-mailul nu conține detalii sensibile.
-            </span>
+            <span className="text-muted">Recomandat. Include mesaje noi și notificări de cont.</span>
           </span>
         </label>
         <label className="flex items-start gap-3 rounded-xl border border-line bg-surface p-3 text-sm">

@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-lg font-semibold text-ink">Platformă Psihologi</p>
           <p className="mt-3 max-w-sm text-sm text-muted">
-            Platformă de prezentare, comunicare și programare pentru psihologi din România.
+            Platformă de prezentare și comunicare pentru psihologi din România.
             Nu oferim servicii medicale de urgență și nu ținem dosare clinice.
           </p>
           <p className="mt-4 text-sm text-muted">

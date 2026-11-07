@@ -15,9 +15,8 @@ export default function TermsPage() {
       <h2>1. Operator și obiect</h2>
       <p>
         Platforma este operată de <strong>[DE COMPLETAT: operator]</strong> și oferă infrastructură
-        pentru prezentarea profilurilor profesionale, mesagerie privată și solicitarea de
-        programări. Platforma nu este furnizor de servicii medicale și nu intermediază plata
-        ședințelor în această versiune.
+        pentru prezentarea profilurilor profesionale și mesagerie privată. Platforma nu este
+        furnizor de servicii medicale, nu programează ședințe și nu intermediază plăți.
       </p>
 
       <h2>2. Conturi și roluri</h2>
@@ -33,26 +32,27 @@ export default function TermsPage() {
 
       <h2>3. Profiluri profesionale</h2>
       <p>
-        Psihologul este responsabil de exactitatea datelor profesionale, a calificărilor, a
-        tarifelor și a disponibilității publicate. Platforma poate solicita documente justificative
-        și poate respinge sau suspenda un profil dacă informațiile nu pot fi verificate ori încalcă
-        regulile. Insigna „Verificat” confirmă o verificare administrativă, nu acreditarea oficială
-        și nu garantează rezultatul serviciului.
+        Psihologul este responsabil de exactitatea datelor profesionale și a calificărilor
+        publicate. Platforma poate solicita documente justificative și poate respinge sau suspenda
+        un profil dacă informațiile nu pot fi verificate ori încalcă regulile. Insigna „Verificat”
+        confirmă o verificare administrativă, nu acreditarea oficială și nu garantează rezultatul
+        serviciului.
       </p>
 
-      <h2>4. Programări</h2>
+      <h2>4. Comunicare și tarife</h2>
       <ul>
-        <li>O solicitare nu este o programare confirmată până când psihologul nu o confirmă.</li>
-        <li>Disponibilitatea este verificată pe server, iar intervalele suprapuse sunt blocate.</li>
+        <li>Platforma facilitează contactul prin mesagerie, nu programarea automată a ședințelor.</li>
         <li>
-          Clientul poate anula sau reprograma cu cel puțin 24 de ore înainte, conform setărilor
-          platformei. După acest prag, este necesară înțelegerea cu psihologul.
+          Nu există programări online, calendar de rezervări sau plată online în această versiune.
         </li>
         <li>
-          Psihologul poate anula cu motiv; clientul este notificat. Ședințele pot fi marcate ca
-          finalizate după încheiere.
+          Prețul este în funcție de complexitate. Tariful se discută direct între client și
+          psiholog, înainte de a stabili o întâlnire.
         </li>
-        <li>Nu se efectuează plăți online în această versiune.</li>
+        <li>
+          Eventuala plată și organizarea întâlnirii se fac în afara platformei, direct între părți.
+        </li>
+        <li>Platforma nu percepe comision și nu procesează date de card.</li>
       </ul>
 
       <h2>5. Mesagerie privată</h2>
@@ -83,8 +83,8 @@ export default function TermsPage() {
 
       <h2>8. Răspundere</h2>
       <p>
-        Platforma facilitează contactul și programarea, dar nu controlează conținutul ședințelor și
-        nu răspunde pentru actul profesional al psihologului. În limitele permise de lege,
+        Platforma facilitează contactul, dar nu controlează conținutul ședințelor, nu stabilește
+        tarife și nu răspunde pentru actul profesional al psihologului. În limitele permise de lege,
         răspunderea operatorului pentru funcționarea tehnică este limitată la serviciul efectiv
         furnizat. Această clauză trebuie verificată juridic înainte de publicare.
       </p>

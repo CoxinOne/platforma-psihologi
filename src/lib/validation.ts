@@ -74,56 +74,7 @@ export const profileSchema = z.object({
 export const notificationPreferencesSchema = z.object({
   inApp: checkbox,
   emailMessages: checkbox,
-  emailAppointments: checkbox,
 });
-
-export const availabilityRuleSchema = z
-  .object({
-    weekday: z.coerce.number().int().min(0).max(6),
-    startTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Ora de început nu este validă."),
-    endTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Ora de sfârșit nu este validă."),
-    stepMinutes: z.coerce.number().int().min(10).max(120),
-    mode: z.enum(["online", "in_person"]),
-    cabinetId: z.preprocess(emptyToUndefined, z.uuid("Selectează un cabinet valid.").optional()),
-    validFrom: z.preprocess(
-      emptyToUndefined,
-      z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data nu este validă.").optional(),
-    ),
-    validTo: z.preprocess(
-      emptyToUndefined,
-      z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data nu este validă.").optional(),
-    ),
-  })
-  .refine((data) => data.startTime < data.endTime, {
-    message: "Ora de sfârșit trebuie să fie după ora de început.",
-    path: ["endTime"],
-  })
-  .refine((data) => data.mode !== "in_person" || Boolean(data.cabinetId), {
-    message: "Pentru ședințele în cabinet este necesar un cabinet.",
-    path: ["cabinetId"],
-  });
-
-export const availabilityExceptionSchema = z
-  .object({
-    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data nu este validă."),
-    isClosed: checkbox,
-    startTime: z.preprocess(
-      emptyToUndefined,
-      z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Ora nu este validă.").optional(),
-    ),
-    endTime: z.preprocess(
-      emptyToUndefined,
-      z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Ora nu este validă.").optional(),
-    ),
-    note: z.preprocess(
-      emptyToUndefined,
-      z.string().trim().max(500, "Nota este prea lungă.").optional(),
-    ),
-  })
-  .refine((data) => data.isClosed || (data.startTime && data.endTime && data.startTime < data.endTime), {
-    message: "Completează un interval valid sau marchează ziua ca liberă.",
-    path: ["endTime"],
-  });
 
 export const psychologistProfileSchema = z.object({
   displayName: z.string().trim().min(2, "Numele profesional este prea scurt.").max(120),
@@ -139,10 +90,6 @@ export const psychologistProfileSchema = z.object({
   languages: z.array(z.string().trim().min(1).max(40)).min(1, "Selectează cel puțin o limbă."),
   modes: z.array(z.enum(["in_person", "online"])).min(1, "Selectează cel puțin un tip de consultație."),
   sessionDuration: z.coerce.number().int().min(20).max(120),
-  priceRon: z.preprocess(
-    emptyToUndefined,
-    z.coerce.number().min(0, "Tariful nu poate fi negativ.").max(5000).optional(),
-  ),
   timezone: z.string().min(1).max(80).default("Europe/Bucharest"),
   registryNumber: z.preprocess(
     emptyToUndefined,
@@ -152,17 +99,6 @@ export const psychologistProfileSchema = z.object({
   specialtyIds: z.array(z.uuid()).min(1, "Selectează cel puțin o specializare."),
   cabinetIds: z.array(z.uuid()).default([]),
   photoPath: z.preprocess(emptyToUndefined, z.string().max(300).optional()),
-});
-
-export const appointmentRequestSchema = z.object({
-  psychologistId: z.uuid("Psihologul selectat nu este valid."),
-  startsAt: z.string().refine((value) => !Number.isNaN(Date.parse(value)), "Intervalul selectat nu este valid."),
-  mode: z.enum(["online", "in_person"]),
-  cabinetId: z.preprocess(emptyToUndefined, z.uuid().optional()),
-  note: z.preprocess(
-    emptyToUndefined,
-    z.string().trim().max(1000, "Mesajul poate avea cel mult 1000 de caractere.").optional(),
-  ),
 });
 
 export const messageSchema = z.object({

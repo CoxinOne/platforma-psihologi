@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  CalendarCheck,
   CheckCircle2,
   HeartHandshake,
   LockKeyhole,
   MessageCircle,
+  MessagesSquare,
   Search,
   ShieldCheck,
   Sparkles,
@@ -16,9 +16,9 @@ import { PsychologistCard } from "@/components/psychologist-card";
 import { buttonClasses, Card, EmptyState, SectionHeading } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Psihologi în România — profiluri, mesagerie și programări",
+  title: "Psihologi în România — profiluri și mesagerie privată",
   description:
-    "Găsește un psiholog potrivit, citește profiluri profesionale aprobate, trimite un mesaj privat și solicită o programare.",
+    "Găsește un psiholog potrivit, citește profiluri profesionale aprobate și trimite un mesaj privat. Tariful se discută direct, în funcție de complexitate.",
 };
 
 const TRUST_POINTS = [
@@ -33,9 +33,9 @@ const TRUST_POINTS = [
     text: "Mesajele sunt vizibile exclusiv celor doi participanți. Administratorul nu are acces automat la conversații.",
   },
   {
-    icon: CalendarCheck,
-    title: "Programări fără suprapuneri",
-    text: "Disponibilitatea este verificată pe server, iar baza de date blochează două rezervări pe același interval.",
+    icon: MessagesSquare,
+    title: "Tarif discutat direct",
+    text: "Nu afișăm tarife fixe și nu procesăm plăți. Prețul este în funcție de complexitate și se stabilește cu psihologul.",
   },
 ];
 
@@ -43,7 +43,7 @@ const STEPS = [
   {
     icon: Search,
     title: "Caută și compară",
-    text: "Filtrează după specializare, oraș, limbă și tipul consultației. Citește studiile, experiența și tarifele afișate.",
+    text: "Filtrează după specializare, oraș, limbă și tipul consultației. Citește studiile și experiența afișate.",
   },
   {
     icon: MessageCircle,
@@ -51,9 +51,9 @@ const STEPS = [
     text: "Poți începe o conversație cu psihologul ales, fără să oferi date suplimentare în afara contului.",
   },
   {
-    icon: CalendarCheck,
-    title: "Solicită o programare",
-    text: "Alegi un interval liber, trimiți solicitarea, iar psihologul o confirmă sau o respinge. Primești notificare.",
+    icon: CheckCircle2,
+    title: "Stabilește detaliile",
+    text: "Discuți direct despre nevoile tale și despre tarif. Plata și întâlnirea se stabilesc în afara platformei.",
   },
 ];
 
@@ -82,8 +82,8 @@ export default async function HomePage() {
               găsit cu claritate.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-              Profiluri profesionale, mesagerie privată și programări într-un singur loc. Fără
-              recenzii inventate, fără promisiuni de vindecare și fără date clinice stocate aici.
+              Profiluri profesionale și mesagerie privată într-un singur loc. Fără recenzii
+              inventate, fără promisiuni de vindecare și fără date clinice stocate aici.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/psihologi" className={buttonClasses("primary", "lg")}>
@@ -111,7 +111,7 @@ export default async function HomePage() {
                 {[
                   "Cauți după specializare, oraș, limbă și tip de consultație.",
                   "Citești profilul profesional și verifici dacă ți se potrivește.",
-                  "Trimiți un mesaj privat sau soliciți direct o programare.",
+                  "Trimiți un mesaj privat și discuți direct detaliile.",
                   "Primești notificări pentru fiecare schimbare importantă.",
                 ].map((item) => (
                   <li key={item} className="flex gap-3 text-sm text-muted">
@@ -156,7 +156,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="Directoriu"
             title="Psihologi cu profile complete"
-            description="Fiecare profil afișează specializările, limbile, tipurile de consultație și disponibilitatea declarată."
+            description="Fiecare profil afișează specializările, limbile și tipurile de consultație. Tariful se discută direct."
           />
           <Link href="/psihologi" className={buttonClasses("secondary", "md")}>
             Vezi toți psihologii
@@ -263,7 +263,8 @@ export default async function HomePage() {
               </h2>
               <p className="mt-3 text-white/80">
                 Contul profesional se activează după verificarea identității și a calificărilor.
-                Profilul devine public doar după aprobare.
+                Profilul devine public doar după aprobare, iar clienții te pot contacta prin
+                mesagerie.
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row">

@@ -32,12 +32,7 @@ export default function PrivacyPage() {
         </li>
         <li>
           <strong>Date profesionale publice:</strong> nume profesional, titlu, prezentare, studii,
-          experiență, specializări, limbi, cabinete, tarife, durata ședinței, disponibilitate.
-        </li>
-        <li>
-          <strong>Date despre programări:</strong> identificatorii părților, intervalul, tipul
-          consultației, statusul, nota transmisă la solicitare. Nu colectăm diagnostic, fișe
-          clinice sau conținutul ședințelor.
+          experiență, specializări, limbi, cabinete, durata ședinței.
         </li>
         <li>
           <strong>Mesaje private:</strong> conținutul conversațiilor dintre client și psiholog.
@@ -55,7 +50,7 @@ export default function PrivacyPage() {
       <h2>3. Scopuri și temeiuri juridice</h2>
       <ul>
         <li>
-          <strong>Furnizarea serviciului</strong> (cont, mesagerie, programări) — executarea
+          <strong>Furnizarea serviciului</strong> (cont și mesagerie) — executarea
           contractului, art. 6 alin. (1) lit. b) GDPR.
         </li>
         <li>

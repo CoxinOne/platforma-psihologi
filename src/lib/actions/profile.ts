@@ -74,7 +74,6 @@ export async function updateNotificationPreferencesAction(
   const parsed = notificationPreferencesSchema.safeParse({
     inApp: formData.get("inApp") === "on",
     emailMessages: formData.get("emailMessages") === "on",
-    emailAppointments: formData.get("emailAppointments") === "on",
   });
 
   if (!parsed.success) {
@@ -84,7 +83,7 @@ export async function updateNotificationPreferencesAction(
   const { error } = await session.supabase.rpc("update_notification_preferences", {
     p_in_app: parsed.data.inApp,
     p_email_messages: parsed.data.emailMessages,
-    p_email_appointments: parsed.data.emailAppointments,
+    p_email_appointments: false,
   });
 
   if (error) {

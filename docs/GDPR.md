@@ -1,5 +1,9 @@
 # GDPR și protecția datelor
 
+> **Actualizare 24.10.2026:** platforma nu mai colectează programări, disponibilitate sau tarife.
+> Datele istorice din tabelele legacy pot exista în DB până la ștergere/curățare; nu sunt expuse în
+> interfață. Secțiunile despre programări se citesc ca referință pentru schema legacy.
+
 > Documentul este un **checklist tehnic**, nu o consultanță juridică. Implementarea nu garantează
 > conformitatea; operatorul trebuie să completeze și să valideze elementele marcate.
 
@@ -8,9 +12,8 @@
 | Categorie | Unde | Scop | Temei posibil | Retenție propusă |
 |---|---|---|---|---|
 | Nume, email, parolă hash | `auth.users`, `profiles` | cont, autentificare | contract | durata contului |
-| Telefon (opțional) | `profiles` | contact programări | consimțământ/contract | durata contului |
+| Telefon (opțional) | `profiles` | contact | consimțământ/contract | durata contului |
 | Date profesionale | `psychologist_profiles` | profil public | contract/interes legitim | cât timp profilul este public |
-| Programări (interval, status, notă) | `appointments` | organizare ședințe | contract | durata contului + termen legal |
 | Mesaje private | `messages` | comunicare | contract | durata contului |
 | Notificări | `notifications` | funcționare | contract/interes legitim | 12 luni (de stabilit) |
 | Jurnale de audit | `audit_logs` | securitate | interes legitim/obligație | 12–24 luni (de stabilit) |

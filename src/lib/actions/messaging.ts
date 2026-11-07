@@ -46,7 +46,6 @@ export async function startConversationAction(
   if (parsed.data.body) {
     await notifyUserByEmail({
       userId: parsed.data.psychologistId,
-      category: "message",
       subject: "Mesaj nou în platformă",
       intro: "Ai primit un mesaj privat nou. Conținutul nu este inclus în e-mail.",
     });
@@ -98,7 +97,6 @@ export async function sendMessageAction(
 
   await notifyUserByEmail({
     userId: recipient as string,
-    category: "message",
     subject: "Mesaj nou în platformă",
     intro: "Ai primit un mesaj privat nou. Conținutul nu este inclus în e-mail.",
   });
@@ -146,7 +144,6 @@ export async function notifyMessageEmailAction(conversationId: string): Promise<
 
   await notifyUserByEmail({
     userId: recipient,
-    category: "message",
     subject: "Mesaj nou în platformă",
     intro: "Ai primit un mesaj privat nou. Conținutul nu este inclus în e-mail.",
   });

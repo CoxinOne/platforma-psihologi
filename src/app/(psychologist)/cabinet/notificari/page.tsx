@@ -3,6 +3,7 @@ import { Bell, CheckCheck } from "lucide-react";
 import { requirePsychologist } from "@/lib/auth";
 import { getNotificationPreferences, listNotifications } from "@/lib/data/user";
 import { formatDateTime } from "@/lib/time";
+import { notificationHref } from "@/lib/notifications";
 import { markAllNotificationsReadAction, markNotificationReadAction } from "@/lib/actions/notifications";
 import { NotificationPreferencesForm } from "@/components/account-forms";
 import { Badge, Card, EmptyState, PageHeader } from "@/components/ui";
@@ -20,7 +21,7 @@ export default async function PsychologistNotificationsPage() {
       <PageHeader
         eyebrow="Notificări"
         title="Notificările mele"
-        description="Solicitări noi, mesaje și modificări ale programărilor."
+        description="Mesaje noi și notificări despre contul tău."
         action={
           unread > 0 ? (
             <form action={markAllNotificationsReadAction}>
@@ -57,9 +58,9 @@ export default async function PsychologistNotificationsPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       {!notification.read_at ? <Badge tone="brand">Necitită</Badge> : null}
-                      {notification.action_url ? (
+                      {notificationHref(notification.action_url) ? (
                         <Link
-                          href={notification.action_url}
+                          href={notificationHref(notification.action_url) as string}
                           className="text-sm font-semibold text-brand underline underline-offset-4"
                         >
                           Deschide
@@ -82,7 +83,7 @@ export default async function PsychologistNotificationsPage() {
             <EmptyState
               icon={<Bell className="h-6 w-6" />}
               title="Nu ai notificări"
-              description="Vei primi notificări pentru solicitări, mesaje și modificări de programări."
+              description="Vei primi notificări pentru mesaje noi și schimbări ale contului."
             />
           )}
         </section>
@@ -93,7 +94,6 @@ export default async function PsychologistNotificationsPage() {
             <NotificationPreferencesForm
               inApp={preferences?.in_app ?? true}
               emailMessages={preferences?.email_messages ?? false}
-              emailAppointments={preferences?.email_appointments ?? true}
             />
           </div>
         </Card>

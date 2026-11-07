@@ -271,7 +271,7 @@ export function PsychologistProfileForm({
         ) : null}
       </fieldset>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Durata ședinței (minute)" htmlFor="sessionDuration" required error={firstError(errors, "sessionDuration")}>
           <input
             id="sessionDuration"
@@ -282,18 +282,6 @@ export function PsychologistProfileForm({
             defaultValue={profile?.session_duration_minutes ?? 50}
             required
             className={inputClasses(Boolean(firstError(errors, "sessionDuration")))}
-          />
-        </Field>
-        <Field label="Tarif (RON)" htmlFor="priceRon" hint="Opțional. Se afișează public." error={firstError(errors, "priceRon")}>
-          <input
-            id="priceRon"
-            name="priceRon"
-            type="number"
-            min={0}
-            max={5000}
-            step="1"
-            defaultValue={profile?.price_ron ?? ""}
-            className={inputClasses(Boolean(firstError(errors, "priceRon")))}
           />
         </Field>
         <Field label="Fus orar" htmlFor="timezone" required error={firstError(errors, "timezone")}>
@@ -309,6 +297,14 @@ export function PsychologistProfileForm({
             <option value="UTC">UTC</option>
           </select>
         </Field>
+      </div>
+
+      <div className="rounded-xl border border-brand-line bg-brand-soft/40 p-4 text-sm text-brand-strong">
+        <p className="font-semibold">Prețul este în funcție de complexitate.</p>
+        <p className="mt-1 text-brand-strong/80">
+          Platforma nu afișează tarife fixe și nu procesează plăți. Detaliile se discută direct cu
+          clientul, prin mesagerie.
+        </p>
       </div>
 
       <Field
@@ -393,7 +389,7 @@ export function PsychologistProfileForm({
           className="mt-1 accent-[#1f4f49]"
         />
         <span>
-          <span className="block font-semibold text-ink">Accept solicitări noi de programare</span>
+          <span className="block font-semibold text-ink">Accept solicitări noi</span>
           <span className="text-muted">Poți dezactiva temporar fără a șterge profilul.</span>
         </span>
       </label>

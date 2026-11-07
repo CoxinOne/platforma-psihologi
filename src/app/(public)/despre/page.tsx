@@ -23,7 +23,7 @@ export default function AboutPage() {
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <PageHeader
         eyebrow="Despre"
-        title="O platformă pentru prezentare, comunicare și programare"
+        title="O platformă pentru prezentare și comunicare"
         description="Platformă Psihologi este o denumire de lucru. Identitatea finală, operatorul și documentele juridice se stabilesc înainte de lansarea publică."
       />
 
@@ -32,9 +32,9 @@ export default function AboutPage() {
           <HeartHandshake className="h-6 w-6 text-brand" aria-hidden="true" />
           <h2 className="mt-4 text-xl font-semibold text-ink">Ce face platforma</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            Ajută o persoană să găsească un psiholog, să citească un profil profesional complet, să
-            trimită un mesaj privat și să solicite o programare. Programările sunt confirmate de
-            psiholog, nu automat.
+            Ajută o persoană să găsească un psiholog, să citească un profil profesional complet și
+            să trimită un mesaj privat. Detaliile consultației și tariful se discută direct, în
+            funcție de complexitate, fără programări sau plăți pe platformă.
           </p>
         </Card>
         <Card>
@@ -73,7 +73,7 @@ export default function AboutPage() {
             {
               icon: BadgeCheck,
               title: "3. Profil completat",
-              text: "Psihologul completează studiile, specializările, cabinetele și disponibilitatea.",
+              text: "Psihologul completează studiile, specializările și cabinetele.",
             },
             {
               icon: ShieldCheck,
@@ -101,9 +101,9 @@ export default function AboutPage() {
           <Card>
             <h3 className="text-lg font-semibold text-ink">Client</h3>
             <ul className="mt-3 space-y-2 text-sm text-muted">
-              <li>Caută psihologi și vede disponibilitatea.</li>
+              <li>Caută psihologi după specializare și oraș.</li>
               <li>Trimite mesaje private și primește notificări.</li>
-              <li>Solicită, consultă și anulează programări.</li>
+              <li>Stabilește direct detaliile și tariful cu psihologul.</li>
               <li>Își exportă datele sau solicită ștergerea contului.</li>
             </ul>
           </Card>
@@ -111,9 +111,9 @@ export default function AboutPage() {
             <h3 className="text-lg font-semibold text-ink">Psiholog</h3>
             <ul className="mt-3 space-y-2 text-sm text-muted">
               <li>Își administrează profilul profesional.</li>
-              <li>Configurează programul și excepțiile.</li>
-              <li>Confirmă, respinge sau anulează programări.</li>
-              <li>Comunică doar cu clienții proprii.</li>
+              <li>Își descrie studiile, specializările și cabinetele.</li>
+              <li>Comunică privat cu persoanele care îi scriu.</li>
+              <li>Stabilește direct tariful, în funcție de complexitate.</li>
             </ul>
           </Card>
           <Card>
@@ -135,9 +135,9 @@ export default function AboutPage() {
             <Database className="h-5 w-5 text-brand" aria-hidden="true" />
             <h3 className="mt-3 text-lg font-semibold text-ink">Minimizarea datelor</h3>
             <p className="mt-2 text-sm text-muted">
-              Colectăm datele necesare contului, profilului profesional și programărilor. Nu
-              colectăm CNP, date medicale sau conținutul ședințelor. Jurnalele tehnice nu includ
-              parole, tokenuri sau mesaje.
+              Colectăm datele necesare contului, profilului profesional și mesageriei. Nu colectăm
+              CNP, date medicale, date de plată sau conținutul ședințelor. Jurnalele tehnice nu
+              includ parole, tokenuri sau mesaje.
             </p>
           </Card>
           <Card>
@@ -156,8 +156,8 @@ export default function AboutPage() {
         <h2 className="text-2xl font-semibold text-ink">Pentru psihologi</h2>
         <p className="mt-2 max-w-2xl text-muted">
           Îți poți crea contul, completa profilul și trimite spre verificare. Profilul nu devine
-          public automat, iar programările pot fi confirmate sau respinse în funcție de
-          disponibilitate.
+          public automat. Platforma nu gestionează programări sau plăți; clienții te contactează
+          prin mesagerie, iar tariful se stabilește direct.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link href="/inregistrare?tip=psiholog" className={buttonClasses("primary")}>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: "%s — Platformă Psihologi",
   },
   description:
-    "Platformă de prezentare, mesagerie privată și programări pentru psihologi din România. Profiluri profesionale verificate înainte de publicare.",
+    "Platformă de prezentare și mesagerie privată pentru psihologi din România. Profiluri profesionale verificate înainte de publicare.",
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     siteName: publicEnv.platformName,
     title: "Platformă Psihologi",
     description:
-      "Găsește un psiholog potrivit, trimite un mesaj privat și solicită o programare.",
+      "Găsește un psiholog potrivit și trimite-i un mesaj privat. Tariful se discută direct, în funcție de complexitate.",
   },
 };
 

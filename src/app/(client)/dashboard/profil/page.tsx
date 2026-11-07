@@ -13,7 +13,7 @@ export default async function ClientProfilePage() {
       <PageHeader
         eyebrow="Cont"
         title="Profilul meu"
-        description="Datele de cont sunt folosite pentru autentificare, contact și programări. Nu colectăm date clinice."
+        description="Datele de cont sunt folosite pentru autentificare și contact. Nu colectăm date clinice."
       />
 
       <div className="flex flex-wrap items-center gap-2">
@@ -27,7 +27,7 @@ export default async function ClientProfilePage() {
         <Card>
           <h2 className="text-xl font-semibold text-ink">Date personale</h2>
           <p className="mt-1 text-sm text-muted">
-            Numele apare în conversații și în programări. Telefonul este opțional și nu este public.
+            Numele apare în conversații. Telefonul este opțional și nu este public.
           </p>
           <div className="mt-5">
             <ProfileForm

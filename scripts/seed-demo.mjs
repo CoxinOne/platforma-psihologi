@@ -14,7 +14,6 @@
  */
 import { existsSync, readFileSync } from "node:fs";
 import { createClient } from "@supabase/supabase-js";
-import { fromZonedTime } from "date-fns-tz";
 
 const PASSWORD = "Demo12345!";
 const TIMEZONE = "Europe/Bucharest";
@@ -54,17 +53,6 @@ const ACCOUNTS = [
   { key: "elena", email: "elena@demo.exemplu.test", fullName: "Elena Dumitrescu", role: "client" },
   { key: "radu", email: "radu@demo.exemplu.test", fullName: "Radu Marinescu", role: "client" },
 ];
-
-function nextWeekday(targetDay, minimumDaysAhead = 7) {
-  const now = new Date();
-  const result = new Date(now);
-  result.setUTCHours(9, 0, 0, 0);
-  result.setUTCDate(result.getUTCDate() + minimumDaysAhead);
-  while (result.getUTCDay() !== targetDay) {
-    result.setUTCDate(result.getUTCDate() + 1);
-  }
-  return result.toISOString().slice(0, 10);
-}
 
 async function findUsers() {
   const { data, error } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
@@ -139,7 +127,7 @@ async function main() {
       postal_code: "400001",
       phone: "0264000000",
       description:
-        "Date demonstrative. Locație fictivă pentru testarea programărilor în cabinet.",
+        "Date demonstrative. Locație fictivă pentru testarea profilurilor publice.",
       is_active: true,
       is_demo: true,
     },
@@ -176,7 +164,7 @@ async function main() {
       languages: ["română", "engleză"],
       consultation_modes: ["online", "in_person"],
       session_duration_minutes: 50,
-      price_ron: 250,
+      price_ron: null,
       status: "approved",
       verified_at: new Date().toISOString(),
       verified_by: ids.admin,
@@ -201,7 +189,7 @@ async function main() {
       languages: ["română", "maghiară"],
       consultation_modes: ["online", "in_person"],
       session_duration_minutes: 60,
-      price_ron: 300,
+      price_ron: null,
       status: "approved",
       verified_at: new Date().toISOString(),
       verified_by: ids.admin,
@@ -240,48 +228,6 @@ async function main() {
       is_primary: true,
     });
     if (cabinetLinkError) throw cabinetLinkError;
-
-    await admin.from("availability_rules").delete().eq("psychologist_id", record.user_id);
-
-    if (record.user_id === ids.ana) {
-      const weekdays = [1, 2, 3, 4, 5];
-      const { error: ruleError } = await admin.from("availability_rules").insert(
-        weekdays.map((weekday) => ({
-          psychologist_id: record.user_id,
-          weekday,
-          start_time: "09:00",
-          end_time: "13:00",
-          slot_step_minutes: 30,
-          mode: "online",
-        })),
-      );
-      if (ruleError) throw ruleError;
-
-      const { error: cabinetRuleError } = await admin.from("availability_rules").insert(
-        [2, 4].map((weekday) => ({
-          psychologist_id: record.user_id,
-          weekday,
-          start_time: "14:00",
-          end_time: "18:00",
-          slot_step_minutes: 30,
-          mode: "in_person",
-          cabinet_id: cabinetIds["cabinet-demo-central"],
-        })),
-      );
-      if (cabinetRuleError) throw cabinetRuleError;
-    } else {
-      const { error: ruleError } = await admin.from("availability_rules").insert(
-        [1, 3, 5].map((weekday) => ({
-          psychologist_id: record.user_id,
-          weekday,
-          start_time: "10:00",
-          end_time: "16:00",
-          slot_step_minutes: 30,
-          mode: "online",
-        })),
-      );
-      if (ruleError) throw ruleError;
-    }
   }
 
   console.log("› Se creează o conversație demonstrativă…");
@@ -322,49 +268,27 @@ async function main() {
     if (messageError) throw messageError;
   }
 
-  console.log("› Se creează programări demonstrative…");
+  // Modulul de programări nu mai este expus. Ștergem eventualele programări demo
+  // create de versiunile anterioare, ca datele demo să fie consecvente.
+  console.log("› Se elimină programările demo vechi…");
   await admin
     .from("appointments")
     .delete()
     .in("client_id", [ids.elena, ids.radu])
     .in("psychologist_id", [ids.ana, ids.mihai]);
 
-  const monday = nextWeekday(1, 10);
-  const tuesday = nextWeekday(2, 11);
-  const mondayStart = fromZonedTime(`${monday}T11:00:00`, TIMEZONE);
-  const tuesdayStart = fromZonedTime(`${tuesday}T10:00:00`, TIMEZONE);
-
-  const { error: appointmentError } = await admin.from("appointments").insert([
-    {
-      client_id: ids.elena,
-      psychologist_id: ids.ana,
-      starts_at: mondayStart.toISOString(),
-      ends_at: new Date(mondayStart.getTime() + 50 * 60 * 1000).toISOString(),
-      duration_minutes: 50,
-      mode: "online",
-      status: "confirmed",
-      timezone: TIMEZONE,
-      price_ron: 250,
-      client_note: "Programare demonstrativă pentru testarea interfeței.",
-      confirmed_at: new Date().toISOString(),
-    },
-    {
-      client_id: ids.radu,
-      psychologist_id: ids.ana,
-      starts_at: tuesdayStart.toISOString(),
-      ends_at: new Date(tuesdayStart.getTime() + 50 * 60 * 1000).toISOString(),
-      duration_minutes: 50,
-      mode: "online",
-      status: "pending",
-      timezone: TIMEZONE,
-      price_ron: 250,
-      client_note: "Solicitare demonstrativă, în așteptare.",
-    },
-  ]);
-
-  if (appointmentError) {
-    console.warn("  ! Programările demonstrative nu au putut fi create:", appointmentError.message);
-  }
+  await admin
+    .from("notifications")
+    .delete()
+    .in("user_id", Object.values(ids))
+    .in("type", [
+      "appointment_requested",
+      "appointment_confirmed",
+      "appointment_rejected",
+      "appointment_cancelled",
+      "appointment_rescheduled",
+      "appointment_completed",
+    ]);
 
   console.log("\n✓ Date demonstrative pregătite.");
   console.log("  Parola pentru toate conturile: " + PASSWORD);

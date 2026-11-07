@@ -16,7 +16,7 @@ export default async function CabinetsPage() {
       <PageHeader
         eyebrow="Locații"
         title="Cabinete"
-        description="Adresele afișate aparțin psihologilor cu profiluri aprobate. Verifică întotdeauna adresa și programarea înainte de deplasare."
+        description="Adresele afișate aparțin psihologilor cu profiluri aprobate. Verifică întotdeauna adresa direct cu psihologul înainte de deplasare."
       />
 
       <div className="mt-8">

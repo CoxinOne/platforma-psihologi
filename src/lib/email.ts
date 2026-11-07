@@ -57,7 +57,6 @@ export async function sendTransactionalEmail(options: {
  */
 export async function notifyUserByEmail(options: {
   userId: string;
-  category: "appointment" | "message";
   subject: string;
   intro: string;
 }): Promise<EmailResult> {
@@ -73,7 +72,7 @@ export async function notifyUserByEmail(options: {
       admin.auth.admin.getUserById(options.userId),
       admin
         .from("notification_preferences")
-        .select("email_messages, email_appointments")
+        .select("email_messages")
         .eq("user_id", options.userId)
         .maybeSingle(),
     ]);
@@ -83,14 +82,7 @@ export async function notifyUserByEmail(options: {
       return { configured: true, sent: false, skipped: "missing-email" };
     }
 
-    if (options.category === "message" && preferences && preferences.email_messages === false) {
-      return { configured: true, sent: false, skipped: "preference" };
-    }
-    if (
-      options.category === "appointment" &&
-      preferences &&
-      preferences.email_appointments === false
-    ) {
+    if (!preferences || preferences.email_messages !== true) {
       return { configured: true, sent: false, skipped: "preference" };
     }
 

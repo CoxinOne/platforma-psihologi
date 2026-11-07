@@ -1,5 +1,10 @@
 # Arhitectură
 
+> **Actualizare 24.10.2026:** modulul de programări și tarifele au fost eliminate din aplicație.
+> Secțiunile despre programări, disponibilitate și booking descriu schema legacy păstrată în baza de
+> date; nu mai există rute, componente sau API care să creeze programări. Platforma oferă profiluri
+> publice și mesagerie privată, iar prețul este afișat ca „Prețul este în funcție de complexitate”.
+
 ## 1. Straturi
 
 ```

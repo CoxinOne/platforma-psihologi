@@ -1,5 +1,10 @@
 # Baza de date
 
+> **Actualizare 24.10.2026:** tabelele `appointments`, `availability_rules` și
+> `availability_exceptions` rămân doar ca schemă legacy. Aplicația nu le mai folosește, nu are rute
+> de programare și nu mai scrie în ele. `price_ron` este o coloană legacy, neafișată și needitabilă
+> din UI.
+
 Migrațiile sunt în `supabase/migrations/` și trebuie aplicate în ordine. Sunt scrise pentru
 PostgreSQL 15+ și Supabase (extensii, `auth.users`, `auth.uid()`).
 

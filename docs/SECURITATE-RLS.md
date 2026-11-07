@@ -1,5 +1,9 @@
 # Securitate și RLS
 
+> **Actualizare 24.10.2026:** politicile pentru programări și disponibilitate rămân valide pentru
+> schema legacy, dar aplicația nu mai expune aceste funcții. Testele DB includ în continuare
+> verificări pentru ele, ca protecție a datelor istorice.
+
 ## 1. Principii
 
 1. **Rolul se verifică în baza de date**, nu doar în UI. Fiecare tabel privat are RLS activ.

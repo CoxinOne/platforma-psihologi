@@ -76,8 +76,8 @@ export default async function AdminDataRequestsPage({
                 ) : (
                   <div className="space-y-3 border-t border-line pt-3">
                     <Alert tone="warning" title="Ștergerea este ireversibilă">
-                      Verifică identitatea și cererea înainte de ștergere. Programările viitoare și
-                      mesajele vor fi eliminate.
+                      Verifică identitatea și cererea înainte de ștergere. Mesajele și datele
+                      asociate vor fi eliminate.
                     </Alert>
                     <form action={adminDeleteAccountAction} className="flex flex-wrap items-end gap-3">
                       <input type="hidden" name="userId" value={request.user_id} />

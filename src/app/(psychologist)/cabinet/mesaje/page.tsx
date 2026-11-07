@@ -16,8 +16,8 @@ export default async function PsychologistMessagesPage() {
         title="Conversațiile mele"
         description="Conversațiile care îți aparțin. Nu ai acces la mesajele altor psihologi."
         action={
-          <Link href="/cabinet/programari" className={buttonClasses("secondary")}>
-            Vezi programările
+          <Link href="/cabinet/profil" className={buttonClasses("secondary")}>
+            Vezi profilul profesional
           </Link>
         }
       />

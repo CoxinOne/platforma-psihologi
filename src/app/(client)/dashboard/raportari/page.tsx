@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Flag } from "lucide-react";
 import { requireClient } from "@/lib/auth";
-import { listAppointmentsForClient, listConversations, listMyReports } from "@/lib/data/user";
+import { listConversations, listMyReports } from "@/lib/data/user";
 import { formatDate } from "@/lib/time";
 import { REPORT_STATUS_LABELS } from "@/lib/constants";
-import { ReportAbuseForm } from "@/components/appointment-actions";
+import { ReportAbuseForm } from "@/components/report-abuse-form";
 import { Badge, Card, PageHeader } from "@/components/ui";
 
 export default async function ClientReportsPage({
@@ -15,9 +15,8 @@ export default async function ClientReportsPage({
   const session = await requireClient();
   const params = await searchParams;
 
-  const [conversations, appointments, reports] = await Promise.all([
+  const [conversations, reports] = await Promise.all([
     listConversations(session.supabase),
-    listAppointmentsForClient(session.supabase, session.profile.id),
     listMyReports(session.supabase, session.profile.id),
   ]);
 
@@ -32,16 +31,6 @@ export default async function ClientReportsPage({
       conversationId: conversation.id,
       label: `${conversation.counterpart_name} (conversație)`,
     });
-  }
-
-  for (const appointment of appointments) {
-    if (!options.has(appointment.psychologist_id)) {
-      options.set(appointment.psychologist_id, {
-        userId: appointment.psychologist_id,
-        conversationId: null,
-        label: `${appointment.psychologist?.full_name ?? "Psiholog"} (programare)`,
-      });
-    }
   }
 
   return (
