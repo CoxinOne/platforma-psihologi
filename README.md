@@ -15,8 +15,8 @@ nu afișează tarife fixe și nu procesează plăți.
 |---|---|
 | Frontend Next.js 16 (App Router) | implementat |
 | Autentificare Supabase (email + parolă, confirmare, resetare) | implementat |
-| Roluri client / psiholog / administrator | implementat, verificate pe server și în DB |
-| RLS pe toate tabelele private | implementat și testat (24 teste SQL) |
+| Roluri client / psiholog / administrator | implementat; înregistrare publică doar pentru clienți, maximum 12 psihologi |
+| RLS pe toate tabelele private | implementat și testat (27 teste SQL) |
 | Directoriu, căutare, specializări, cabinete | implementat |
 | Profil profesional cu aprobare administrativă | implementat |
 | Mesagerie privată + Realtime + notificări | implementat |
@@ -108,11 +108,11 @@ platforma-psihologi/
 │  │  └─ ...
 │  └─ proxy.ts                     refresh sesiune + protecție rute
 ├─ supabase/
-│  ├─ migrations/                  12 migrații SQL (schema, funcții, RLS, views, realtime, storage)
+│  ├─ migrations/                  13 migrații SQL (schema, funcții, RLS, views, realtime, storage)
 │  └─ tests/00_supabase_stub.sql   stub local pentru roluri/auth
 ├─ tests/
 │  ├─ unit/logic.test.ts           13 teste
-│  └─ db/rls.test.ts               24 teste PostgreSQL
+│  └─ db/rls.test.ts               27 teste PostgreSQL
 ├─ scripts/
 │  ├─ db-setup.mjs                 PostgreSQL efemer în Docker
 │  ├─ db-teardown.mjs
@@ -178,8 +178,8 @@ npx supabase db push
 ```
 
    Alternativ, deschide **SQL Editor** și rulează fișierele din `supabase/migrations/` în ordinea
-   numelor. Nu sări peste `0010_public_views.sql`, `0011_realtime_storage.sql` sau
-   `0012_reference_data.sql`.
+   numelor. Nu sări peste `0010_public_views.sql`, `0011_realtime_storage.sql`,
+   `0012_reference_data.sql` sau `0013_psychologist_account_limit.sql`.
 
 4. În **Authentication → URL Configuration** setează:
    - Site URL: `http://localhost:3000` (în producție, domeniul real)
@@ -206,6 +206,24 @@ alter table public.profiles enable trigger profiles_guard_update;
 
 Contul trebuie să existe deja (înregistrare prin aplicație). Verifică apoi în aplicație că
 `/admin` este accesibil.
+
+### 5.2.1. Conturi de psiholog — maximum 12
+
+Înregistrarea publică creează **exclusiv conturi de client**. Conturile de psiholog se acordă de
+administrator, în limita a **12 conturi**:
+
+1. Persoana își creează un cont public de client (sau administratorul creează contul din
+   **Supabase → Authentication → Users**).
+2. Administratorul intră în **Admin → Conturi**, schimbă rolul în **Psiholog** și salvează.
+3. Psihologul completează profilul profesional din `/cabinet/profil` și îl trimite spre aprobare.
+
+Limita este impusă în baza de date prin `0013_psychologist_account_limit.sql`; a 13-a promovare
+este respinsă. Cererile publice de cont profesional sunt dezactivate, iar metadata
+`requested_role` trimisă direct către Supabase Auth este ignorată.
+
+> **Pentru proiecte Supabase existente:** rulează o singură dată
+> `supabase/patches/2026-11-07-psychologist-account-limit.sql` în SQL Editor. Fără acest patch,
+> limita și dezactivarea cererilor publice nu sunt active în baza de date.
 
 > **Actualizare pentru proiecte create înainte de 24.10.2026:** rulează o singură dată
 > `supabase/patches/2026-10-24-audit-fixes.sql` în SQL Editor. Patch-ul schimbă ștergerea
@@ -290,7 +308,7 @@ Comportament:
 
 ### Client
 
-- înregistrare, confirmare e-mail, autentificare, resetare parolă;
+- înregistrare publică doar ca client, confirmare e-mail, autentificare, resetare parolă;
 - directoriu, căutare după specializare/oraș/limbă/tip;
 - mesagerie privată cu psihologii;
 - discută direct detaliile și tariful, în funcție de complexitate;
@@ -307,7 +325,7 @@ Comportament:
 
 ### Administrator
 
-- conturi, roluri, solicitări de cont profesional;
+- conturi, roluri și promovarea conturilor de client în psiholog (maximum 12);
 - aprobare/respingere/suspendare profiluri, cu motiv și audit;
 - specializări și cabinete;
 - raportări de abuz, cereri GDPR, mesaje de contact;
@@ -336,14 +354,14 @@ Detalii pe tabel și matricea de teste: [`docs/SECURITATE-RLS.md`](docs/SECURITA
 
 ## 9. Teste și verificări (rezultate reale)
 
-Rulate la **24 octombrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 local.
+Rulate la **7 noiembrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 local.
 
 | Verificare | Comandă | Rezultat |
 |---|---|---|
 | TypeScript strict | `npm run typecheck` | ✅ 0 erori |
 | ESLint | `npm run lint` | ✅ 0 erori, 0 warnings |
 | Teste unitare | `npm test` | ✅ **13/13** |
-| Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **24/24** |
+| Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **27/27** |
 | Build producție | `npm run build` | ✅ compilat, toate rutele generate |
 | Verificare live Supabase (citiri publice, autentificare demo, RLS pe roluri) | rulată pe proiectul configurat în `.env.local` | ✅ 2 profile publice, login pentru client/psiholog/admin, izolare corectă, `/api/health` 200 |
 

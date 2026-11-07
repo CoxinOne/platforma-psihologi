@@ -42,12 +42,6 @@ export default async function ClientDashboardPage({
         <Alert tone="success">Parola a fost actualizată.</Alert>
       ) : null}
 
-      {profile.requested_role === "psychologist" ? (
-        <Alert tone="info" title="Cerere de cont profesional în așteptare">
-          Administratorul verifică identitatea și calificările. Vei primi o notificare după decizie.
-        </Alert>
-      ) : null}
-
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Mesaje necitite" value={badges.messages} href="/dashboard/mesaje" />
         <Stat label="Conversații" value={conversations.length} href="/dashboard/mesaje" />

@@ -160,11 +160,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
                 <Link href="/cauta" className={buttonClasses("secondary")}>
                   Resetează căutarea
                 </Link>
-              ) : (
-                <Link href="/inregistrare?tip=psiholog" className={buttonClasses("primary")}>
-                  Solicită cont de psiholog
-                </Link>
-              )
+              ) : undefined
             }
           />
         )}

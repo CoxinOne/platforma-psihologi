@@ -70,7 +70,6 @@ export async function signUpAction(
     email: formString(formData, "email"),
     password: formString(formData, "password"),
     confirmPassword: formString(formData, "confirmPassword"),
-    accountType: formString(formData, "accountType") || "client",
     terms: formData.get("terms") === "on",
     ageConfirm: formData.get("ageConfirm") === "on",
   });
@@ -88,7 +87,6 @@ export async function signUpAction(
       emailRedirectTo: `${config.siteUrl}/auth/callback?next=${encodeURIComponent("/dashboard")}`,
       data: {
         full_name: parsed.data.fullName,
-        requested_role: parsed.data.accountType,
         terms_accepted_at: new Date().toISOString(),
       },
     },
@@ -100,7 +98,7 @@ export async function signUpAction(
   }
 
   if (data.session) {
-    redirect(parsed.data.accountType === "psychologist" ? "/dashboard/profil" : "/dashboard");
+    redirect("/dashboard");
   }
 
   redirect(`/verifica-email?email=${encodeURIComponent(parsed.data.email)}`);

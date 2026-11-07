@@ -174,10 +174,10 @@ export default async function HomePage() {
             <EmptyState
               icon={<Users className="h-7 w-7" />}
               title="Momentan nu există profiluri aprobate"
-              description="Directoriul se completează pe măsură ce profilurile profesionale sunt verificate. Dacă ești psiholog, poți cere acces la un cont profesional."
+              description="Directoriul se completează pe măsură ce profilurile profesionale sunt verificate. Conturile de psiholog sunt create exclusiv de administrator."
               action={
-                <Link href="/inregistrare?tip=psiholog" className={buttonClasses("primary")}>
-                  Solicită cont de psiholog
+                <Link href="/inregistrare" className={buttonClasses("primary")}>
+                  Creează cont de client
                 </Link>
               }
             />
@@ -257,29 +257,28 @@ export default async function HomePage() {
             <div className="max-w-2xl">
               <span className="mb-4 block h-1 w-12 rounded-full bg-terracotta" aria-hidden="true" />
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cream/70">
-                Pentru psihologi
+                Începe aici
               </p>
               <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
-                Ai un cabinet? Îți poți construi profilul aici.
+                Nu știi de unde să începi? Citește profilurile.
               </h2>
               <p className="mt-3 text-cream/80">
-                Contul profesional se activează după verificarea identității și a calificărilor.
-                Profilul devine public doar după aprobare, iar clienții te pot contacta prin
-                mesagerie.
+                Fiecare psiholog are un profil verificat înainte de publicare. Îți poți face cont
+                public de client și îi poți scrie direct, în mesagerie privată.
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
               <Link
-                href="/inregistrare?tip=psiholog"
+                href="/psihologi"
                 className="inline-flex items-center justify-center rounded-full bg-surface px-6 py-3 text-sm font-semibold text-brand hover:bg-brand-soft"
               >
-                Solicită cont profesional
+                Găsește un psiholog
               </Link>
               <Link
-                href="/despre"
+                href="/inregistrare"
                 className="inline-flex items-center justify-center rounded-full border border-cream/30 px-6 py-3 text-sm font-semibold text-cream hover:bg-cream/10"
               >
-                Detalii despre verificare
+                Creează cont de client
               </Link>
             </div>
           </div>

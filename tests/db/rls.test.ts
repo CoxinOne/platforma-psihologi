@@ -692,6 +692,67 @@ describeDb("Securitate și izolare (PostgreSQL + RLS)", () => {
     );
   });
 
+  it("înregistrarea publică ignoră requested_role și creează doar client", async () => {
+    const signupId = "99999999-9999-4999-8999-999999999999";
+    await admin.query(
+      "insert into auth.users (id, email, raw_user_meta_data) values ($1, $2, $3::jsonb)",
+      [
+        signupId,
+        "signup-psychologist-request@test.local",
+        JSON.stringify({
+          full_name: "Cerere Psiholog",
+          requested_role: "psychologist",
+          terms_accepted_at: new Date().toISOString(),
+        }),
+      ],
+    );
+
+    const { rows } = await admin.query(
+      "select role, requested_role from public.profiles where id = $1",
+      [signupId],
+    );
+    expect(rows[0]?.role).toBe("client");
+    expect(rows[0]?.requested_role).toBeNull();
+
+    await admin.query("delete from auth.users where id = $1", [signupId]);
+  });
+
+  it("cererile publice de cont profesional sunt dezactivate", async () => {
+    await expectDbError(
+      asUser(IDS.clientA, (db) => db.query("select public.request_psychologist_account()")),
+      /PSYCHOLOGIST_SIGNUP_DISABLED/,
+    );
+  });
+
+  it("a 13-a promovare ca psiholog este respinsă", async () => {
+    await admin.query("begin");
+    await admin.query("alter table public.profiles disable trigger profiles_guard_update");
+    try {
+      const extraIds = Array.from(
+        { length: 9 },
+        (_, index) => `a0000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
+      );
+      for (const [index, id] of extraIds.entries()) {
+        await admin.query(
+          "insert into auth.users (id, email, raw_user_meta_data) values ($1, $2, $3::jsonb)",
+          [id, `limit-${index}@test.local`, JSON.stringify({ full_name: `Limit ${index}` })],
+        );
+      }
+      await admin.query(
+        "update public.profiles set role = 'psychologist' where id = any($1::uuid[])",
+        [extraIds],
+      );
+
+      await expectDbError(
+        admin.query("update public.profiles set role = 'psychologist' where id = $1", [IDS.clientA]),
+        /PSYCHOLOGIST_LIMIT_REACHED/,
+      );
+    } finally {
+      await admin.query("rollback");
+      await admin.query("alter table public.profiles enable trigger profiles_guard_update");
+    }
+  });
+
   it("fusul orar este corect la trecerea la ora de vară și de iarnă", async () => {
     const cases = [
       { date: "2027-03-27", expected: "2027-03-27 07:00" },

@@ -44,7 +44,6 @@ export const signupSchema = z
     email: emailSchema,
     password,
     confirmPassword: z.string(),
-    accountType: z.enum(["client", "psychologist"]).default("client"),
     terms: z.literal(true, { message: "Trebuie să accepți termenii și politica de confidențialitate." }),
     ageConfirm: z.literal(true, { message: "Confirmă că ai vârsta minimă necesară." }),
   })

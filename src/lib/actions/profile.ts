@@ -46,26 +46,6 @@ export async function updateProfileAction(
   return actionSuccess();
 }
 
-export async function requestPsychologistAccountAction(
-  _previous: ActionResult | null,
-  _formData: FormData,
-): Promise<ActionResult> {
-  const session = await requireUser("/dashboard/profil");
-
-  if (session.profile.role !== "client") {
-    return actionFailure("Cererea este disponibilă doar conturilor de client.");
-  }
-
-  const { error } = await session.supabase.rpc("request_psychologist_account");
-  if (error) {
-    logServerError("profile.request-psychologist", error);
-    return actionFailure(humanizeError(error));
-  }
-
-  revalidatePath("/dashboard/profil");
-  return actionSuccess();
-}
-
 export async function updateNotificationPreferencesAction(
   _previous: ActionResult | null,
   formData: FormData,

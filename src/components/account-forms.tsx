@@ -1,8 +1,8 @@
 "use client";
 
 import { useActionState } from "react";
-import { CheckCircle2, Send } from "lucide-react";
-import { requestPsychologistAccountAction, updateNotificationPreferencesAction, updateProfileAction } from "@/lib/actions/profile";
+import { CheckCircle2 } from "lucide-react";
+import { updateNotificationPreferencesAction, updateProfileAction } from "@/lib/actions/profile";
 import { SubmitButton } from "@/components/submit-button";
 import { Alert, Field, inputClasses } from "@/components/ui";
 import { firstError } from "@/lib/validation";
@@ -82,36 +82,6 @@ export function ProfileForm({
       <SubmitButton pendingLabel="Se salvează…">
         <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
         Salvează modificările
-      </SubmitButton>
-    </form>
-  );
-}
-
-export function RequestPsychologistForm({ alreadyRequested }: { alreadyRequested: boolean }) {
-  const [state, formAction] = useActionState(requestPsychologistAccountAction, null);
-
-  if (alreadyRequested) {
-    return (
-      <Alert tone="info" title="Cerere în așteptare">
-        Administratorul verifică identitatea și calificările. Vei primi o notificare după decizie.
-      </Alert>
-    );
-  }
-
-  return (
-    <form action={formAction} className="space-y-3">
-      {state?.ok ? (
-        <Alert tone="success">Cererea a fost trimisă administratorului.</Alert>
-      ) : null}
-      {state && !state.ok ? <Alert tone="danger">{state.message}</Alert> : null}
-      <p className="text-sm text-muted">
-        Dacă ești psiholog, poți solicita activarea rolului profesional. Administratorul verifică
-        identitatea înainte de a acorda accesul; profilul public se creează separat și necesită
-        aprobare.
-      </p>
-      <SubmitButton variant="secondary" pendingLabel="Se trimite cererea…">
-        <Send className="h-4 w-4" aria-hidden="true" />
-        Solicită cont de psiholog
       </SubmitButton>
     </form>
   );

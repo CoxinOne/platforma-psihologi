@@ -153,18 +153,15 @@ export default function AboutPage() {
       </section>
 
       <div className="mt-14 rounded-[2rem] border border-brand-line bg-surface p-8">
-        <h2 className="text-2xl font-semibold text-ink">Pentru psihologi</h2>
+        <h2 className="text-2xl font-semibold text-ink">Conturi profesionale</h2>
         <p className="mt-2 max-w-2xl text-muted">
-          Îți poți crea contul, completa profilul și trimite spre verificare. Profilul nu devine
-          public automat. Platforma nu gestionează programări sau plăți; clienții te contactează
-          prin mesagerie, iar tariful se stabilește direct.
+          Conturile de psiholog sunt create exclusiv de administrator, în limita a 12 conturi. Nu
+          există înregistrare publică pentru psihologi. Fiecare profil este verificat înainte de
+          publicare, iar platforma nu gestionează programări sau plăți.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/inregistrare?tip=psiholog" className={buttonClasses("primary")}>
-            Solicită cont profesional
-          </Link>
           <Link href="/contact" className={buttonClasses("secondary")}>
-            Întrebări despre verificare
+            Contactează echipa
           </Link>
         </div>
       </div>

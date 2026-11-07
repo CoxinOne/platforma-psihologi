@@ -26,8 +26,8 @@
 
 1. Înregistrare client → e-mail → confirmare → autentificare.
 2. Resetare parolă.
-3. Psiholog: solicitare cont → admin acordă rol → profil → trimitere spre verificare → admin aprobă
-   → profil public.
+3. Psiholog: cont public de client → admin promovează rolul (maximum 12) → profil → trimitere spre
+   verificare → admin aprobă → profil public.
 4. Client: căutare → mesaj privat → psiholog răspunde → notificări la ambele conturi.
 5. Verifică afișarea „Prețul este în funcție de complexitate” pe card, profil și dashboard.
 6. Admin: suspendare cont → login blocat → reactivare.

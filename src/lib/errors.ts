@@ -47,6 +47,8 @@ const MESSAGES: Array<[string, string]> = [
   ["CONVERSATION_CLOSED", "Conversația este închisă."],
   ["NOT_ALLOWED", "Nu ai permisiunea necesară pentru această operațiune."],
   ["ROLE_CHANGE_FORBIDDEN", "Rolul contului nu poate fi modificat din aplicație."],
+  ["PSYCHOLOGIST_LIMIT_REACHED", "Limita de 12 conturi de psiholog a fost atinsă."],
+  ["PSYCHOLOGIST_SIGNUP_DISABLED", "Conturile de psiholog sunt create exclusiv de administrator."],
   ["STATUS_CHANGE_FORBIDDEN", "Statusul contului nu poate fi modificat din aplicație."],
   ["PROFILE_STATUS_FORBIDDEN", "Profilul profesional nu poate fi aprobat din contul propriu."],
   ["PROFILE_INCOMPLETE", "Profilul profesional este incomplet pentru aprobare."],

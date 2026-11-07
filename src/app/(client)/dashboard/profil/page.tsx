@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import { requireClient } from "@/lib/auth";
-import { ProfileForm, RequestPsychologistForm } from "@/components/account-forms";
-import { Alert, buttonClasses, Card, DemoBadge, PageHeader } from "@/components/ui";
+import { ProfileForm } from "@/components/account-forms";
+import { buttonClasses, Card, DemoBadge, PageHeader } from "@/components/ui";
 import { formatDate } from "@/lib/time";
 
 export default async function ClientProfilePage() {
@@ -18,9 +18,6 @@ export default async function ClientProfilePage() {
 
       <div className="flex flex-wrap items-center gap-2">
         {profile.is_demo ? <DemoBadge /> : null}
-        {profile.requested_role === "psychologist" ? (
-          <span className="text-sm text-muted">Cerere de cont profesional în așteptare.</span>
-        ) : null}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
@@ -40,17 +37,6 @@ export default async function ClientProfilePage() {
         </Card>
 
         <div className="space-y-6">
-          <Card>
-            <h2 className="text-lg font-semibold text-ink">Rol profesional</h2>
-            <div className="mt-3">
-              {profile.role === "client" ? (
-                <RequestPsychologistForm alreadyRequested={profile.requested_role === "psychologist"} />
-              ) : (
-                <Alert tone="info">Contul are deja un rol profesional.</Alert>
-              )}
-            </div>
-          </Card>
-
           <Card>
             <h2 className="flex items-center gap-2 text-lg font-semibold text-ink">
               <ShieldCheck className="h-4 w-4 text-brand" aria-hidden="true" />

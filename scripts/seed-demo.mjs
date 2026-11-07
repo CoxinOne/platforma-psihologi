@@ -70,7 +70,6 @@ async function ensureUser(account, usersByEmail) {
     email_confirm: true,
     user_metadata: {
       full_name: account.fullName,
-      requested_role: account.role === "psychologist" ? "psychologist" : "client",
       terms_accepted_at: new Date().toISOString(),
     },
   });

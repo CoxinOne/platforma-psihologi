@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { adminSetAccountStatusAction, adminSetRoleAction } from "@/lib/actions/admin";
 import { listAdminAccounts } from "@/lib/data/admin";
-import { PROFESSIONAL_STATUS_LABELS, ROLE_LABELS } from "@/lib/constants";
+import { PROFESSIONAL_STATUS_LABELS, MAX_PSYCHOLOGISTS, ROLE_LABELS } from "@/lib/constants";
 import { formatDateTime } from "@/lib/time";
 import { Alert, Badge, Card, PageHeader } from "@/components/ui";
 import type { UserRole } from "@/lib/types";
@@ -24,6 +24,8 @@ export default async function AdminAccountsPage({
   const accounts = await listAdminAccounts();
   const filter = params.rol ?? "";
   const filtered = filter ? accounts.filter((account) => account.profile.role === filter) : accounts;
+  const psychologistCount = accounts.filter((account) => account.profile.role === "psychologist").length;
+  const psychologistLimitReached = psychologistCount >= MAX_PSYCHOLOGISTS;
 
   return (
     <div className="space-y-6">
@@ -32,6 +34,16 @@ export default async function AdminAccountsPage({
         title="Conturi și roluri"
         description="Rolurile pot fi schimbate doar aici, cu verificare pe server și jurnal de audit. Suspendarea necesită motiv."
       />
+
+      <div className="rounded-2xl border border-brand-line bg-brand-soft/60 p-4 text-sm text-brand-strong">
+        <p className="font-semibold">
+          Conturi de psiholog: {psychologistCount}/{MAX_PSYCHOLOGISTS}
+        </p>
+        <p className="mt-1 text-brand-strong/80">
+          Înregistrarea publică este doar pentru clienți. Pentru un psiholog, creează întâi un cont
+          public de client, apoi schimbă rolul aici. Limita este impusă și în baza de date.
+        </p>
+      </div>
 
       {params.status ? <Alert tone="success">Acțiunea a fost aplicată.</Alert> : null}
       {params.eroare ? <Alert tone="danger">{params.eroare}</Alert> : null}
@@ -65,9 +77,6 @@ export default async function AdminAccountsPage({
                       {ROLE_LABELS[profile.role]}
                     </Badge>
                     {profile.status === "suspended" ? <Badge tone="danger">Suspendat</Badge> : null}
-                    {profile.requested_role === "psychologist" && profile.role === "client" ? (
-                      <Badge tone="warning">Cere cont de psiholog</Badge>
-                    ) : null}
                     {profile.is_demo ? <Badge tone="sand">Demo</Badge> : null}
                   </div>
                   <p className="mt-1 text-sm text-muted">{profile.email}</p>
@@ -96,7 +105,15 @@ export default async function AdminAccountsPage({
                       disabled={profile.id === session.user.id}
                     >
                       {(Object.keys(ROLE_LABELS) as UserRole[]).map((role) => (
-                        <option key={role} value={role}>
+                        <option
+                          key={role}
+                          value={role}
+                          disabled={
+                            role === "psychologist" &&
+                            psychologistLimitReached &&
+                            profile.role !== "psychologist"
+                          }
+                        >
                           {ROLE_LABELS[role]}
                         </option>
                       ))}

@@ -98,7 +98,6 @@ describe("validarea datelor", () => {
     email: "ANA@Exemplu.RO",
     password: "Parola12345",
     confirmPassword: "Parola12345",
-    accountType: "client",
     terms: true,
     ageConfirm: true,
   };
@@ -145,6 +144,7 @@ describe("mesaje de eroare pentru utilizator", () => {
   it("traduce erorile cunoscute fără a expune detalii tehnice", () => {
     expect(humanizeError({ message: "SLOT_ALREADY_BOOKED" })).toContain("rezervat între timp");
     expect(humanizeError({ message: "RATE_LIMITED" })).toContain("prea multe cereri");
+    expect(humanizeError({ message: "PSYCHOLOGIST_LIMIT_REACHED" })).toContain("12 conturi");
     expect(humanizeError(new Error("invalid login credentials"))).toContain("parola");
     expect(humanizeError(new Error("ceva necunoscut"))).toBe(
       "A apărut o eroare neașteptată. Operațiunea nu a fost finalizată.",

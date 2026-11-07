@@ -56,7 +56,7 @@ export function LoginForm({ next }: { next?: string }) {
   );
 }
 
-export function SignupForm({ defaultAccountType = "client" }: { defaultAccountType?: "client" | "psychologist" }) {
+export function SignupForm() {
   const [state, formAction] = useActionState(signUpAction, null);
   const errors = state && !state.ok ? state.fieldErrors ?? {} : {};
 
@@ -64,41 +64,10 @@ export function SignupForm({ defaultAccountType = "client" }: { defaultAccountTy
     <form action={formAction} className="space-y-4" noValidate>
       {state && !state.ok ? <Alert tone="danger">{state.message}</Alert> : null}
 
-      <fieldset>
-        <legend className="text-sm font-semibold text-ink">Tipul contului</legend>
-        <div className="mt-2 grid gap-2 sm:grid-cols-2">
-          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-line bg-surface p-3 text-sm hover:border-brand-line">
-            <input
-              type="radio"
-              name="accountType"
-              value="client"
-              defaultChecked={defaultAccountType === "client"}
-              className="mt-1 accent-brand"
-            />
-            <span>
-              <span className="block font-semibold text-ink">Sunt client</span>
-              <span className="text-xs text-muted">Caut un psiholog și vreau să programez.</span>
-            </span>
-          </label>
-          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-line bg-surface p-3 text-sm hover:border-brand-line">
-            <input
-              type="radio"
-              name="accountType"
-              value="psychologist"
-              defaultChecked={defaultAccountType === "psychologist"}
-              className="mt-1 accent-brand"
-            />
-            <span>
-              <span className="block font-semibold text-ink">Sunt psiholog</span>
-              <span className="text-xs text-muted">Solicit un cont profesional, supus verificării.</span>
-            </span>
-          </label>
-        </div>
-        <p className="mt-2 text-xs text-muted">
-          Contul de psiholog nu este activat automat. Un administrator verifică identitatea și
-          calificările înainte de publicarea profilului.
-        </p>
-      </fieldset>
+      <div className="rounded-xl border border-brand-line bg-brand-soft/60 p-3 text-xs text-muted">
+        <span className="font-semibold text-ink">Cont public de client.</span> Conturile de
+        psiholog sunt create exclusiv de administrator, în limita a 12 conturi.
+      </div>
 
       <Field label="Nume complet" htmlFor="fullName" required error={firstError(errors, "fullName")}>
         <input
