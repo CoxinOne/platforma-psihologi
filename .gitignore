@@ -39,3 +39,5 @@ supabase/.env
 .eslint-out.txt
 .npm-cache
 *.tsbuildinfo
+
+.vercel
