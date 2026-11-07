@@ -10,6 +10,7 @@ import {
 import { isSafeRedirect, roleHome, safeNext } from "@/lib/permissions";
 import { humanizeError } from "@/lib/errors";
 import { collectFieldErrors, profileSchema, signupSchema } from "@/lib/validation";
+import { whatsappHref } from "@/lib/utils";
 
 describe("fus orar și schimbarea orei", () => {
   it("convertește ora locală în UTC înainte și după trecerea la ora de vară", () => {
@@ -140,8 +141,20 @@ describe("validarea datelor", () => {
   });
 });
 
-describe("mesaje de eroare pentru utilizator", () => {
-  it("traduce erorile cunoscute fără a expune detalii tehnice", () => {
+describe("contact WhatsApp", () => {
+  it("normalizează numerele românești și respinge numerele invalide", () => {
+    const local = whatsappHref("0712 345 678", "Ana Popescu");
+    expect(local).toContain("https://wa.me/40712345678?text=");
+    expect(local).toContain(encodeURIComponent("Ana Popescu"));
+
+    expect(whatsappHref("+40 700 000 001")).toContain("https://wa.me/40700000001");
+    expect(whatsappHref("0040712345678")).toContain("https://wa.me/40712345678");
+    expect(whatsappHref(null)).toBeNull();
+    expect(whatsappHref("123")).toBeNull();
+  });
+});
+
+describe("mesaje de eroare pentru utilizator", () => {  it("traduce erorile cunoscute fără a expune detalii tehnice", () => {
     expect(humanizeError({ message: "SLOT_ALREADY_BOOKED" })).toContain("rezervat între timp");
     expect(humanizeError({ message: "RATE_LIMITED" })).toContain("prea multe cereri");
     expect(humanizeError({ message: "PSYCHOLOGIST_LIMIT_REACHED" })).toContain("12 conturi");

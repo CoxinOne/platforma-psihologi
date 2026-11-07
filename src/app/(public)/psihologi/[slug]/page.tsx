@@ -18,6 +18,7 @@ import { MODE_LABELS } from "@/lib/constants";
 import { formatDuration } from "@/lib/time";
 import { Avatar, Badge, buttonClasses, Card, DemoBadge } from "@/components/ui";
 import { ContactPsychologist } from "@/components/contact-psychologist";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 export async function generateMetadata({
   params,
@@ -286,10 +287,17 @@ export default async function PsychologistProfilePage({
                 Tariful se discută direct cu psihologul, înainte de a decide.
               </p>
             </div>
-            <a href="#mesaj" className={buttonClasses("primary", "md")}>
-              <MessageCircle className="h-4 w-4" aria-hidden="true" />
-              Trimite un mesaj
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a href="#mesaj" className={buttonClasses("primary", "md", "flex-1")}>
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                Trimite un mesaj
+              </a>
+              <WhatsAppButton
+                phone={psychologist.cabinets.find((cabinet) => cabinet.phone)?.phone}
+                psychologistName={psychologist.display_name}
+                className="flex-1"
+              />
+            </div>
           </Card>
 
           <div className="mt-4 rounded-2xl border border-line bg-canvas p-4 text-xs text-muted">

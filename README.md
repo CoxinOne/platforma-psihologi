@@ -20,6 +20,7 @@ nu afișează tarife fixe și nu procesează plăți.
 | Directoriu, căutare, specializări, cabinete | implementat |
 | Profil profesional cu aprobare administrativă | implementat |
 | Mesagerie privată + Realtime + notificări | implementat |
+| Contact rapid WhatsApp pe profilul public | implementat; folosește telefonul public al cabinetului |
 | Programări / calendar / disponibilitate | **eliminate din aplicație** (schema legacy păstrată în DB) |
 | Tarife fixe / plăți online | **eliminate**; se afișează „Prețul este în funcție de complexitate” |
 | Notificări în aplicație | implementat |
@@ -111,7 +112,7 @@ platforma-psihologi/
 │  ├─ migrations/                  13 migrații SQL (schema, funcții, RLS, views, realtime, storage)
 │  └─ tests/00_supabase_stub.sql   stub local pentru roluri/auth
 ├─ tests/
-│  ├─ unit/logic.test.ts           13 teste
+│  ├─ unit/logic.test.ts           14 teste
 │  └─ db/rls.test.ts               27 teste PostgreSQL
 ├─ scripts/
 │  ├─ db-setup.mjs                 PostgreSQL efemer în Docker
@@ -251,7 +252,8 @@ Există **12 conturi demo de psiholog**: Ana, Mihai și 10 conturi suplimentare
 (`ioana.marinescu@`, `andrei.constantin@`, `maria.stan@`, `vlad.dumitrescu@`, `raluca.mihai@`,
 `stefan.ionescu@`, `diana.popa@`, `bogdan.pavel@`, `cristina.neagu@`, `alexandru.radu@` —
 toate `@demo.exemplu.test`). Parola este `Demo12345!`. Toate au profil public demo aprobat;
-datele sunt fictive și trebuie eliminate înainte de producție.
+datele sunt fictive și trebuie eliminate înainte de producție. Numerele WhatsApp demo sunt
+`+40700000001` … `+40700000012`, câte unul pentru fiecare cabinet/psiholog.
 
 > Șterge datele demonstrative înainte de producție. Nu sunt persoane reale, nu au calificări reale
 > și nu trebuie prezentate ca atare.
@@ -366,7 +368,7 @@ Rulate la **7 noiembrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 local
 |---|---|---|
 | TypeScript strict | `npm run typecheck` | ✅ 0 erori |
 | ESLint | `npm run lint` | ✅ 0 erori, 0 warnings |
-| Teste unitare | `npm test` | ✅ **13/13** |
+| Teste unitare | `npm test` | ✅ **14/14** |
 | Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **27/27** |
 | Build producție | `npm run build` | ✅ compilat, toate rutele generate |
 | Verificare live Supabase (citiri publice, autentificare demo, RLS pe roluri) | rulată pe proiectul configurat în `.env.local` | ✅ 2 profile publice, login pentru client/psiholog/admin, izolare corectă, `/api/health` 200 |

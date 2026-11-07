@@ -25,11 +25,11 @@ Mediu: Windows 11, Node 24.15.0, npm 11.12.1, PostgreSQL 18.4 (local), Next.js 1
 |---|---|---|
 | `tsc --noEmit` | ✅ | 0 erori, `strict` + `noUncheckedIndexedAccess` |
 | `eslint .` | ✅ | 0 erori, 0 warnings |
-| `vitest run tests/unit` | ✅ | 13 teste |
+| `vitest run tests/unit` | ✅ | 14 teste |
 | `vitest run tests/db` | ✅ | 27 teste |
 | `next build` | ✅ | compilare + TypeScript + toate rutele |
 
-### Teste unitare (13)
+### Teste unitare (14)
 
 - conversii UTC ↔ Europe/Bucharest înainte/după DST;
 - generare de intervale fără duplicate în ziua cu ora 03:00 inexistentă;
