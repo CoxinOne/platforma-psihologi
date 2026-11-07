@@ -62,7 +62,7 @@ export default async function HomePage() {
     listSpecialties(),
   ]);
 
-  const featured = psychologists.slice(0, 3);
+  const featured = psychologists.slice(0, 12);
   const topSpecialties = specialties.filter((specialty) => specialty.psychologist_count > 0).slice(0, 6);
   const displayedSpecialties = topSpecialties.length > 0 ? topSpecialties : specialties.slice(0, 6);
 

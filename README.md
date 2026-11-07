@@ -250,8 +250,8 @@ conversație demonstrativă. Nu creează programări și nu setează tarife.
 Există **12 conturi demo de psiholog**: Ana, Mihai și 10 conturi suplimentare
 (`ioana.marinescu@`, `andrei.constantin@`, `maria.stan@`, `vlad.dumitrescu@`, `raluca.mihai@`,
 `stefan.ionescu@`, `diana.popa@`, `bogdan.pavel@`, `cristina.neagu@`, `alexandru.radu@` —
-toate `@demo.exemplu.test`). Parola este `Demo12345!`. Doar Ana și Mihai au profil public demo;
-celelalte conturi își pot completa profilul din `/cabinet/profil`.
+toate `@demo.exemplu.test`). Parola este `Demo12345!`. Toate au profil public demo aprobat;
+datele sunt fictive și trebuie eliminate înainte de producție.
 
 > Șterge datele demonstrative înainte de producție. Nu sunt persoane reale, nu au calificări reale
 > și nu trebuie prezentate ca atare.
