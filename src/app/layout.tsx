@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6f3ec",
+  themeColor: "#f6f1e9",
   width: "device-width",
   initialScale: 1,
 };
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Sari la conținut
         </a>
         {!isSupabaseConfigured() ? (
-          <div className="border-b border-[#e6c2ba] bg-danger-soft px-4 py-2 text-center text-sm text-danger">
+          <div className="border-b border-danger/30 bg-danger-soft px-4 py-2 text-center text-sm text-danger">
             Configurare incompletă: lipsește conexiunea Supabase. Completează{" "}
             <code className="font-mono text-xs">.env.local</code> conform instrucțiunilor din README.
           </div>

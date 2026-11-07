@@ -66,7 +66,7 @@ export function ConsentBanner() {
         <button
           type="button"
           onClick={accept}
-          className="shrink-0 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-strong"
+          className="shrink-0 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream hover:bg-brand-strong"
         >
           Am înțeles
         </button>

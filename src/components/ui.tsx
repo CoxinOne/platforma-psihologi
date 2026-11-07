@@ -16,11 +16,11 @@ export function buttonClasses(
   const base =
     "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-55";
   const variants: Record<ButtonVariant, string> = {
-    primary: "bg-brand text-white hover:bg-brand-strong",
+    primary: "bg-brand text-cream hover:bg-brand-strong",
     secondary: "border border-brand-line bg-surface text-brand hover:bg-brand-soft",
     ghost: "text-brand hover:bg-brand-soft",
-    danger: "bg-danger text-white hover:bg-[#7d2b22]",
-    subtle: "bg-brand-soft text-brand-strong hover:bg-[#d7e6dc]",
+    danger: "bg-danger text-cream hover:bg-danger-strong",
+    subtle: "bg-brand-soft text-brand-strong hover:bg-beige",
   };
   const sizes: Record<ButtonSize, string> = {
     sm: "px-3.5 py-2 text-sm",
@@ -43,7 +43,7 @@ export function Card({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-card)] border border-line bg-surface p-6 shadow-[0_1px_0_rgba(28,42,39,0.04),0_18px_40px_-32px_rgba(28,42,39,0.25)]",
+        "rounded-[var(--radius-card)] border border-brand-line bg-surface p-6 shadow-[0_1px_0_rgba(81,69,60,0.04),0_20px_44px_-34px_rgba(81,69,60,0.32)]",
         className,
       )}
       {...props}
@@ -63,12 +63,12 @@ export function Badge({
   children: ReactNode;
 }) {
   const tones: Record<BadgeTone, string> = {
-    neutral: "bg-[#f0f1ed] text-muted",
+    neutral: "bg-brand-soft text-muted",
     brand: "bg-brand-soft text-brand-strong",
     success: "bg-success-soft text-success",
     warning: "bg-warning-soft text-warning",
     danger: "bg-danger-soft text-danger",
-    sand: "bg-sand text-[#6b5734]",
+    sand: "bg-sand text-cocoa",
   };
   return (
     <span
@@ -96,9 +96,9 @@ export function Alert({
 }) {
   const tones = {
     info: "border-brand-line bg-brand-soft/60 text-brand-strong",
-    success: "border-[#bfdccb] bg-success-soft text-success",
-    warning: "border-[#ead6ac] bg-warning-soft text-warning",
-    danger: "border-[#e6c2ba] bg-danger-soft text-danger",
+    success: "border-success/25 bg-success-soft text-success",
+    warning: "border-warning/25 bg-warning-soft text-warning",
+    danger: "border-danger/25 bg-danger-soft text-danger",
   } as const;
   return (
     <div
@@ -228,7 +228,7 @@ export function Field({
 
 export function inputClasses(hasError?: boolean): string {
   return cn(
-    "w-full rounded-xl border bg-white px-3.5 py-2.5 text-[0.95rem] text-ink shadow-[inset_0_1px_2px_rgba(28,42,39,0.04)] placeholder:text-muted/70",
+    "w-full rounded-xl border bg-surface px-3.5 py-2.5 text-[0.95rem] text-ink shadow-[inset_0_1px_2px_rgba(81,69,60,0.05)] placeholder:text-muted",
     "focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/10",
     hasError ? "border-danger" : "border-line",
   );

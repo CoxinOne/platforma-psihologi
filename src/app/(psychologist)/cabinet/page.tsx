@@ -94,8 +94,8 @@ export default async function PsychologistHomePage() {
         </Card>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-        <section aria-labelledby="conversatii" className="space-y-3">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)]">
+        <section aria-labelledby="conversatii" className="min-w-0 space-y-3">
           <div className="flex items-center justify-between">
             <h2 id="conversatii" className="text-xl font-semibold text-ink">Conversații recente</h2>
             <Link href="/cabinet/mesaje" className="text-sm font-semibold text-brand underline underline-offset-4">
@@ -119,7 +119,7 @@ export default async function PsychologistHomePage() {
                       </span>
                     </span>
                     {conversation.unread_count > 0 ? (
-                      <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-white">
+                      <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-cream">
                         {conversation.unread_count}
                       </span>
                     ) : (
@@ -136,7 +136,7 @@ export default async function PsychologistHomePage() {
           )}
         </section>
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <Card className="p-5 text-sm text-muted">
             <p className="font-semibold text-ink">Cum te contactează clienții</p>
             <p className="mt-1">

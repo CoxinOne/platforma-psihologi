@@ -8,7 +8,6 @@ import {
   MessagesSquare,
   Search,
   ShieldCheck,
-  Sparkles,
   Users,
 } from "lucide-react";
 import { listPublicPsychologists, listSpecialties } from "@/lib/data/public";
@@ -73,7 +72,7 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-12 px-4 pb-20 pt-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:pb-24 lg:pt-24">
           <div>
             <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-line bg-surface/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+              <span className="h-1.5 w-1.5 rounded-full bg-terracotta" aria-hidden="true" />
               Psihologi din România
             </p>
             <h1 className="text-4xl font-semibold leading-[1.08] text-ink sm:text-5xl lg:text-[3.6rem]">
@@ -101,6 +100,7 @@ export default async function HomePage() {
 
           <div className="relative">
             <Card className="relative z-10 space-y-5">
+              <span className="block h-1.5 w-14 rounded-full bg-terracotta" aria-hidden="true" />
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
                   Ce poți face aici
@@ -130,7 +130,7 @@ export default async function HomePage() {
             </Card>
             <div
               aria-hidden="true"
-              className="absolute -bottom-5 -left-5 -z-0 hidden h-40 w-40 rounded-[2rem] bg-sand sm:block"
+              className="absolute -bottom-5 -left-5 -z-0 hidden h-40 w-40 rounded-[2rem] bg-sage/40 sm:block"
             />
           </div>
         </div>
@@ -185,7 +185,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section aria-labelledby="specializari" className="border-y border-line bg-[#f1ede4]">
+      <section aria-labelledby="specializari" className="border-y border-line bg-sand/55">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <SectionHeading
             eyebrow="Arii de lucru"
@@ -252,16 +252,17 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
-        <div className="rounded-[2rem] border border-brand-line bg-brand px-6 py-10 text-white sm:px-10">
+        <div className="rounded-[2rem] border border-brand-line bg-cocoa px-6 py-10 text-cream sm:px-10">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="max-w-2xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
+              <span className="mb-4 block h-1 w-12 rounded-full bg-terracotta" aria-hidden="true" />
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cream/70">
                 Pentru psihologi
               </p>
               <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">
                 Ai un cabinet? Îți poți construi profilul aici.
               </h2>
-              <p className="mt-3 text-white/80">
+              <p className="mt-3 text-cream/80">
                 Contul profesional se activează după verificarea identității și a calificărilor.
                 Profilul devine public doar după aprobare, iar clienții te pot contacta prin
                 mesagerie.
@@ -270,13 +271,13 @@ export default async function HomePage() {
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
               <Link
                 href="/inregistrare?tip=psiholog"
-                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand hover:bg-brand-soft"
+                className="inline-flex items-center justify-center rounded-full bg-surface px-6 py-3 text-sm font-semibold text-brand hover:bg-brand-soft"
               >
                 Solicită cont profesional
               </Link>
               <Link
                 href="/despre"
-                className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-full border border-cream/30 px-6 py-3 text-sm font-semibold text-cream hover:bg-cream/10"
               >
                 Detalii despre verificare
               </Link>

@@ -52,7 +52,7 @@ export default async function AdminReportsPage({
                     <input type="hidden" name="reportId" value={report.id} />
                     <label className="text-xs text-muted">
                       Status
-                      <select name="status" defaultValue={report.status} className="mt-1 block rounded-lg border border-line bg-white px-2 py-1.5 text-sm">
+                      <select name="status" defaultValue={report.status} className="mt-1 block rounded-lg border border-line bg-surface px-2 py-1.5 text-sm">
                         {Object.entries(REPORT_STATUS_LABELS).map(([value, label]) => (
                           <option key={value} value={value}>
                             {label}
@@ -62,9 +62,9 @@ export default async function AdminReportsPage({
                     </label>
                     <label className="min-w-64 flex-1 text-xs text-muted">
                       Notă internă
-                      <textarea name="note" rows={2} maxLength={2000} defaultValue={report.resolution_note ?? ""} className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                      <textarea name="note" rows={2} maxLength={2000} defaultValue={report.resolution_note ?? ""} className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                     </label>
-                    <button type="submit" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white">
+                    <button type="submit" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream">
                       Salvează decizia
                     </button>
                   </form>

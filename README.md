@@ -43,6 +43,20 @@ nu afișează tarife fixe și nu procesează plăți.
 
 Toate versiunile sunt fixate în `package.json`; `package-lock.json` este inclus.
 
+### 2.1. Paletă vizuală
+
+| Culoare | Hex | Utilizare |
+|---|---|---|
+| Crem | `#F6F1E9` | fundal principal |
+| Bej | `#DED5C5` | borduri, badge-uri, secțiuni alternante |
+| Salvie | `#A9AC8B` | accente decorative, pattern |
+| Oliv | `#737B5C` | accent principal; butoanele și linkurile folosesc `#5F684A` pentru contrast |
+| Teracotă | `#B97960` | linii de accent, avertismente, detalii calde |
+| Cacao | `#51453C` | text principal și secțiunea CTA închisă |
+
+Nuanțele de text și butoane au fost alese pentru contrast AA pe crem: text `#51453C`, text secundar
+`#6E6255`, buton principal `#5F684A` cu text crem.
+
 ---
 
 ## 3. Decizii arhitecturale (pe scurt)

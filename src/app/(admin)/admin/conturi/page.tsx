@@ -43,7 +43,7 @@ export default async function AdminAccountsPage({
             href={item.value ? `/admin/conturi?rol=${item.value}` : "/admin/conturi"}
             className={
               filter === item.value
-                ? "rounded-full bg-brand px-4 py-1.5 text-sm font-semibold text-white"
+                ? "rounded-full bg-brand px-4 py-1.5 text-sm font-semibold text-cream"
                 : "rounded-full border border-line bg-surface px-4 py-1.5 text-sm font-medium text-brand hover:bg-brand-soft"
             }
           >
@@ -92,7 +92,7 @@ export default async function AdminAccountsPage({
                       id={`role-${profile.id}`}
                       name="role"
                       defaultValue={profile.role}
-                      className="mt-1 block rounded-lg border border-line bg-white px-2 py-1.5 text-sm text-ink"
+                      className="mt-1 block rounded-lg border border-line bg-surface px-2 py-1.5 text-sm text-ink"
                       disabled={profile.id === session.user.id}
                     >
                       {(Object.keys(ROLE_LABELS) as UserRole[]).map((role) => (
@@ -132,11 +132,11 @@ export default async function AdminAccountsPage({
                           required
                           minLength={10}
                           maxLength={1000}
-                          className="w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm"
+                          className="w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm"
                         />
                         <button
                           type="submit"
-                          className="rounded-full bg-danger px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#7d2b22]"
+                          className="rounded-full bg-danger px-3 py-1.5 text-xs font-semibold text-cream hover:bg-danger-strong"
                         >
                           Confirmă suspendarea
                         </button>

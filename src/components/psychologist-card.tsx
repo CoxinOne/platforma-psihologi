@@ -10,7 +10,7 @@ export function PsychologistCard({ psychologist }: { psychologist: PublicPsychol
   const specialties = psychologist.specialties.slice(0, 3);
 
   return (
-    <Card className="flex h-full flex-col gap-4 transition-shadow hover:shadow-[0_20px_50px_-30px_rgba(28,42,39,0.35)]">
+    <Card className="flex h-full flex-col gap-4 transition-shadow hover:shadow-[0_22px_54px_-30px_rgba(81,69,60,0.38)]">
       <div className="flex items-start gap-4">
         <Avatar name={psychologist.display_name} photoPath={psychologist.photo_path} size={64} />
         <div className="min-w-0 flex-1">

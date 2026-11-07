@@ -46,7 +46,7 @@ export default async function AdminContactMessagesPage({
                   <input type="hidden" name="messageId" value={message.id} />
                   <label className="text-xs text-muted">
                     Status
-                    <select name="status" defaultValue={message.status} className="mt-1 block rounded-lg border border-line bg-white px-2 py-1.5 text-sm">
+                    <select name="status" defaultValue={message.status} className="mt-1 block rounded-lg border border-line bg-surface px-2 py-1.5 text-sm">
                       <option value="new">Nou</option>
                       <option value="read">Citit</option>
                       <option value="archived">Arhivat</option>

@@ -45,7 +45,7 @@ export function SiteHeader({
         <Link href="/" className="flex items-center gap-2.5" aria-label="Platformă Psihologi — pagina principală">
           <span
             aria-hidden="true"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-line bg-brand-soft font-display text-lg font-semibold text-brand"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-brand font-display text-lg font-semibold text-cream"
           >
             P
           </span>

@@ -60,8 +60,8 @@ export default async function ClientDashboardPage({
         />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <section aria-labelledby="conversatii" className="space-y-4">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+        <section aria-labelledby="conversatii" className="min-w-0 space-y-4">
           <div className="flex items-center justify-between">
             <h2 id="conversatii" className="text-xl font-semibold text-ink">Conversațiile mele</h2>
             <Link href="/dashboard/mesaje" className="text-sm font-semibold text-brand underline underline-offset-4">
@@ -86,7 +86,7 @@ export default async function ClientDashboardPage({
                       </span>
                     </span>
                     {conversation.unread_count > 0 ? (
-                      <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-white">
+                      <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-cream">
                         {conversation.unread_count}
                       </span>
                     ) : null}
@@ -130,7 +130,7 @@ export default async function ClientDashboardPage({
           </Card>
         </section>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <section aria-labelledby="notificari-recente" className="space-y-3">
             <div className="flex items-center justify-between">
               <h2 id="notificari-recente" className="text-lg font-semibold text-ink">Notificări recente</h2>

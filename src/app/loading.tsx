@@ -5,7 +5,7 @@ export default function Loading() {
       <div className="mt-4 h-10 w-2/3 animate-pulse rounded bg-brand-soft" />
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {[0, 1, 2].map((index) => (
-          <div key={index} className="h-40 animate-pulse rounded-[var(--radius-card)] bg-white/70" />
+          <div key={index} className="h-40 animate-pulse rounded-[var(--radius-card)] bg-surface/70" />
         ))}
       </div>
       <span className="sr-only">Se încarcă pagina…</span>

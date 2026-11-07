@@ -2,7 +2,7 @@ import { AlertCircle } from "lucide-react";
 
 export function LegalNotice() {
   return (
-    <div className="mb-8 rounded-2xl border border-[#ead6ac] bg-warning-soft p-5 text-sm text-warning">
+    <div className="mb-8 rounded-2xl border border-warning/25 bg-warning-soft p-5 text-sm text-warning">
       <p className="flex items-center gap-2 font-semibold">
         <AlertCircle className="h-4 w-4" aria-hidden="true" />
         Document în lucru — necesită verificare juridică înainte de publicare

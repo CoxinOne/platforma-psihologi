@@ -69,7 +69,7 @@ export function ProfileForm({
             type="checkbox"
             name="marketingConsent"
             defaultChecked={marketingConsent}
-            className="mt-1 accent-[#1f4f49]"
+            className="mt-1 accent-brand"
           />
           <span>
             Vreau să primesc ocazional informații despre platformă și resurse utile. Consimțământul
@@ -132,7 +132,7 @@ export function NotificationPreferencesForm({
 
       <div className="space-y-3">
         <label className="flex items-start gap-3 rounded-xl border border-line bg-surface p-3 text-sm">
-          <input type="checkbox" name="inApp" defaultChecked={inApp} className="mt-1 accent-[#1f4f49]" />
+          <input type="checkbox" name="inApp" defaultChecked={inApp} className="mt-1 accent-brand" />
           <span>
             <span className="block font-semibold text-ink">Notificări în aplicație</span>
             <span className="text-muted">Recomandat. Include mesaje noi și notificări de cont.</span>
@@ -143,7 +143,7 @@ export function NotificationPreferencesForm({
             type="checkbox"
             name="emailMessages"
             defaultChecked={emailMessages}
-            className="mt-1 accent-[#1f4f49]"
+            className="mt-1 accent-brand"
           />
           <span>
             <span className="block font-semibold text-ink">E-mail pentru mesaje noi</span>

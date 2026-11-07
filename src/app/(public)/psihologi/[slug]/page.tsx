@@ -62,6 +62,7 @@ export default async function PsychologistProfilePage({
       <div className="grid gap-8 lg:grid-cols-[1fr_420px]">
         <div className="min-w-0 space-y-8">
           <header className="rounded-[var(--radius-card)] border border-line bg-surface p-6 sm:p-8">
+            <span className="mb-5 block h-1.5 w-14 rounded-full bg-terracotta" aria-hidden="true" />
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
               <Avatar name={psychologist.display_name} photoPath={psychologist.photo_path} size={96} />
               <div className="min-w-0 flex-1">

@@ -90,7 +90,7 @@ export default async function AdminProfessionalsPage({
                       <input type="hidden" name="status" value="approved" />
                       <button
                         type="submit"
-                        className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-strong"
+                        className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream hover:bg-brand-strong"
                       >
                         Aprobă și publică
                       </button>
@@ -110,11 +110,11 @@ export default async function AdminProfessionalsPage({
                           minLength={10}
                           maxLength={1000}
                           placeholder="Motivul respingerii (minimum 10 caractere)"
-                          className="w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm"
+                          className="w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm"
                         />
                         <button
                           type="submit"
-                          className="rounded-full bg-danger px-3 py-1.5 text-xs font-semibold text-white"
+                          className="rounded-full bg-danger px-3 py-1.5 text-xs font-semibold text-cream"
                         >
                           Confirmă respingerea
                         </button>

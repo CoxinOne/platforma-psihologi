@@ -28,42 +28,42 @@ export default async function AdminCabinetsPage({
         <form action={adminSaveCabinetAction} className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="text-sm font-semibold text-ink">
             Denumire
-            <input name="name" required maxLength={160} className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <input name="name" required maxLength={160} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink">
             Slug
-            <input name="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <input name="slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink sm:col-span-2">
             Adresă
-            <input name="addressLine" required maxLength={240} className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <input name="addressLine" required maxLength={240} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink">
             Oraș
-            <input name="city" required maxLength={80} className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <input name="city" required maxLength={80} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink">
             Județ
-            <input name="county" maxLength={80} className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <input name="county" maxLength={80} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink">
             Cod poștal
-            <input name="postalCode" pattern="[0-9]{6}" className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <input name="postalCode" pattern="[0-9]{6}" className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink">
             Telefon
-            <input name="phone" maxLength={30} className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <input name="phone" maxLength={30} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink sm:col-span-2">
             Descriere
-            <textarea name="description" rows={2} maxLength={2000} className="mt-1 w-full rounded-xl border border-line bg-white px-3 py-2 text-sm" />
+            <textarea name="description" rows={2} maxLength={2000} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" name="isActive" defaultChecked className="accent-[#1f4f49]" />
+            <input type="checkbox" name="isActive" defaultChecked className="accent-brand" />
             Activ
           </label>
           <div className="sm:col-span-2">
-            <button type="submit" className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-strong">
+            <button type="submit" className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-cream hover:bg-brand-strong">
               Salvează cabinetul
             </button>
           </div>
@@ -101,42 +101,42 @@ export default async function AdminCabinetsPage({
                   <input type="hidden" name="id" value={cabinet.id} />
                   <label className="text-xs text-muted">
                     Denumire
-                    <input name="name" defaultValue={cabinet.name} required className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <input name="name" defaultValue={cabinet.name} required className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="text-xs text-muted">
                     Slug
-                    <input name="slug" defaultValue={cabinet.slug} required className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <input name="slug" defaultValue={cabinet.slug} required className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="text-xs text-muted sm:col-span-2">
                     Adresă
-                    <input name="addressLine" defaultValue={cabinet.address_line} required className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <input name="addressLine" defaultValue={cabinet.address_line} required className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="text-xs text-muted">
                     Oraș
-                    <input name="city" defaultValue={cabinet.city} required className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <input name="city" defaultValue={cabinet.city} required className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="text-xs text-muted">
                     Județ
-                    <input name="county" defaultValue={cabinet.county ?? ""} className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <input name="county" defaultValue={cabinet.county ?? ""} className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="text-xs text-muted">
                     Cod poștal
-                    <input name="postalCode" defaultValue={cabinet.postal_code ?? ""} className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <input name="postalCode" defaultValue={cabinet.postal_code ?? ""} className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="text-xs text-muted">
                     Telefon
-                    <input name="phone" defaultValue={cabinet.phone ?? ""} className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <input name="phone" defaultValue={cabinet.phone ?? ""} className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="text-xs text-muted sm:col-span-2">
                     Descriere
-                    <textarea name="description" defaultValue={cabinet.description ?? ""} rows={2} className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                    <textarea name="description" defaultValue={cabinet.description ?? ""} rows={2} className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                   </label>
                   <label className="flex items-center gap-2 text-xs text-muted">
-                    <input type="checkbox" name="isActive" defaultChecked={cabinet.is_active} className="accent-[#1f4f49]" />
+                    <input type="checkbox" name="isActive" defaultChecked={cabinet.is_active} className="accent-brand" />
                     Activ
                   </label>
                   <div className="sm:col-span-2">
-                    <button type="submit" className="rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white">
+                    <button type="submit" className="rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-cream">
                       Salvează modificările
                     </button>
                   </div>

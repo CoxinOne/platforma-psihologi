@@ -3,7 +3,7 @@ import { publicEnv } from "@/lib/public-env";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-line bg-[#f1ede4]">
+    <footer className="mt-20 border-t-2 border-olive bg-brand-soft">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <p className="font-display text-lg font-semibold text-ink">Platformă Psihologi</p>

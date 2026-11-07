@@ -67,26 +67,26 @@ export function SignupForm({ defaultAccountType = "client" }: { defaultAccountTy
       <fieldset>
         <legend className="text-sm font-semibold text-ink">Tipul contului</legend>
         <div className="mt-2 grid gap-2 sm:grid-cols-2">
-          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-line bg-white p-3 text-sm hover:border-brand-line">
+          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-line bg-surface p-3 text-sm hover:border-brand-line">
             <input
               type="radio"
               name="accountType"
               value="client"
               defaultChecked={defaultAccountType === "client"}
-              className="mt-1 accent-[#1f4f49]"
+              className="mt-1 accent-brand"
             />
             <span>
               <span className="block font-semibold text-ink">Sunt client</span>
               <span className="text-xs text-muted">Caut un psiholog și vreau să programez.</span>
             </span>
           </label>
-          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-line bg-white p-3 text-sm hover:border-brand-line">
+          <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-line bg-surface p-3 text-sm hover:border-brand-line">
             <input
               type="radio"
               name="accountType"
               value="psychologist"
               defaultChecked={defaultAccountType === "psychologist"}
-              className="mt-1 accent-[#1f4f49]"
+              className="mt-1 accent-brand"
             />
             <span>
               <span className="block font-semibold text-ink">Sunt psiholog</span>
@@ -161,7 +161,7 @@ export function SignupForm({ defaultAccountType = "client" }: { defaultAccountTy
 
       <div className="space-y-2">
         <label className="flex items-start gap-2 text-sm text-muted">
-          <input type="checkbox" name="terms" required className="mt-1 accent-[#1f4f49]" />
+          <input type="checkbox" name="terms" required className="mt-1 accent-brand" />
           <span>
             Accept{" "}
             <Link href="/termeni" className="font-medium text-brand underline underline-offset-4">
@@ -178,7 +178,7 @@ export function SignupForm({ defaultAccountType = "client" }: { defaultAccountTy
           <p className="text-sm font-medium text-danger">{firstError(errors, "terms")}</p>
         ) : null}
         <label className="flex items-start gap-2 text-sm text-muted">
-          <input type="checkbox" name="ageConfirm" required className="mt-1 accent-[#1f4f49]" />
+          <input type="checkbox" name="ageConfirm" required className="mt-1 accent-brand" />
           <span>Confirm că am cel puțin 16 ani.</span>
         </label>
         {firstError(errors, "ageConfirm") ? (

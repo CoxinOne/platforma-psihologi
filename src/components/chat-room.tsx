@@ -191,12 +191,12 @@ export function ChatRoom({
                   <div
                     className={
                       own
-                        ? "max-w-[85%] rounded-2xl rounded-br-md bg-brand px-3.5 py-2.5 text-sm text-white"
+                        ? "max-w-[85%] rounded-2xl rounded-br-md bg-brand px-3.5 py-2.5 text-sm text-cream"
                         : "max-w-[85%] rounded-2xl rounded-bl-md border border-line bg-surface px-3.5 py-2.5 text-sm text-ink"
                     }
                   >
                     <p className="whitespace-pre-wrap break-words">{message.body}</p>
-                    <p className={own ? "mt-1 text-right text-[0.65rem] text-white/60" : "mt-1 text-right text-[0.65rem] text-muted"}>
+                    <p className={own ? "mt-1 text-right text-[0.65rem] text-cream/60" : "mt-1 text-right text-[0.65rem] text-muted"}>
                       {formatTime(message.created_at)}
                     </p>
                   </div>
@@ -237,14 +237,14 @@ export function ChatRoom({
                 rows={2}
                 maxLength={4000}
                 placeholder="Scrie un mesaj… (Enter trimite, Shift+Enter linie nouă)"
-                className="w-full resize-none rounded-2xl border border-line bg-white px-3.5 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/10"
+                className="w-full resize-none rounded-2xl border border-line bg-surface px-3.5 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-4 focus:ring-brand/10"
               />
               <p className="mt-1 text-right text-[0.65rem] text-muted">{body.length}/4000</p>
             </div>
             <button
               type="submit"
               disabled={sending || body.trim().length === 0}
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-white hover:bg-brand-strong disabled:opacity-50"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-cream hover:bg-brand-strong disabled:opacity-50"
               aria-label="Trimite mesajul"
             >
               <Send className="h-4 w-4" aria-hidden="true" />

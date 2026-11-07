@@ -59,7 +59,7 @@ export default async function AdminDataRequestsPage({
                     <input type="hidden" name="requestId" value={request.id} />
                     <label className="text-xs text-muted">
                       Status
-                      <select name="status" defaultValue={request.status} className="mt-1 block rounded-lg border border-line bg-white px-2 py-1.5 text-sm">
+                      <select name="status" defaultValue={request.status} className="mt-1 block rounded-lg border border-line bg-surface px-2 py-1.5 text-sm">
                         <option value="processing">În procesare</option>
                         <option value="completed">Finalizată</option>
                         <option value="rejected">Respinsă</option>
@@ -67,9 +67,9 @@ export default async function AdminDataRequestsPage({
                     </label>
                     <label className="min-w-56 flex-1 text-xs text-muted">
                       Notă
-                      <input name="note" maxLength={1000} className="mt-1 w-full rounded-lg border border-line bg-white px-2 py-1.5 text-sm" />
+                      <input name="note" maxLength={1000} className="mt-1 w-full rounded-lg border border-line bg-surface px-2 py-1.5 text-sm" />
                     </label>
-                    <button type="submit" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white">
+                    <button type="submit" className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream">
                       Actualizează
                     </button>
                   </form>
@@ -88,10 +88,10 @@ export default async function AdminDataRequestsPage({
                           name="confirmation"
                           required
                           pattern="sterge"
-                          className="mt-1 block rounded-lg border border-line bg-white px-2 py-1.5 text-sm"
+                          className="mt-1 block rounded-lg border border-line bg-surface px-2 py-1.5 text-sm"
                         />
                       </label>
-                      <button type="submit" className="rounded-full bg-danger px-4 py-2 text-sm font-semibold text-white">
+                      <button type="submit" className="rounded-full bg-danger px-4 py-2 text-sm font-semibold text-cream">
                         Șterge contul
                       </button>
                     </form>

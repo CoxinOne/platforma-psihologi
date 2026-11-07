@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Platformă Psihologi">
-  <rect width="64" height="64" rx="16" fill="#1f4f49"/>
-  <path d="M22 47V17h13.5c8 0 13 4.4 13 11.7 0 7.4-5.2 11.9-13.4 11.9H30V47h-8Zm8-13.4h4.6c3.7 0 5.9-1.9 5.9-4.9 0-3-2.2-4.8-5.9-4.8H30v9.7Z" fill="#f6f3ec"/>
+  <rect width="64" height="64" rx="16" fill="#5f684a"/>
+  <path d="M22 47V17h13.5c8 0 13 4.4 13 11.7 0 7.4-5.2 11.9-13.4 11.9H30V47h-8Zm8-13.4h4.6c3.7 0 5.9-1.9 5.9-4.9 0-3-2.2-4.8-5.9-4.8H30v9.7Z" fill="#f6f1e9"/>
+  <circle cx="48" cy="48" r="5" fill="#b97960"/>
 </svg>

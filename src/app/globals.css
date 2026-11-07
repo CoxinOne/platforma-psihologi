@@ -1,22 +1,39 @@
 @import "tailwindcss";
 
+/*
+ * Paletă: #F6F1E9 (crem), #DED5C5 (bej), #A9AC8B (salvie),
+ * #737B5C (oliv), #B97960 (teracotă), #51453C (cacao).
+ * Textul folosește nuanțe închise pentru contrast; teracota și salvie rămân
+ * culori de accent, nu culori de text pe fundal deschis.
+ */
 @theme {
-  --color-canvas: #f6f3ec;
-  --color-surface: #fffefa;
-  --color-ink: #1c2a27;
-  --color-muted: #5e6c67;
-  --color-brand: #1f4f49;
-  --color-brand-strong: #143b37;
-  --color-brand-soft: #e6efe9;
-  --color-brand-line: #c8d8ce;
-  --color-sand: #efe6d7;
-  --color-line: #dde4de;
-  --color-danger: #96372c;
-  --color-danger-soft: #f8e9e5;
-  --color-warning: #7d5414;
-  --color-warning-soft: #faf0db;
-  --color-success: #25624c;
-  --color-success-soft: #e4f1e9;
+  --color-cream: #f6f1e9;
+  --color-beige: #ded5c5;
+  --color-sage: #a9ac8b;
+  --color-olive: #737b5c;
+  --color-terracotta: #b97960;
+  --color-cocoa: #51453c;
+
+  --color-canvas: #f6f1e9;
+  --color-surface: #fcf8f0;
+  --color-ink: #51453c;
+  --color-muted: #6e6255;
+
+  --color-brand: #5f684a;
+  --color-brand-strong: #51453c;
+  --color-brand-soft: #ece5d9;
+  --color-brand-line: #cec4b3;
+
+  --color-sand: #ded5c5;
+  --color-line: #ded5c5;
+
+  --color-danger: #8b4633;
+  --color-danger-strong: #7a3d2c;
+  --color-danger-soft: #f1dcd3;
+  --color-warning: #8a4f39;
+  --color-warning-soft: #f4e3d7;
+  --color-success: #4f5b3e;
+  --color-success-soft: #e5e7d8;
 
   --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
     Arial, sans-serif;
@@ -60,14 +77,14 @@
   }
 
   :focus-visible {
-    outline: 3px solid #2f6f66;
+    outline: 3px solid var(--color-olive);
     outline-offset: 2px;
     border-radius: 4px;
   }
 
   ::selection {
-    background: #cfe3d8;
-    color: #143b37;
+    background: var(--color-sand);
+    color: var(--color-cocoa);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -90,7 +107,7 @@
     z-index: 100;
     border-radius: 0.75rem;
     background: var(--color-brand);
-    color: white;
+    color: var(--color-cream);
     padding: 0.75rem 1rem;
     transition: top 150ms ease;
   }
@@ -136,14 +153,10 @@
   }
 }
 
-@utility text-balance {
-  text-wrap: balance;
-}
-
 /* Pattern decorativ discret, fără imagini externe. */
 .pattern-soft {
   background-image:
-    radial-gradient(circle at 15% 20%, rgba(31, 79, 73, 0.06), transparent 42%),
-    radial-gradient(circle at 85% 10%, rgba(180, 148, 96, 0.1), transparent 38%),
-    radial-gradient(circle at 50% 100%, rgba(31, 79, 73, 0.04), transparent 48%);
+    radial-gradient(circle at 12% 18%, rgba(169, 172, 139, 0.28), transparent 42%),
+    radial-gradient(circle at 88% 8%, rgba(185, 121, 96, 0.12), transparent 36%),
+    radial-gradient(circle at 55% 100%, rgba(115, 123, 92, 0.08), transparent 48%);
 }

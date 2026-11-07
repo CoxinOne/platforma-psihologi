@@ -234,7 +234,7 @@ export function PsychologistProfileForm({
                 name="languages"
                 value={language}
                 defaultChecked={selectedLanguages.includes(language)}
-                className="accent-[#1f4f49]"
+                className="accent-brand"
               />
               {language}
             </label>
@@ -260,7 +260,7 @@ export function PsychologistProfileForm({
                     event.target.checked ? [...previous, mode] : previous.filter((item) => item !== mode),
                   )
                 }
-                className="accent-[#1f4f49]"
+                className="accent-brand"
               />
               {MODE_LABELS[mode]}
             </label>
@@ -332,7 +332,7 @@ export function PsychologistProfileForm({
                 name="specialtyIds"
                 value={specialty.id}
                 defaultChecked={selectedSpecialtyIds.includes(specialty.id)}
-                className="mt-1 accent-[#1f4f49]"
+                className="mt-1 accent-brand"
               />
               <span>
                 <span className="block font-medium text-ink">{specialty.name}</span>
@@ -360,7 +360,7 @@ export function PsychologistProfileForm({
                   name="cabinetIds"
                   value={cabinet.id}
                   defaultChecked={selectedCabinetIds.includes(cabinet.id)}
-                  className="mt-1 accent-[#1f4f49]"
+                  className="mt-1 accent-brand"
                 />
                 <span>
                   <span className="block font-medium text-ink">{cabinet.name}</span>
@@ -386,7 +386,7 @@ export function PsychologistProfileForm({
           type="checkbox"
           name="isAcceptingNewClients"
           defaultChecked={profile?.is_accepting_new_clients ?? true}
-          className="mt-1 accent-[#1f4f49]"
+          className="mt-1 accent-brand"
         />
         <span>
           <span className="block font-semibold text-ink">Accept solicitări noi</span>

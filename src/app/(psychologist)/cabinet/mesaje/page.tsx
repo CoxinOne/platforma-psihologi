@@ -41,7 +41,7 @@ export default async function PsychologistMessagesPage() {
                       {conversation.last_message_preview ?? "Conversație nouă"}
                     </span>
                     {conversation.unread_count > 0 ? (
-                      <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-white">
+                      <span className="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[0.65rem] font-bold text-cream">
                         {conversation.unread_count}
                       </span>
                     ) : null}

@@ -83,8 +83,8 @@ export function AppShell({
     href === nav[0]?.href ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[250px_1fr]">
-      <aside className="lg:sticky lg:top-24 lg:self-start">
+    <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl grid-cols-[minmax(0,1fr)] gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[250px_minmax(0,1fr)]">
+      <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
         <div className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-4 lg:flex-col lg:items-stretch">
           <div>
             <Link href="/" className="text-xs font-semibold uppercase tracking-[0.16em] text-brand hover:underline">
@@ -103,7 +103,7 @@ export function AppShell({
           </div>
         </div>
 
-        <nav aria-label={`Navigare ${areaLabel}`} className="mt-3 flex gap-1 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible">
+        <nav aria-label={`Navigare ${areaLabel}`} className="mt-3 grid min-w-0 grid-cols-2 gap-1 pb-2 lg:flex lg:flex-col lg:flex-nowrap lg:overflow-visible">
           {nav.map((item) => {
             const Icon = ICONS[item.icon];
             const badgeValue =
@@ -120,7 +120,7 @@ export function AppShell({
                 className={cn(
                   "flex shrink-0 items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                   isActive(item.href)
-                    ? "bg-brand text-white"
+                    ? "bg-brand text-cream"
                     : "text-muted hover:bg-brand-soft hover:text-brand",
                 )}
               >
@@ -130,7 +130,7 @@ export function AppShell({
                   <span
                     className={cn(
                       "ml-auto inline-flex min-w-5 items-center justify-center rounded-full px-1.5 text-[0.65rem] font-bold",
-                      isActive(item.href) ? "bg-white/20 text-white" : "bg-danger text-white",
+                      isActive(item.href) ? "bg-cream/20 text-cream" : "bg-danger text-cream",
                     )}
                   >
                     {badgeValue > 99 ? "99+" : badgeValue}
