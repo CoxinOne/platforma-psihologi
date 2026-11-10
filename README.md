@@ -468,8 +468,10 @@ Aceste puncte sunt marcate și în lista de mai jos.
 1. Importă repository-ul în Vercel.
 2. Adaugă variabilele din `.env.local` în **Project Settings → Environment Variables**
    (`SUPABASE_SERVICE_ROLE_KEY` doar ca secret server-side).
-3. Setează `NEXT_PUBLIC_SITE_URL=https://domeniul-tau.ro`.
-4. Adaugă `https://domeniul-tau.ro/auth/callback` în Supabase Redirect URLs.
+3. Setează `NEXT_PUBLIC_SITE_URL=https://www.psihologipentrufamilie.com`.
+4. În Supabase → Authentication → URL Configuration setează Site URL
+   `https://www.psihologipentrufamilie.com` și Redirect URLs
+   `https://www.psihologipentrufamilie.com/**`.
 5. Rulează build-ul; verifică `/api/health`.
 6. Verifică din nou politicile RLS pe proiectul de producție (nu doar local).
 
