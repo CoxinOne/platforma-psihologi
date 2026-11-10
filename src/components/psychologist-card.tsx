@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BadgeCheck, MapPin, Monitor, Video } from "lucide-react";
 import type { PublicPsychologist } from "@/lib/types";
 import { MODE_LABELS } from "@/lib/constants";
-import { Badge, Card, DemoBadge } from "@/components/ui";
+import { Badge, Card } from "@/components/ui";
 import { Avatar } from "@/components/ui";
 
 export function PsychologistCard({ psychologist }: { psychologist: PublicPsychologist }) {
@@ -32,7 +32,6 @@ export function PsychologistCard({ psychologist }: { psychologist: PublicPsychol
           </div>
           <p className="text-sm text-muted">{psychologist.professional_title}</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {psychologist.is_demo ? <DemoBadge /> : null}
             {!psychologist.is_accepting_new_clients ? (
               <Badge tone="warning">Nu acceptă solicitări noi</Badge>
             ) : null}

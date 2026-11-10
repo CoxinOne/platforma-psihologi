@@ -7,7 +7,7 @@ export const publicEnv = {
   supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   platformName: process.env.NEXT_PUBLIC_PLATFORM_NAME ?? "Platformă Psihologi",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contact@exemplu.ro",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
   minAge: Number(process.env.NEXT_PUBLIC_MIN_AGE ?? "16"),
 } as const;
 

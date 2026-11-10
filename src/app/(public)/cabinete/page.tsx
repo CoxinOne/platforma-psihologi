@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { MapPin, Phone } from "lucide-react";
 import { listCabinets } from "@/lib/data/public";
-import { Badge, Card, EmptyState, PageHeader } from "@/components/ui";
+import { Card, EmptyState, PageHeader } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Cabinete",
@@ -27,7 +27,6 @@ export default async function CabinetsPage() {
                 <Card className="flex h-full flex-col">
                   <div className="flex items-start justify-between gap-3">
                     <h2 className="text-lg font-semibold text-ink">{cabinet.name}</h2>
-                    {cabinet.is_demo ? <Badge tone="sand">Demonstrativ</Badge> : null}
                   </div>
                   <p className="mt-2 flex items-start gap-2 text-sm text-muted">
                     <MapPin className="mt-1 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />

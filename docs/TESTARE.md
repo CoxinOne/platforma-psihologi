@@ -48,22 +48,22 @@ PostgreSQL real, cu stub Supabase (`auth.uid()`, roluri, `auth.users`) și toate
 
 ### Verificare live pe proiectul Supabase configurat
 
-Pe 7 noiembrie 2026, folosind proiectul din `.env.local` (fără a modifica date):
+Pe 10 noiembrie 2026, folosind proiectul din `.env.local`:
 
-- `/api/health` → **200**, `database:true`, latență ~100 ms, `email_configured:false`;
-- paginile publice `/`, `/psihologi`, `/cauta`, `/specializari`, `/cabinete`,
-  `/psihologi/ana-popescu-demo` → 200, cu cele 2 profiluri demo afișate corect;
-- profilul afișează „Prețul este în funcție de complexitate”, fără sume sau secțiune de programare;
+- `/api/health` → **200**, `database:true`, `email_configured:false`;
+- paginile publice `/`, `/psihologi`, `/cauta`, `/specializari`, `/cabinete` → 200;
+- datele demonstrative au fost eliminate; directoriul public este gol până la introducerea
+  profilurilor reale;
+- profilul public afișează „Prețul este în funcție de complexitate” și butonul WhatsApp;
 - `/api/slots` → **404**, iar rutele de programări nu mai există;
-- autentificare demo reușită pentru client, psiholog și administrator;
-- RLS live: fiecare rol vede doar propriile conversații/mesaje; administratorul nu vede
-  conversațiile; `admin_dashboard_stats` funcționează doar pentru admin.
+- autentificare administrator verificată;
+- RLS live: administratorul nu vede conversațiile; politicile izolează datele pe roluri.
 
 ## 3. Teste care nu au putut fi rulate
 
 | Zonă | Motiv | Ce trebuie făcut |
 |---|---|---|
-| Fluxuri de scriere prin UI pe Supabase | nu au fost executate pentru a nu modifica datele demo | creează un cont de test, trimite mesaj, aprobă din admin |
+| Fluxuri de scriere prin UI pe Supabase | datele reale nu au fost încă introduse | creează conturile și profilurile reale, apoi testează mesajul și aprobarea |
 | Trimitere e-mail reală | lipsă cheie Resend/SMTP | configurează și verifică primirea |
 | Realtime între două browsere | nu a fost deschis un al doilea browser | deschide două conturi, verifică mesajele live |
 | Storage upload | nu a fost încărcată o fotografie | încarcă o fotografie și verifică politicile |

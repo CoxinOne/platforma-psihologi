@@ -16,7 +16,7 @@ import { getPsychologistBySlug } from "@/lib/data/public";
 import { getSessionContext } from "@/lib/auth";
 import { MODE_LABELS } from "@/lib/constants";
 import { formatDuration } from "@/lib/time";
-import { Avatar, Badge, buttonClasses, Card, DemoBadge } from "@/components/ui";
+import { Avatar, Badge, buttonClasses, Card } from "@/components/ui";
 import { ContactPsychologist } from "@/components/contact-psychologist";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 
@@ -75,7 +75,6 @@ export default async function PsychologistProfilePage({
                       Calificări verificate
                     </Badge>
                   ) : null}
-                  {psychologist.is_demo ? <DemoBadge /> : null}
                 </div>
                 <p className="mt-1 text-lg text-muted">{psychologist.professional_title}</p>
 
@@ -109,13 +108,6 @@ export default async function PsychologistProfilePage({
                 </div>
               </div>
             </div>
-
-            {psychologist.is_demo ? (
-              <div className="mt-6 rounded-xl border border-[#ead6ac] bg-warning-soft px-4 py-3 text-sm text-warning">
-                Acest profil este fictiv și marchează datele demonstrative ale platformei. Persoana,
-                studiile și informațiile profesionale nu sunt reale.
-              </div>
-            ) : null}
           </header>
 
           {psychologist.bio ? (

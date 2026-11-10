@@ -7,7 +7,7 @@ import {
   listConversations,
 } from "@/lib/data/user";
 import { PROFESSIONAL_STATUS_LABELS } from "@/lib/constants";
-import { buttonClasses, Card, DemoBadge, PageHeader, Stat } from "@/components/ui";
+import { buttonClasses, Card, PageHeader, Stat } from "@/components/ui";
 
 export default async function PsychologistHomePage() {
   const session = await requirePsychologist();
@@ -69,7 +69,6 @@ export default async function PsychologistHomePage() {
                 {profile.status === "approved" ? (
                   <BadgeCheck className="h-5 w-5 text-success" aria-label="Profil aprobat" />
                 ) : null}
-                {profile.is_demo ? <DemoBadge /> : null}
               </div>
               {profile.rejection_reason ? (
                 <p className="mt-2 max-w-xl text-sm text-danger">{profile.rejection_reason}</p>

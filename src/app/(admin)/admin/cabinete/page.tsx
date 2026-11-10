@@ -81,7 +81,6 @@ export default async function AdminCabinetsPage({
                     <Badge tone={cabinet.is_active ? "success" : "neutral"}>
                       {cabinet.is_active ? "Activ" : "Inactiv"}
                     </Badge>
-                    {cabinet.is_demo ? <Badge tone="sand">Demo</Badge> : null}
                   </div>
                   <p className="text-sm text-muted">{cabinet.address_line}, {cabinet.city}</p>
                   <p className="text-xs text-muted">/{cabinet.slug} · {cabinet.phone ?? "fără telefon"}</p>

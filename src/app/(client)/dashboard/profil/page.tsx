@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import { requireClient } from "@/lib/auth";
 import { ProfileForm } from "@/components/account-forms";
-import { buttonClasses, Card, DemoBadge, PageHeader } from "@/components/ui";
+import { buttonClasses, Card, PageHeader } from "@/components/ui";
 import { formatDate } from "@/lib/time";
 
 export default async function ClientProfilePage() {
@@ -15,10 +15,6 @@ export default async function ClientProfilePage() {
         title="Profilul meu"
         description="Datele de cont sunt folosite pentru autentificare și contact. Nu colectăm date clinice."
       />
-
-      <div className="flex flex-wrap items-center gap-2">
-        {profile.is_demo ? <DemoBadge /> : null}
-      </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <Card>

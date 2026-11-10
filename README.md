@@ -116,9 +116,8 @@ platforma-psihologi/
 │  └─ db/rls.test.ts               27 teste PostgreSQL
 ├─ scripts/
 │  ├─ db-setup.mjs                 PostgreSQL efemer în Docker
-│  ├─ db-teardown.mjs
-│  └─ seed-demo.mjs                date fictive marcate is_demo
-├─ docs/                           arhitectură, securitate, GDPR, testare, lansare
+│  └─ db-teardown.mjs
+├─ docs/                           arhitectură, securitate, GDPR, testare, lansare, producție
 ├─ .env.example
 ├─ package.json / package-lock.json
 └─ README.md
@@ -231,32 +230,20 @@ este respinsă. Cererile publice de cont profesional sunt dezactivate, iar metad
 > programărilor la `ON DELETE CASCADE` (altfel ștergerea unui psiholog cu programări eșuează) și
 > acordă cheii de serviciu acces la view-urile publice. Instalările noi nu au nevoie de el.
 
-### 5.3. Date demonstrative (opțional, recomandat pentru testare)
+### 5.3. Date reale de producție
 
-```powershell
-npm run seed:demo
-```
+Proiectul **nu mai include date demonstrative** și nu are un seed public. Datele reale se introduc
+astfel:
 
-Scriptul creează conturi **fictive** marcate `is_demo=true`, cabinete fictive, specializări și o
-conversație demonstrativă. Nu creează programări și nu setează tarife.
+1. Administratorul creează conturile de psiholog (maximum 12), prin promovarea unor conturi de
+   client existente sau prin Supabase Auth.
+2. Fiecare psiholog își completează profilul din `/cabinet/profil` și îl trimite spre verificare.
+3. Administratorul aprobă profilul din `/admin/profesioniști`.
+4. Numărul public de telefon/WhatsApp se completează în cabinetul asociat, din
+   `/admin/cabinete`; butonul WhatsApp apare automat pe profilul public.
 
-| Rol | E-mail | Parolă |
-|---|---|---|
-| Administrator | `admin@demo.exemplu.test` | `Demo12345!` |
-| Psiholog | `ana@demo.exemplu.test` | `Demo12345!` |
-| Psiholog | `mihai@demo.exemplu.test` | `Demo12345!` |
-| Client | `elena@demo.exemplu.test` | `Demo12345!` |
-| Client | `radu@demo.exemplu.test` | `Demo12345!` |
-
-Există **12 conturi demo de psiholog**: Ana, Mihai și 10 conturi suplimentare
-(`ioana.marinescu@`, `andrei.constantin@`, `maria.stan@`, `vlad.dumitrescu@`, `raluca.mihai@`,
-`stefan.ionescu@`, `diana.popa@`, `bogdan.pavel@`, `cristina.neagu@`, `alexandru.radu@` —
-toate `@demo.exemplu.test`). Parola este `Demo12345!`. Toate au profil public demo aprobat;
-datele sunt fictive și trebuie eliminate înainte de producție. Numerele WhatsApp demo sunt
-`+40700000001` … `+40700000012`, câte unul pentru fiecare cabinet/psiholog.
-
-> Șterge datele demonstrative înainte de producție. Nu sunt persoane reale, nu au calificări reale
-> și nu trebuie prezentate ca atare.
+Consultați [`docs/PRODUCTIE.md`](docs/PRODUCTIE.md) pentru lista completă de date necesare
+(identitate, contact, date profesionale, cabinete, fotografii, date juridice).
 
 ### 5.4. Pornire
 
@@ -371,16 +358,15 @@ Rulate la **7 noiembrie 2026**, pe Windows 11, Node 24.15, PostgreSQL 18.4 local
 | Teste unitare | `npm test` | ✅ **14/14** |
 | Teste DB + RLS | `npm run test:db` (sau `vitest run tests/db` cu `TEST_DATABASE_URL`) | ✅ **27/27** |
 | Build producție | `npm run build` | ✅ compilat, toate rutele generate |
-| Verificare live Supabase (citiri publice, autentificare demo, RLS pe roluri) | rulată pe proiectul configurat în `.env.local` | ✅ 2 profile publice, login pentru client/psiholog/admin, izolare corectă, `/api/health` 200 |
+| Verificare live Supabase (health, RLS, autentificare) | rulată pe proiectul configurat în `.env.local` | ✅ `/api/health` 200, izolare RLS verificată; datele demo au fost eliminate |
 
 Testele DB acoperă RLS-ul, izolarea datelor, autentificarea/rolurile și schema legacy de programări
 (păstrată în baza de date, dar eliminată din UI). Testele unitare acoperă validarea, fusul orar,
 redirectările sigure și mesajele de eroare.
 
-Pe proiectul Supabase configurat local, verificarea live a confirmat: pagina publică afișează cele
-două profiluri demo, autentificarea funcționează pentru toate cele trei roluri, iar RLS returnează
-fiecărui rol doar propriile conversații și mesaje. E-mailul este **neconfigurat**
-(`email_configured:false`), deci numai notificările din aplicație sunt active.
+Pe proiectul Supabase configurat, `/api/health` răspunde 200 și politicile RLS izolează datele pe
+roluri. Datele demonstrative au fost eliminate; directoriul public se completează cu profilurile
+reale. E-mailul rămâne **neconfigurat** până la setarea furnizorului (`email_configured:false`).
 
 ### Cum rulezi testele DB
 
@@ -436,8 +422,7 @@ Aceste puncte sunt marcate și în lista de mai jos.
 7. **Fără export CSV/PDF** — exportul este JSON.
 8. **Modulul de programări a fost eliminat din aplicație.** Tabelele și funcțiile SQL rămân ca
    schemă legacy; nu există UI/API de programare. Pot fi eliminate ulterior printr-o migrație.
-9. **Notificările istorice de programări** pot exista în DB; linkurile lor sunt redirecționate, iar
-   seed-ul nou le șterge pentru conturile demo.
+9. **Notificările istorice de programări** pot exista în DB; linkurile lor sunt redirecționate.
 10. **Fără ștergere automată a fotografiilor vechi** din bucket-ul `avatars`.
 11. **Căutarea** folosește filtre PostgREST pe view; nu există index full-text dedicat. Pentru un
     directoriu mare este necesar un index `tsvector` și o funcție de căutare.
@@ -446,7 +431,8 @@ Aceste puncte sunt marcate și în lista de mai jos.
 13. **Textele juridice** sunt modele; operatorul, DPO, temeiurile, retenția și transferurile trebuie
     completate și verificate de un jurist.
 14. **Primul administrator** se creează manual prin SQL (vezi 5.2); nu există flux de invitație.
-15. **Datele demo** trebuie eliminate înainte de producție.
+15. **Datele reale** (administrator, 12 psihologi, cabinete, fotografii, date juridice) trebuie
+    introduse conform [`docs/PRODUCTIE.md`](docs/PRODUCTIE.md).
 16. **Testele DB necesită Docker sau un PostgreSQL configurat manual**; nu rulează în CI fără serviciu.
 17. **Realtime** necesită ca tabelele să fie în publicația `supabase_realtime`; migrația face asta doar
     dacă publicația există (pe Supabase există).
@@ -454,8 +440,8 @@ Aceste puncte sunt marcate și în lista de mai jos.
     cu bază legală și documentare, nu doar cheia de serviciu.
 19. **Fără CSP complet** — există headere de securitate de bază, dar nu un Content-Security-Policy
     cu nonce; de adăugat la nivel de hosting dacă este necesar.
-20. **Profilurile demo** sunt aprobate pentru a putea fi afișate, dar insigna „Verificat” este
-    ascunsă pentru `is_demo=true`; totuși, datele sunt fictive și trebuie eliminate în producție.
+20. **Contul de administrator** trebuie înlocuit cu adresa și identitatea reale înainte de lansare;
+    contul demo folosit la configurare nu mai este potrivit pentru producție.
 
 ---
 
@@ -511,7 +497,6 @@ npm run lint           # ESLint
 npm test               # teste unitare
 npm run test:db        # PostgreSQL + migrații + teste RLS (Docker)
 npm run db:teardown    # oprește containerul de test
-npm run seed:demo      # date demonstrative
 npm run check          # typecheck + lint + unitare + build
 ```
 

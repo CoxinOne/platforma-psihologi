@@ -92,6 +92,6 @@ Dacă există transferuri în afara SEE, sunt necesare garanții (SCC/adecvare) 
 - [ ] Informare privind cookie-urile și consimțământul.
 - [ ] Verificarea identității pentru cererile de ștergere.
 - [ ] Backup-uri criptate și test de restaurare.
-- [ ] Ștergerea datelor demo.
+- [x] Ștergerea datelor demo.
 - [ ] Evaluarea transferurilor internaționale.
 - [ ] Instruirea administratorilor privind accesul la date.

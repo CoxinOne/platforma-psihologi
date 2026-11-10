@@ -10,7 +10,7 @@ import {
 } from "@/lib/data/user";
 import { PROFESSIONAL_STATUS_LABELS } from "@/lib/constants";
 import { PsychologistProfileForm } from "@/components/psychologist-profile-form";
-import { Alert, buttonClasses, Card, DemoBadge, PageHeader } from "@/components/ui";
+import { Alert, buttonClasses, Card, PageHeader } from "@/components/ui";
 
 export default async function PsychologistProfilePage() {
   const session = await requirePsychologist();
@@ -45,7 +45,6 @@ export default async function PsychologistProfilePage() {
               Status: {PROFESSIONAL_STATUS_LABELS[profile.status]}
             </p>
             {profile.status === "approved" ? <BadgeCheck className="h-4 w-4 text-success" /> : null}
-            {profile.is_demo ? <DemoBadge /> : null}
           </div>
           <p className="text-xs text-brand-strong/80">
             {profile.status === "pending"

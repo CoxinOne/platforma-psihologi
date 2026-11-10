@@ -15,7 +15,7 @@
 - [ ] `RESEND_API_KEY` și `EMAIL_FROM` configurate (sau mesajul „neconfigurat” acceptat).
 - [ ] `SUPABASE_SERVICE_ROLE_KEY` există doar în secrets server-side.
 - [ ] Primul administrator creat prin procedura SQL din README.
-- [ ] Datele demo șterse.
+- [x] Datele demo au fost șterse.
 - [ ] Bucket `avatars` creat și politicile verificate.
 - [ ] Publicația Realtime verificată.
 - [ ] `GET /api/health` răspunde 200.

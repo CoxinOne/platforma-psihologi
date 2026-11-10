@@ -120,13 +120,6 @@ export default async function HomePage() {
                   </li>
                 ))}
               </ul>
-              <div className="rounded-2xl bg-brand-soft/70 p-4 text-sm text-brand-strong">
-                <p className="font-semibold">Date demonstrative marcate</p>
-                <p className="mt-1 text-brand-strong/80">
-                  Profilurile marcate „demonstrativ” sunt fictive, pentru testare. Nu sunt persoane
-                  reale și nu au calificări reale.
-                </p>
-              </div>
             </Card>
             <div
               aria-hidden="true"

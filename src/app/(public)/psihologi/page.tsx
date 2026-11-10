@@ -19,7 +19,7 @@ export default async function PsychologistsPage() {
       <PageHeader
         eyebrow="Directoriu"
         title="Toți psihologii"
-        description="Profilurile de mai jos au fost aprobate de administrator. Datele marcate „demonstrativ” sunt fictive și există doar pentru testare."
+        description="Profilurile de mai jos au fost aprobate de administrator."
         action={
           <Link href="/cauta" className={buttonClasses("secondary")}>
             <Search className="h-4 w-4" aria-hidden="true" />
@@ -60,8 +60,7 @@ export default async function PsychologistsPage() {
         <p className="font-semibold text-ink">Despre insigna „Verificat”</p>
         <p className="mt-1">
           Insigna apare doar după ce administratorul a verificat studiile și calificările declarate.
-          Absența insignei nu înseamnă neapărat o problemă, ci faptul că verificarea nu a fost
-          finalizată sau profilul este demonstrativ.
+          Absența insignei înseamnă că verificarea nu a fost finalizată.
         </p>
       </div>
     </div>

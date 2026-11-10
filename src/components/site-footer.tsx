@@ -11,12 +11,20 @@ export function SiteFooter() {
             Platformă de prezentare și comunicare pentru psihologi din România.
             Nu oferim servicii medicale de urgență și nu ținem dosare clinice.
           </p>
-          <p className="mt-4 text-sm text-muted">
-            Contact:{" "}
-            <a className="underline decoration-brand-line underline-offset-4" href={`mailto:${publicEnv.contactEmail}`}>
-              {publicEnv.contactEmail}
-            </a>
-          </p>
+          {publicEnv.contactEmail ? (
+            <p className="mt-4 text-sm text-muted">
+              Contact:{" "}
+              <a className="underline decoration-brand-line underline-offset-4" href={`mailto:${publicEnv.contactEmail}`}>
+                {publicEnv.contactEmail}
+              </a>
+            </p>
+          ) : (
+            <p className="mt-4 text-sm text-muted">
+              <Link href="/contact" className="underline decoration-brand-line underline-offset-4">
+                Formular de contact
+              </Link>
+            </p>
+          )}
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">Public</p>
@@ -47,8 +55,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-line/80 px-4 py-5 text-center text-xs text-muted sm:px-6">
-        © {new Date().getFullYear()} Platformă Psihologi. Denumire de lucru; identitatea finală se
-        stabilește înainte de lansare.
+        © {new Date().getFullYear()} Platformă Psihologi. Toate drepturile rezervate.
       </div>
     </footer>
   );

@@ -7,7 +7,7 @@ import {
   listNotifications,
 } from "@/lib/data/user";
 import { formatDateTime } from "@/lib/time";
-import { Alert, buttonClasses, Card, DemoBadge, Stat } from "@/components/ui";
+import { Alert, buttonClasses, Card, Stat } from "@/components/ui";
 
 export default async function ClientDashboardPage({
   searchParams,
@@ -30,7 +30,6 @@ export default async function ClientDashboardPage({
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">Contul meu</p>
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <h1 className="text-3xl font-semibold text-ink">Bună, {profile.full_name.split(" ")[0]}</h1>
-          {profile.is_demo ? <DemoBadge /> : null}
         </div>
         <p className="mt-1 text-muted">
           Aici vezi mesajele și notificările tale. Pentru o consultație, contactează psihologul prin

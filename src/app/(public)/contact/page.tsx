@@ -31,24 +31,22 @@ export default function ContactPage() {
         </Card>
 
         <div className="space-y-4">
-          <Card className="p-5">
-            <h2 className="flex items-center gap-2 font-semibold text-ink">
-              <Mail className="h-4 w-4 text-brand" aria-hidden="true" />
-              E-mail direct
-            </h2>
-            <p className="mt-2 text-sm text-muted">
-              <a
-                href={`mailto:${publicEnv.contactEmail}`}
-                className="font-medium text-brand underline underline-offset-4"
-              >
-                {publicEnv.contactEmail}
-              </a>
-            </p>
-            <p className="mt-2 text-xs text-muted">
-              Adresa afișată este configurabilă prin variabila NEXT_PUBLIC_CONTACT_EMAIL. Trebuie
-              înlocuită cu o adresă reală înainte de lansare.
-            </p>
-          </Card>
+          {publicEnv.contactEmail ? (
+            <Card className="p-5">
+              <h2 className="flex items-center gap-2 font-semibold text-ink">
+                <Mail className="h-4 w-4 text-brand" aria-hidden="true" />
+                E-mail direct
+              </h2>
+              <p className="mt-2 text-sm text-muted">
+                <a
+                  href={`mailto:${publicEnv.contactEmail}`}
+                  className="font-medium text-brand underline underline-offset-4"
+                >
+                  {publicEnv.contactEmail}
+                </a>
+              </p>
+            </Card>
+          ) : null}
 
           <Card className="p-5">
             <h2 className="flex items-center gap-2 font-semibold text-ink">

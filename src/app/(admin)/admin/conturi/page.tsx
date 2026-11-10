@@ -77,7 +77,6 @@ export default async function AdminAccountsPage({
                       {ROLE_LABELS[profile.role]}
                     </Badge>
                     {profile.status === "suspended" ? <Badge tone="danger">Suspendat</Badge> : null}
-                    {profile.is_demo ? <Badge tone="sand">Demo</Badge> : null}
                   </div>
                   <p className="mt-1 text-sm text-muted">{profile.email}</p>
                   <p className="text-xs text-muted">
