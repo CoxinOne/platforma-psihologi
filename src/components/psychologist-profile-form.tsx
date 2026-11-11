@@ -299,6 +299,22 @@ export function PsychologistProfileForm({
         </Field>
       </div>
 
+      <Field
+        label="Site web"
+        htmlFor="websiteUrl"
+        hint="Opțional. Apare ca link public pe profilul tău."
+        error={firstError(errors, "websiteUrl")}
+      >
+        <input
+          id="websiteUrl"
+          name="websiteUrl"
+          type="url"
+          defaultValue={profile?.website_url ?? ""}
+          placeholder="https://exemplu.ro"
+          className={inputClasses(Boolean(firstError(errors, "websiteUrl")))}
+        />
+      </Field>
+
       <div className="rounded-xl border border-brand-line bg-brand-soft/40 p-4 text-sm text-brand-strong">
         <p className="font-semibold">Prețul este în funcție de complexitate.</p>
         <p className="mt-1 text-brand-strong/80">

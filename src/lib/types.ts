@@ -95,6 +95,7 @@ export interface PublicPsychologist {
   is_verified: boolean;
   timezone: string;
   published_at: string | null;
+  website_url: string | null;
   specialties: { slug: string; name: string }[];
   specialty_slugs: string[];
   cabinets: CabinetSummary[];
@@ -115,6 +116,7 @@ export interface PsychologistProfile {
   price_ron: number | null;
   timezone: string;
   photo_path: string | null;
+  website_url: string | null;
   status: ProfessionalStatus;
   is_accepting_new_clients: boolean;
   is_demo: boolean;

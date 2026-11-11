@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   Building2,
   CalendarDays,
+  ExternalLink,
   GraduationCap,
   Languages,
   MapPin,
@@ -290,6 +291,17 @@ export default async function PsychologistProfilePage({
                 className="flex-1"
               />
             </div>
+            {psychologist.website_url ? (
+              <a
+                href={psychologist.website_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline underline-offset-4"
+              >
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                Site-ul cabinetului
+              </a>
+            ) : null}
           </Card>
 
           <div className="mt-4 rounded-2xl border border-line bg-canvas p-4 text-xs text-muted">

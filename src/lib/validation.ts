@@ -90,6 +90,15 @@ export const psychologistProfileSchema = z.object({
   modes: z.array(z.enum(["in_person", "online"])).min(1, "Selectează cel puțin un tip de consultație."),
   sessionDuration: z.coerce.number().int().min(20).max(120),
   timezone: z.string().min(1).max(80).default("Europe/Bucharest"),
+  websiteUrl: z.preprocess(
+    emptyToUndefined,
+    z
+      .string()
+      .trim()
+      .max(300, "Adresa site-ului este prea lungă.")
+      .regex(/^https?:\/\/\S+$/, "Adresa site-ului trebuie să înceapă cu http:// sau https://.")
+      .optional(),
+  ),
   registryNumber: z.preprocess(
     emptyToUndefined,
     z.string().trim().max(80, "Numărul de înregistrare este prea lung.").optional(),

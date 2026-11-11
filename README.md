@@ -109,7 +109,7 @@ platforma-psihologi/
 │  │  └─ ...
 │  └─ proxy.ts                     refresh sesiune + protecție rute
 ├─ supabase/
-│  ├─ migrations/                  15 migrații SQL (schema, funcții, RLS, views, realtime, storage)
+│  ├─ migrations/                  16 migrații SQL (schema, funcții, RLS, views, realtime, storage)
 │  └─ tests/00_supabase_stub.sql   stub local pentru roluri/auth
 ├─ tests/
 │  ├─ unit/logic.test.ts           14 teste
@@ -180,7 +180,8 @@ npx supabase db push
    Alternativ, deschide **SQL Editor** și rulează fișierele din `supabase/migrations/` în ordinea
    numelor. Nu sări peste `0010_public_views.sql`, `0011_realtime_storage.sql`,
    `0012_reference_data.sql`, `0013_psychologist_account_limit.sql`,
-   `0014_add_psihooncologie_specialty.sql` sau `0015_add_psihopedagogie_speciala.sql`.
+   `0014_add_psihooncologie_specialty.sql`, `0015_add_psihopedagogie_speciala.sql` sau
+   `0016_add_website_url.sql`.
 
 4. În **Authentication → URL Configuration** setează:
    - Site URL: `http://localhost:3000` (în producție, domeniul real)
