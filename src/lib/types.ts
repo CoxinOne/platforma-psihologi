@@ -97,6 +97,7 @@ export interface PublicPsychologist {
   published_at: string | null;
   website_url: string | null;
   motto: string | null;
+  services: string[];
   specialties: { slug: string; name: string }[];
   specialty_slugs: string[];
   cabinets: CabinetSummary[];
@@ -119,6 +120,7 @@ export interface PsychologistProfile {
   photo_path: string | null;
   website_url: string | null;
   motto: string | null;
+  services: string[];
   status: ProfessionalStatus;
   is_accepting_new_clients: boolean;
   is_demo: boolean;

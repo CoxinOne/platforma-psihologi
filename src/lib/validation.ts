@@ -103,6 +103,10 @@ export const psychologistProfileSchema = z.object({
     emptyToUndefined,
     z.string().trim().max(600, "Motto-ul poate avea cel mult 600 de caractere.").optional(),
   ),
+  services: z.preprocess(
+    emptyToUndefined,
+    z.string().trim().max(1200, "Lista de servicii este prea lungă.").optional(),
+  ),
   registryNumber: z.preprocess(
     emptyToUndefined,
     z.string().trim().max(80, "Numărul de înregistrare este prea lung.").optional(),

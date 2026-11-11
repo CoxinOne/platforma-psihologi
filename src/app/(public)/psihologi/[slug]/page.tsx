@@ -182,6 +182,11 @@ export default async function PsychologistProfilePage({
           <section aria-labelledby="servicii" className="space-y-3">
             <h2 id="servicii" className="text-2xl font-semibold text-ink">Servicii oferite</h2>
             <ul className="grid gap-3 sm:grid-cols-2">
+              {psychologist.services.map((service, index) => (
+                <li key={`${service}-${index}`} className="rounded-2xl border border-brand-line bg-brand-soft/30 p-4 text-sm">
+                  <p className="font-semibold text-ink">{service}</p>
+                </li>
+              ))}
               {psychologist.consultation_modes.map((mode) => (
                 <li key={mode} className="rounded-2xl border border-line bg-surface p-4 text-sm">
                   <p className="font-semibold text-ink">

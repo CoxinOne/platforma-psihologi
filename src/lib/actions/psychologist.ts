@@ -63,6 +63,11 @@ export async function savePsychologistProfileAction(
     timezone: parsed.data.timezone,
     website_url: parsed.data.websiteUrl ?? null,
     motto: parsed.data.motto ?? null,
+    services: (parsed.data.services ?? "")
+      .split(/\r?\n/)
+      .map((service) => service.trim())
+      .filter(Boolean)
+      .slice(0, 10),
     professional_registry_number: parsed.data.registryNumber ?? null,
     is_accepting_new_clients: parsed.data.isAcceptingNewClients,
     photo_path: parsed.data.photoPath ?? null,

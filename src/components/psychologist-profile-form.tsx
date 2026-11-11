@@ -331,6 +331,22 @@ export function PsychologistProfileForm({
         />
       </Field>
 
+      <Field
+        label="Servicii oferite"
+        htmlFor="services"
+        hint="Opțional. Un serviciu pe fiecare linie, de exemplu „Terapie de cuplu — 60 de minute”."
+        error={firstError(errors, "services")}
+      >
+        <textarea
+          id="services"
+          name="services"
+          rows={4}
+          maxLength={1200}
+          defaultValue={(profile?.services ?? []).join("\n")}
+          className={inputClasses(Boolean(firstError(errors, "services")))}
+        />
+      </Field>
+
       <div className="rounded-xl border border-brand-line bg-brand-soft/40 p-4 text-sm text-brand-strong">
         <p className="font-semibold">Prețul este în funcție de complexitate.</p>
         <p className="mt-1 text-brand-strong/80">
