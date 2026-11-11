@@ -183,6 +183,15 @@ export const adminCabinetSchema = z.object({
     z.string().regex(/^\d{6}$/, "Codul poștal trebuie să aibă 6 cifre.").optional(),
   ),
   phone: optionalPhone,
+  mapUrl: z.preprocess(
+    emptyToUndefined,
+    z
+      .string()
+      .trim()
+      .max(500, "Linkul hărții este prea lung.")
+      .regex(/^https?:\/\/\S+$/, "Linkul hărții trebuie să înceapă cu http:// sau https://.")
+      .optional(),
+  ),
   description: z.preprocess(emptyToUndefined, z.string().trim().max(2000).optional()),
   isActive: checkbox,
 });

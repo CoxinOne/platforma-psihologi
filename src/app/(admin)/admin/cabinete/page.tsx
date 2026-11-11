@@ -55,6 +55,10 @@ export default async function AdminCabinetsPage({
             <input name="phone" maxLength={30} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>
           <label className="text-sm font-semibold text-ink sm:col-span-2">
+            Link hartă (Google Maps sau Waze)
+            <input name="mapUrl" type="url" maxLength={500} placeholder="https://www.waze.com/ul?q=..." className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
+          </label>
+          <label className="text-sm font-semibold text-ink sm:col-span-2">
             Descriere
             <textarea name="description" rows={2} maxLength={2000} className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm" />
           </label>

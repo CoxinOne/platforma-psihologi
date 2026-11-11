@@ -221,15 +221,18 @@ export default async function PsychologistProfilePage({
                     </p>
                     {cabinet.phone ? <p className="mt-1 text-sm text-muted">Tel. {cabinet.phone}</p> : null}
                     <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        `${cabinet.address_line}, ${cabinet.city}`,
-                      )}`}
+                      href={
+                        cabinet.map_url ??
+                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          `${cabinet.address_line}, ${cabinet.city}`,
+                        )}`
+                      }
                       target="_blank"
                       rel="noreferrer noopener"
                       className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline underline-offset-4"
                     >
                       <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
-                      Deschide în hartă
+                      {cabinet.map_url?.includes("waze.com") ? "Deschide în Waze" : "Deschide în hartă"}
                     </a>
                   </Card>
                 ))}

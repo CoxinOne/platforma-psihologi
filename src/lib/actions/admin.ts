@@ -191,6 +191,7 @@ export async function adminSaveCabinetAction(formData: FormData): Promise<void> 
     county: formString(formData, "county") || undefined,
     postalCode: formString(formData, "postalCode") || undefined,
     phone: formString(formData, "phone") || undefined,
+    mapUrl: formString(formData, "mapUrl") || undefined,
     description: formString(formData, "description") || undefined,
     isActive: formData.get("isActive") === "on",
   });
@@ -207,6 +208,7 @@ export async function adminSaveCabinetAction(formData: FormData): Promise<void> 
     county: parsed.data.county ?? null,
     postal_code: parsed.data.postalCode ?? null,
     phone: parsed.data.phone ?? null,
+    map_url: parsed.data.mapUrl ?? null,
     description: parsed.data.description ?? null,
     is_active: parsed.data.isActive,
   };

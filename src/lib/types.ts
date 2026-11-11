@@ -62,6 +62,7 @@ export interface PublicCabinet {
   county: string | null;
   postal_code: string | null;
   phone: string | null;
+  map_url: string | null;
   description: string | null;
   is_demo: boolean;
   psychologist_count: number;
@@ -75,6 +76,7 @@ export interface CabinetSummary {
   city: string;
   county: string | null;
   phone: string | null;
+  map_url: string | null;
 }
 
 export interface PublicPsychologist {
