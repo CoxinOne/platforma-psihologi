@@ -96,6 +96,7 @@ export interface PublicPsychologist {
   timezone: string;
   published_at: string | null;
   website_url: string | null;
+  motto: string | null;
   specialties: { slug: string; name: string }[];
   specialty_slugs: string[];
   cabinets: CabinetSummary[];
@@ -117,6 +118,7 @@ export interface PsychologistProfile {
   timezone: string;
   photo_path: string | null;
   website_url: string | null;
+  motto: string | null;
   status: ProfessionalStatus;
   is_accepting_new_clients: boolean;
   is_demo: boolean;

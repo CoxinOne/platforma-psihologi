@@ -315,6 +315,22 @@ export function PsychologistProfileForm({
         />
       </Field>
 
+      <Field
+        label="Motto personal"
+        htmlFor="motto"
+        hint="Opțional. Apare ca citat pe profilul public."
+        error={firstError(errors, "motto")}
+      >
+        <textarea
+          id="motto"
+          name="motto"
+          rows={3}
+          maxLength={600}
+          defaultValue={profile?.motto ?? ""}
+          className={inputClasses(Boolean(firstError(errors, "motto")))}
+        />
+      </Field>
+
       <div className="rounded-xl border border-brand-line bg-brand-soft/40 p-4 text-sm text-brand-strong">
         <p className="font-semibold">Prețul este în funcție de complexitate.</p>
         <p className="mt-1 text-brand-strong/80">

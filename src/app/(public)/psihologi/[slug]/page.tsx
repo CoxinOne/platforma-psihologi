@@ -111,6 +111,17 @@ export default async function PsychologistProfilePage({
             </div>
           </header>
 
+          {psychologist.motto ? (
+            <blockquote className="border-l-2 border-terracotta pl-5">
+              <p className="font-display text-xl italic leading-relaxed text-ink">
+                „{psychologist.motto}”
+              </p>
+              <footer className="mt-2 text-sm font-semibold text-muted">
+                — {psychologist.display_name}
+              </footer>
+            </blockquote>
+          ) : null}
+
           {psychologist.bio ? (
             <section aria-labelledby="despre" className="space-y-3">
               <h2 id="despre" className="text-2xl font-semibold text-ink">Despre</h2>

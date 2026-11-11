@@ -99,6 +99,10 @@ export const psychologistProfileSchema = z.object({
       .regex(/^https?:\/\/\S+$/, "Adresa site-ului trebuie să înceapă cu http:// sau https://.")
       .optional(),
   ),
+  motto: z.preprocess(
+    emptyToUndefined,
+    z.string().trim().max(600, "Motto-ul poate avea cel mult 600 de caractere.").optional(),
+  ),
   registryNumber: z.preprocess(
     emptyToUndefined,
     z.string().trim().max(80, "Numărul de înregistrare este prea lung.").optional(),
