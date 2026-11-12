@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "Caută un psiholog",
   description:
     "Filtrează psihologii după specializare, oraș, limbă vorbită și tipul consultației.",
+  robots: { index: false, follow: true },
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;

@@ -1,16 +1,18 @@
 import type { MetadataRoute } from "next";
 import { listPublicPsychologists, listSpecialties } from "@/lib/data/public";
+import { getCitySpecialtyCombos, getDirectoryCities } from "@/lib/directory";
 import { publicEnv } from "@/lib/public-env";
-import { slugify } from "@/lib/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = publicEnv.siteUrl.replace(/\/$/, "");
   const staticRoutes = [
     "",
     "/psihologi",
-    "/cauta",
     "/specializari",
     "/cabinete",
+    "/resurse",
+    "/resurse/cum-alegi-un-psiholog",
+    "/resurse/psiholog-online-sau-cabinet",
     "/despre",
     "/contact",
     "/confidentialitate",
@@ -28,18 +30,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     listSpecialties(),
   ]);
 
-  const cityRoutes = Array.from(
-    new Map(
-      psychologists
-        .flatMap((psychologist) => psychologist.cabinet_cities)
-        .map((city) => [slugify(city), city] as const),
-    ).entries(),
-  ).map(([slug]) => ({
-    url: `${base}/psihologi/oras/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.75,
-  }));
+  const cities = getDirectoryCities(psychologists);
+  const combos = getCitySpecialtyCombos(psychologists);
 
   return [
     ...staticRoutes,
@@ -55,6 +47,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
-    ...cityRoutes,
+    ...cities.map((city) => ({
+      url: `${base}/psihologi/oras/${city.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.75,
+    })),
+    ...combos.map((combo) => ({
+      url: `${base}/psihologi/oras/${combo.city.slug}/${combo.specialty.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.55,
+    })),
   ];
 }

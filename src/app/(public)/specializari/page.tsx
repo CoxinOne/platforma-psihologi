@@ -1,19 +1,56 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listSpecialties } from "@/lib/data/public";
+import { absoluteUrl, pageOpenGraph } from "@/lib/seo";
+import { publicEnv } from "@/lib/public-env";
+import { JsonLd } from "@/components/json-ld";
 import { Card, EmptyState, PageHeader } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Specializări",
+  title: "Specializări — psihologi verificați pe arii de lucru",
   description:
-    "Ariile de lucru disponibile pe platformă, cu numărul de profiluri aprobate pentru fiecare specializare.",
+    "Ariile de lucru disponibile pe platformă, cu numărul de profiluri aprobate pentru fiecare specializare: psihologie clinică, terapie de cuplu, parenting și altele.",
+  alternates: { canonical: "/specializari" },
+  openGraph: pageOpenGraph({
+    title: "Specializări — psihologi verificați pe arii de lucru",
+    description:
+      "Ariile de lucru disponibile pe platformă, cu numărul de profiluri aprobate pentru fiecare specializare.",
+    path: "/specializari",
+  }),
 };
 
 export default async function SpecialtiesPage() {
   const specialties = await listSpecialties();
+  const baseUrl = publicEnv.siteUrl.replace(/\/$/, "");
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "CollectionPage",
+              "@id": `${baseUrl}/specializari`,
+              name: "Specializări",
+              url: `${baseUrl}/specializari`,
+              inLanguage: "ro-RO",
+              isPartOf: { "@id": `${baseUrl}/#website` },
+            },
+            {
+              "@type": "ItemList",
+              numberOfItems: specialties.length,
+              itemListElement: specialties.map((specialty, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: absoluteUrl(`/specializari/${specialty.slug}`),
+                name: specialty.name,
+              })),
+            },
+          ],
+        }}
+      />
+
       <PageHeader
         eyebrow="Arii de lucru"
         title="Specializări"

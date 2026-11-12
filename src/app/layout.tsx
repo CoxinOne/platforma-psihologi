@@ -28,6 +28,21 @@ export const metadata: Metadata = {
     title: "Platformă Psihologi",
     description:
       "Găsește un psiholog potrivit și trimite-i un mesaj privat. Tariful se discută direct, în funcție de complexitate.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Platformă Psihologi — profiluri profesionale verificate în România",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Platformă Psihologi",
+    description:
+      "Profiluri profesionale verificate și mesagerie privată pentru psihologii din România.",
+    images: ["/og-image.jpg"],
   },
 };
 

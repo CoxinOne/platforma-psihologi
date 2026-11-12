@@ -273,6 +273,50 @@ export default async function HomePage() {
         </ol>
       </section>
 
+      <section aria-labelledby="ghiduri" className="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+        <SectionHeading
+          eyebrow="Ghiduri"
+          title="Citește înainte de prima ședință"
+          description="Două materiale scurte despre alegerea psihologului și despre ședințele online."
+        />
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          <Card className="flex h-full flex-col">
+            <h3 className="text-lg font-semibold text-ink">
+              <Link href="/resurse/cum-alegi-un-psiholog" className="hover:text-brand">
+                Cum alegi un psiholog potrivit
+              </Link>
+            </h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
+              Ce verifici înainte de prima ședință, ce întrebări să pui și cum recunoști o
+              potrivire bună.
+            </p>
+            <Link
+              href="/resurse/cum-alegi-un-psiholog"
+              className="mt-4 text-sm font-semibold text-brand underline underline-offset-4"
+            >
+              Citește ghidul
+            </Link>
+          </Card>
+          <Card className="flex h-full flex-col">
+            <h3 className="text-lg font-semibold text-ink">
+              <Link href="/resurse/psiholog-online-sau-cabinet" className="hover:text-brand">
+                Psiholog online sau la cabinet
+              </Link>
+            </h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
+              Avantaje, limite și criterii concrete pentru a alege modalitatea care ți se
+              potrivește.
+            </p>
+            <Link
+              href="/resurse/psiholog-online-sau-cabinet"
+              className="mt-4 text-sm font-semibold text-brand underline underline-offset-4"
+            >
+              Citește ghidul
+            </Link>
+          </Card>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <div className="rounded-[2rem] border border-brand-line bg-cocoa px-6 py-10 text-cream sm:px-10">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
