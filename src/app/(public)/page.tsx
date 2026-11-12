@@ -93,12 +93,9 @@ export default async function HomePage() {
               Profiluri profesionale și mesagerie privată într-un singur loc. Fără recenzii
               inventate, fără promisiuni de vindecare și fără date clinice stocate aici.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8">
               <Link href="/psihologi" className={buttonClasses("primary", "lg")}>
                 Găsește un psiholog
-              </Link>
-              <Link href="/despre" className={buttonClasses("secondary", "lg")}>
-                Cum funcționează platforma
               </Link>
             </div>
             <p className="mt-6 flex items-start gap-2 text-sm text-muted">
@@ -129,6 +126,13 @@ export default async function HomePage() {
                   </li>
                 ))}
               </ul>
+              <Link
+                href="/despre"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline underline-offset-4 hover:text-brand-strong"
+              >
+                Cum funcționează platforma
+                <span aria-hidden="true">→</span>
+              </Link>
             </Card>
             <div
               aria-hidden="true"
