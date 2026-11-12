@@ -332,6 +332,21 @@ export function PsychologistProfileForm({
       </Field>
 
       <Field
+        label="Autor motto"
+        htmlFor="mottoAuthor"
+        hint="Opțional. Completează dacă citatul aparține altei persoane."
+        error={firstError(errors, "mottoAuthor")}
+      >
+        <input
+          id="mottoAuthor"
+          name="mottoAuthor"
+          maxLength={120}
+          defaultValue={profile?.motto_author ?? ""}
+          className={inputClasses(Boolean(firstError(errors, "mottoAuthor")))}
+        />
+      </Field>
+
+      <Field
         label="Servicii oferite"
         htmlFor="services"
         hint="Opțional. Un serviciu pe fiecare linie, de exemplu „Terapie de cuplu — 60 de minute”."

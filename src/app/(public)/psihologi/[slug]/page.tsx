@@ -169,7 +169,7 @@ export default async function PsychologistProfilePage({
                 „{psychologist.motto}”
               </p>
               <footer className="mt-2 text-sm font-semibold text-muted">
-                — {psychologist.display_name}
+                — {psychologist.motto_author ?? psychologist.display_name}
               </footer>
             </blockquote>
           ) : null}
