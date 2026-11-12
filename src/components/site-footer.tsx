@@ -35,6 +35,7 @@ export function SiteFooter() {
             <li><Link className="hover:text-brand" href="/specializari">Specializări</Link></li>
             <li><Link className="hover:text-brand" href="/cabinete">Cabinete</Link></li>
             <li><Link className="hover:text-brand" href="/resurse">Resurse</Link></li>
+            <li><Link className="hover:text-brand" href="/intrebari-frecvente">Întrebări frecvente</Link></li>
           </ul>
         </div>
         <div>

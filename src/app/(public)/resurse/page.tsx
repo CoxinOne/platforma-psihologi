@@ -31,6 +31,24 @@ const ARTICLES = [
     description:
       "Avantajele și limitele fiecărei variante, criterii concrete de alegere și ce să pregătești pentru o ședință online.",
   },
+  {
+    slug: "psiholog-pentru-copii",
+    title: "Psiholog pentru copii și adolescenți — când și cum alegi",
+    description:
+      "Semnele care merită o evaluare, cum alegi un psiholog pentru copii și ce se întâmplă la prima ședință.",
+  },
+  {
+    slug: "terapie-de-cuplu",
+    title: "Terapie de cuplu — când are sens și cum începe",
+    description:
+      "Când merită terapia de cuplu, ce se întâmplă în primele ședințe și cum alegi terapeutul potrivit.",
+  },
+  {
+    slug: "cand-mergi-la-psiholog",
+    title: "Când să mergi la psiholog — semne că e momentul",
+    description:
+      "Diferența dintre o perioadă grea și o tulburare, cum alegi specializarea și ce se întâmplă la prima ședință.",
+  },
 ] as const;
 
 export default function ResourcesPage() {
@@ -104,6 +122,18 @@ export default function ResourcesPage() {
       </div>
 
       <section className="mt-12 rounded-[var(--radius-card)] border border-line bg-surface p-6 sm:p-8">
+        <h2 className="text-2xl font-semibold text-ink">Ai o întrebare concretă?</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
+          Am strâns răspunsurile la cele mai frecvente întrebări despre verificarea psihologilor,
+          costuri, ședințe online și contact în pagina{" "}
+          <Link href="/intrebari-frecvente" className="font-semibold text-brand underline underline-offset-4">
+            întrebări frecvente
+          </Link>
+          .
+        </p>
+      </section>
+
+      <section className="mt-6 rounded-[var(--radius-card)] border border-line bg-surface p-6 sm:p-8">
         <h2 className="text-2xl font-semibold text-ink">Continuă căutarea</h2>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
           După ce ai citit ghidurile, poți trece direct la{" "}

@@ -326,6 +326,58 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section aria-labelledby="psihologi-romania" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <h2 id="psihologi-romania" className="text-2xl font-semibold text-ink">
+          Psihologi în România — cum funcționează platforma
+        </h2>
+        <div className="mt-4 grid gap-4 text-[15px] leading-relaxed text-muted md:grid-cols-2">
+          <p>
+            Platforma este un director de psihologi cu profiluri aprobate înainte de publicare.
+            Administratorul verifică datele profesionale — titlul, studiile, specializările și
+            cabinetele — iar profilul devine public doar după această etapă. Poți căuta după
+            specializare, oraș, limbă și modalitate de consultație, apoi trimiți un mesaj privat
+            psihologului ales.
+          </p>
+          <p>
+            Lista include psihologi din{" "}
+            <Link href="/psihologi/oras/pitesti" className="font-semibold text-brand underline underline-offset-4">
+              Pitești
+            </Link>
+            ,{" "}
+            <Link href="/psihologi/oras/curtea-de-arges" className="font-semibold text-brand underline underline-offset-4">
+              Curtea de Argeș
+            </Link>
+            ,{" "}
+            <Link href="/psihologi/oras/bradu" className="font-semibold text-brand underline underline-offset-4">
+              Bradu
+            </Link>{" "}
+            și{" "}
+            <Link href="/psihologi/oras/stefanesti" className="font-semibold text-brand underline underline-offset-4">
+              Ștefănești
+            </Link>
+            , cu specializări precum psihologie clinică, psihoterapie cognitiv-comportamentală,
+            terapie sistemică, consiliere de cuplu, psihologie pentru copii și adolescenți,
+            evaluare psihologică și parenting. Pentru cei care nu găsesc un psiholog potrivit în
+            orașul lor există pagina dedicată{" "}
+            <Link href="/psihologi/online" className="font-semibold text-brand underline underline-offset-4">
+              psihologilor online
+            </Link>
+            .
+          </p>
+        </div>
+        <p className="mt-4 text-sm leading-relaxed text-muted">
+          Dacă nu știi de unde să începi, citește{" "}
+          <Link href="/resurse" className="font-semibold text-brand underline underline-offset-4">
+            ghidurile despre alegerea unui psiholog
+          </Link>{" "}
+          sau răspunsurile din{" "}
+          <Link href="/intrebari-frecvente" className="font-semibold text-brand underline underline-offset-4">
+            întrebări frecvente
+          </Link>
+          .
+        </p>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <div className="rounded-[2rem] border border-brand-line bg-cocoa px-6 py-10 text-cream sm:px-10">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
