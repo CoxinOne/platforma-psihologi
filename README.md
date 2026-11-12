@@ -494,6 +494,45 @@ public. Nu expune niciodată cheia de serviciu în client.
 
 ---
 
+## 12.1. SEO și Google
+
+Site-ul are deja:
+
+- titluri și descrieri unice pentru pagina principală, directoriu, profiluri și specializări;
+- `sitemap.xml` dinamic, cu profiluri, specializări și pagini pe orașe;
+- `robots.txt` care blochează doar zonele private;
+- date structurate JSON-LD pentru organizație, site, profil profesional și breadcrumbs;
+- pagini locale de tip `/psihologi/oras/pitesti`, `/psihologi/oras/curtea-de-arges`;
+- legături interne între directoriu, orașe și profiluri.
+
+### Google Search Console
+
+1. Creează proprietatea `https://www.psihologipentrufamilie.com` în Search Console.
+2. Alege verificarea prin **HTML tag** și copiază valoarea din `content`.
+3. Setează în Vercel variabila `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` cu acea valoare.
+4. Redeployează; metatag-ul apare automat în `<head>`.
+5. Trimite `https://www.psihologipentrufamilie.com/sitemap.xml`.
+
+Verificarea prin DNS TXT la Host-Age este o alternativă validă.
+
+### Google Business Profile
+
+Pentru fiecare cabinet, proprietarul creează o fișă Google Business Profile cu aceleași date ca pe site: nume, adresă, telefon, site, program, fotografii și categorie „Psiholog”. Fișa este separată de Search Console și nu folosește nicio cheie API.
+
+### Așteptări realiste
+
+Poziția 1 pe căutarea generică „psihologi” nu poate fi garantată — este un cuvânt foarte competitiv. Șansele reale vin din:
+
+- pagini locale („psihologi Pitești”, „psiholog Curtea de Argeș”);
+- profiluri complete și actualizate;
+- fișe Google Business verificate;
+- articole care răspund întrebărilor reale ale pacienților;
+- mențiuni și linkuri din directoare profesionale, instituții și presă locală.
+
+SEO-ul produce rezultate în săptămâni/luni, nu instant.
+
+---
+
 ## 13. Comenzi utile
 
 ```powershell

@@ -24,6 +24,15 @@ export function truncate(value: string, max: number): string {
   return `${value.slice(0, max - 1).trimEnd()}…`;
 }
 
+export function slugify(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 /**
  * Construiește un link WhatsApp dintr-un număr public de telefon.
  * Acceptă formate precum „+40 712 345 678”, „0712345678” sau „0040712345678”.

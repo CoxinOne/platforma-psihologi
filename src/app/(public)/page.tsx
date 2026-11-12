@@ -11,6 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { listPublicPsychologists, listSpecialties } from "@/lib/data/public";
+import { slugify } from "@/lib/utils";
 import { PsychologistCard } from "@/components/psychologist-card";
 import { buttonClasses, Card, EmptyState, SectionHeading } from "@/components/ui";
 
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
   title: "Psihologi în România — profiluri și mesagerie privată",
   description:
     "Găsește un psiholog potrivit, citește profiluri profesionale aprobate și trimite un mesaj privat. Tariful se discută direct, în funcție de complexitate.",
+  alternates: { canonical: "/" },
 };
 
 const TRUST_POINTS = [
@@ -65,6 +67,13 @@ export default async function HomePage() {
   const featured = psychologists.slice(0, 12);
   const topSpecialties = specialties.filter((specialty) => specialty.psychologist_count > 0).slice(0, 6);
   const displayedSpecialties = topSpecialties.length > 0 ? topSpecialties : specialties.slice(0, 6);
+  const cities = Array.from(
+    new Map(
+      psychologists
+        .flatMap((psychologist) => psychologist.cabinet_cities)
+        .map((city) => [slugify(city), city] as const),
+    ).entries(),
+  ).sort((a, b) => a[1].localeCompare(b[1], "ro"));
 
   return (
     <>
@@ -177,6 +186,26 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      {cities.length > 0 ? (
+        <section aria-labelledby="orase" className="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+          <h2 id="orase" className="text-sm font-semibold uppercase tracking-[0.14em] text-brand">
+            Psihologi pe orașe
+          </h2>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {cities.map(([slug, city]) => (
+              <li key={slug}>
+                <Link
+                  href={`/psihologi/oras/${slug}`}
+                  className="inline-flex rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-brand-strong hover:border-brand hover:text-brand"
+                >
+                  Psihologi în {city}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section aria-labelledby="specializari" className="border-y border-line bg-sand/55">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">

@@ -2,9 +2,12 @@ import type { Metadata, Viewport } from "next";
 import { publicEnv } from "@/lib/public-env";
 import { isSupabaseConfigured } from "@/lib/public-env";
 import { ConsentBanner } from "@/components/consent";
+import { JsonLd } from "@/components/json-ld";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
+
+const baseUrl = publicEnv.siteUrl.replace(/\/$/, "");
 
 export const metadata: Metadata = {
   metadataBase: new URL(publicEnv.siteUrl),
@@ -15,6 +18,9 @@ export const metadata: Metadata = {
   description:
     "Platformă de prezentare și mesagerie privată pentru psihologi din România. Profiluri profesionale verificate înainte de publicare.",
   robots: { index: true, follow: true },
+  ...(publicEnv.googleSiteVerification
+    ? { verification: { google: publicEnv.googleSiteVerification } }
+    : {}),
   openGraph: {
     type: "website",
     locale: "ro_RO",
@@ -45,6 +51,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         ) : null}
         {children}
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": `${baseUrl}/#organization`,
+                name: publicEnv.platformName,
+                url: baseUrl,
+                logo: `${baseUrl}/icon.svg`,
+                ...(publicEnv.contactEmail ? { email: publicEnv.contactEmail } : {}),
+              },
+              {
+                "@type": "WebSite",
+                "@id": `${baseUrl}/#website`,
+                url: baseUrl,
+                name: publicEnv.platformName,
+                inLanguage: "ro-RO",
+                publisher: { "@id": `${baseUrl}/#organization` },
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: `${baseUrl}/cauta?q={search_term_string}`,
+                  "query-input": "required name=search_term_string",
+                },
+              },
+            ],
+          }}
+        />
         <ConsentBanner />
       </body>
     </html>

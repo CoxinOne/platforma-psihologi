@@ -17,6 +17,8 @@ import { getPsychologistBySlug } from "@/lib/data/public";
 import { getSessionContext } from "@/lib/auth";
 import { MODE_LABELS } from "@/lib/constants";
 import { formatDuration } from "@/lib/time";
+import { publicEnv } from "@/lib/public-env";
+import { JsonLd } from "@/components/json-ld";
 import { Avatar, Badge, buttonClasses, Card } from "@/components/ui";
 import { ContactPsychologist } from "@/components/contact-psychologist";
 import { WhatsAppButton } from "@/components/whatsapp-button";
@@ -33,6 +35,7 @@ export async function generateMetadata({
   return {
     title: `${psychologist.display_name} — ${psychologist.professional_title}`,
     description: psychologist.bio?.slice(0, 160) ?? `Profil profesional ${psychologist.display_name}.`,
+    alternates: { canonical: `/psihologi/${psychologist.slug}` },
   };
 }
 
@@ -48,9 +51,58 @@ export default async function PsychologistProfilePage({
   const session = await getSessionContext().catch(() => null);
   const isAuthenticated = Boolean(session);
   const isClient = session?.profile.role === "client";
+  const baseUrl = publicEnv.siteUrl.replace(/\/$/, "");
+  const primaryCabinet = psychologist.cabinets[0] ?? null;
+  const profileUrl = `${baseUrl}/psihologi/${psychologist.slug}`;
+  const imageUrl = psychologist.photo_path
+    ? `${publicEnv.supabaseUrl}/storage/v1/object/public/avatars/${psychologist.photo_path}`
+    : `${baseUrl}/icon.svg`;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": `${profileUrl}#person`,
+              name: psychologist.display_name,
+              jobTitle: psychologist.professional_title,
+              description: psychologist.bio ?? undefined,
+              url: profileUrl,
+              image: imageUrl,
+              knowsLanguage: psychologist.languages,
+              ...(psychologist.website_url ? { sameAs: [psychologist.website_url] } : {}),
+              ...(primaryCabinet
+                ? {
+                    telephone: primaryCabinet.phone ?? undefined,
+                    areaServed: primaryCabinet.city,
+                    worksFor: {
+                      "@type": "ProfessionalService",
+                      name: primaryCabinet.name,
+                      address: {
+                        "@type": "PostalAddress",
+                        streetAddress: primaryCabinet.address_line,
+                        addressLocality: primaryCabinet.city,
+                        addressRegion: primaryCabinet.county ?? undefined,
+                        addressCountry: "RO",
+                      },
+                    },
+                  }
+                : {}),
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Acasă", item: baseUrl },
+                { "@type": "ListItem", position: 2, name: "Psihologi", item: `${baseUrl}/psihologi` },
+                { "@type": "ListItem", position: 3, name: psychologist.display_name, item: profileUrl },
+              ],
+            },
+          ],
+        }}
+      />
       <nav aria-label="Firimituri" className="mb-6 text-sm text-muted">
         <ol className="flex flex-wrap items-center gap-2">
           <li><Link href="/" className="hover:text-brand">Acasă</Link></li>

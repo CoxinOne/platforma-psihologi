@@ -9,6 +9,7 @@ export const publicEnv = {
   platformName: process.env.NEXT_PUBLIC_PLATFORM_NAME ?? "Platformă Psihologi",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
   minAge: Number(process.env.NEXT_PUBLIC_MIN_AGE ?? "16"),
+  googleSiteVerification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "",
 } as const;
 
 export function isSupabaseConfigured(): boolean {

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { listPublicPsychologists, listSpecialties } from "@/lib/data/public";
 import { publicEnv } from "@/lib/public-env";
+import { slugify } from "@/lib/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = publicEnv.siteUrl.replace(/\/$/, "");
@@ -27,6 +28,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     listSpecialties(),
   ]);
 
+  const cityRoutes = Array.from(
+    new Map(
+      psychologists
+        .flatMap((psychologist) => psychologist.cabinet_cities)
+        .map((city) => [slugify(city), city] as const),
+    ).entries(),
+  ).map(([slug]) => ({
+    url: `${base}/psihologi/oras/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.75,
+  }));
+
   return [
     ...staticRoutes,
     ...psychologists.map((psychologist) => ({
@@ -41,5 +55,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
+    ...cityRoutes,
   ];
 }
