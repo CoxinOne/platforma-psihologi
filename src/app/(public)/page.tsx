@@ -164,9 +164,14 @@ export default async function HomePage() {
             title="Psihologi cu profile complete"
             description="Fiecare profil afișează specializările, limbile și tipurile de consultație. Tariful se discută direct."
           />
-          <Link href="/psihologi" className={buttonClasses("secondary", "md")}>
-            Vezi toți psihologii
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/psihologi" className={buttonClasses("secondary", "md")}>
+              Vezi toți psihologii
+            </Link>
+            <Link href="/psihologi/online" className={buttonClasses("secondary", "md")}>
+              Psihologi online
+            </Link>
+          </div>
         </div>
 
         <div className="mt-8">

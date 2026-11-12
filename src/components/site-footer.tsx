@@ -30,6 +30,7 @@ export function SiteFooter() {
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">Public</p>
           <ul className="mt-3 space-y-2 text-sm text-muted">
             <li><Link className="hover:text-brand" href="/psihologi">Psihologi</Link></li>
+            <li><Link className="hover:text-brand" href="/psihologi/online">Psihologi online</Link></li>
             <li><Link className="hover:text-brand" href="/cauta">Căutare</Link></li>
             <li><Link className="hover:text-brand" href="/specializari">Specializări</Link></li>
             <li><Link className="hover:text-brand" href="/cabinete">Cabinete</Link></li>

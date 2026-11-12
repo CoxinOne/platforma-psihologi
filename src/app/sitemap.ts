@@ -8,6 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/psihologi",
+    "/psihologi/online",
     "/specializari",
     "/cabinete",
     "/resurse",

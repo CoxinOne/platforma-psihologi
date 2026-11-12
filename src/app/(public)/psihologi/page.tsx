@@ -30,10 +30,15 @@ export default async function PsychologistsPage() {
         title="Psihologi în România"
         description="Profilurile de mai jos au fost aprobate de administrator."
         action={
-          <Link href="/cauta" className={buttonClasses("secondary")}>
-            <Search className="h-4 w-4" aria-hidden="true" />
-            Caută cu filtre
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/cauta" className={buttonClasses("secondary")}>
+              <Search className="h-4 w-4" aria-hidden="true" />
+              Caută cu filtre
+            </Link>
+            <Link href="/psihologi/online" className={buttonClasses("secondary")}>
+              Psihologi online
+            </Link>
+          </div>
         }
       />
 

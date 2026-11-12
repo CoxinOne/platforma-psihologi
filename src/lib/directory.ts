@@ -45,6 +45,21 @@ export function getSpecialtiesInCity(city: DirectoryCity): DirectorySpecialty[] 
     .sort((a, b) => a.name.localeCompare(b.name, "ro"));
 }
 
+/** Toate specializările reprezentate de o listă de psihologi. */
+export function getDirectorySpecialties(
+  psychologists: PublicPsychologist[],
+): DirectorySpecialty[] {
+  const bySlug = new Map<string, string>();
+  for (const psychologist of psychologists) {
+    for (const specialty of psychologist.specialties) {
+      bySlug.set(specialty.slug, specialty.name);
+    }
+  }
+  return [...bySlug.entries()]
+    .map(([slug, name]) => ({ slug, name }))
+    .sort((a, b) => a.name.localeCompare(b.name, "ro"));
+}
+
 /** Orașele în care există cel puțin un psiholog pentru o specializare dată. */
 export function getCitiesForSpecialty(
   psychologists: PublicPsychologist[],
