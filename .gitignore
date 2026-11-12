@@ -1,4 +1,4 @@
-# dependențe
+﻿# dependenÈ›e
 /node_modules
 /.pnp
 .pnp.*
@@ -33,7 +33,7 @@ supabase/.branches
 supabase/.temp
 supabase/.env
 
-# unelte locale de test (nu se livrează)
+# unelte locale de test (nu se livreazÄƒ)
 .pgbin
 .pgdata
 .eslint-out.txt
@@ -43,3 +43,6 @@ supabase/.env
 .vercel
 .env*
 !.env.example
+
+# artefacte locale de lucru (fotografii, conturi temporare)
+/tmp/
