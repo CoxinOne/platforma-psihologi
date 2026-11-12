@@ -23,6 +23,46 @@ import { Avatar, Badge, buttonClasses, Card } from "@/components/ui";
 import { ContactPsychologist } from "@/components/contact-psychologist";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 
+interface BioSections {
+  about: string[];
+  intervention: { intro: string[]; bullets: string[] } | null;
+}
+
+/**
+ * Profilurile au descrierea într-un singur câmp text. Când textul conține un paragraf
+ * „Arii de intervenție:", îl scoatem într-o secțiune separată, cu listă, ca să fie ușor de citit.
+ */
+function splitBio(bio: string): BioSections {
+  const paragraphs = bio
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+  const index = paragraphs.findIndex((paragraph) => /^arii de interven/i.test(paragraph));
+  if (index === -1) return { about: paragraphs, intervention: null };
+
+  const about = paragraphs.slice(0, index);
+  const block = paragraphs
+    .slice(index)
+    .join("\n\n")
+    .replace(/^arii de interven[^:\n]*:\s*/i, "");
+  const lines = block
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const intro: string[] = [];
+  const bullets: string[] = [];
+  for (const line of lines) {
+    if (/^[•\-–—*]\s+/.test(line)) {
+      bullets.push(line.replace(/^[•\-–—*]\s+/, ""));
+    } else {
+      intro.push(line);
+    }
+  }
+
+  return { about, intervention: { intro, bullets } };
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -57,6 +97,8 @@ export default async function PsychologistProfilePage({
   const imageUrl = psychologist.photo_path
     ? `${publicEnv.supabaseUrl}/storage/v1/object/public/avatars/${psychologist.photo_path}`
     : `${baseUrl}/icon.svg`;
+  const bioSections = psychologist.bio ? splitBio(psychologist.bio) : null;
+  const hasLongServices = psychologist.services.some((service) => service.length > 120);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -174,11 +216,51 @@ export default async function PsychologistProfilePage({
             </blockquote>
           ) : null}
 
-          {psychologist.bio ? (
-            <section aria-labelledby="despre" className="space-y-3">
-              <h2 id="despre" className="text-2xl font-semibold text-ink">Despre</h2>
-              <p className="whitespace-pre-line text-[1.02rem] leading-relaxed text-muted">{psychologist.bio}</p>
-            </section>
+          {bioSections ? (
+            <>
+              {bioSections.about.length > 0 ? (
+                <section aria-labelledby="despre" className="space-y-3">
+                  <h2 id="despre" className="text-2xl font-semibold text-ink">Despre</h2>
+                  <div className="space-y-3">
+                    {bioSections.about.map((paragraph, index) => (
+                      <p
+                        key={index}
+                        className="whitespace-pre-line text-[1.02rem] leading-relaxed text-muted"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              {bioSections.intervention ? (
+                <section aria-labelledby="arii-interventie" className="space-y-3">
+                  <h2 id="arii-interventie" className="text-2xl font-semibold text-ink">
+                    Arii de intervenție
+                  </h2>
+                  {bioSections.intervention.intro.length > 0 ? (
+                    <div className="space-y-2">
+                      {bioSections.intervention.intro.map((paragraph, index) => (
+                        <p
+                          key={index}
+                          className="whitespace-pre-line text-[1.02rem] leading-relaxed text-muted"
+                        >
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  ) : null}
+                  {bioSections.intervention.bullets.length > 0 ? (
+                    <ul className="list-disc space-y-2 pl-5 text-[1.02rem] leading-relaxed text-muted marker:text-terracotta">
+                      {bioSections.intervention.bullets.map((bullet, index) => (
+                        <li key={index}>{bullet}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </section>
+              ) : null}
+            </>
           ) : null}
 
           <div className="grid gap-5 sm:grid-cols-2">
@@ -233,7 +315,7 @@ export default async function PsychologistProfilePage({
 
           <section aria-labelledby="servicii" className="space-y-3">
             <h2 id="servicii" className="text-2xl font-semibold text-ink">Servicii oferite</h2>
-            <ul className="grid gap-3 sm:grid-cols-2">
+            <ul className={hasLongServices ? "grid gap-3" : "grid gap-3 sm:grid-cols-2"}>
               {psychologist.services.map((service, index) => (
                 <li key={`${service}-${index}`} className="rounded-2xl border border-brand-line bg-brand-soft/30 p-4 text-sm">
                   <p className="font-semibold text-ink">{service}</p>
@@ -255,6 +337,11 @@ export default async function PsychologistProfilePage({
                 </li>
               ))}
             </ul>
+            {psychologist.services.length === 0 ? (
+              <p className="text-sm text-muted">
+                Serviciile și tarifele se stabilesc direct cu psihologul, în funcție de solicitare.
+              </p>
+            ) : null}
             <p className="text-sm font-medium text-brand-strong">
               Prețul este în funcție de complexitate.
             </p>
