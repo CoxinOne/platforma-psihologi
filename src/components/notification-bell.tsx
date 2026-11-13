@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import { Bell } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/public-env";
@@ -23,11 +24,18 @@ export function NotificationBell({
   const total = notifications + messages;
 
   useEffect(() => {
+    setNotifications(initialNotifications);
+    setMessages(initialMessages);
+  }, [initialNotifications, initialMessages]);
+
+  useEffect(() => {
     if (!isSupabaseConfigured()) return;
-    const supabase = createSupabaseBrowserClient();
     let active = true;
+    let channel: RealtimeChannel | null = null;
+    let supabase: ReturnType<typeof createSupabaseBrowserClient> | null = null;
 
     const refresh = async () => {
+      if (!supabase) return;
       const [{ data }, { count }] = await Promise.all([
         supabase.rpc("unread_badge"),
         supabase
@@ -42,20 +50,44 @@ export function NotificationBell({
       setMessages(Number(row?.unread_messages ?? 0));
     };
 
-    const channel = supabase
-      .channel(`notifications-${userId}`)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "notifications", filter: `user_id=eq.${userId}` },
-        () => {
-          void refresh();
-        },
-      )
-      .subscribe();
+    const connect = async () => {
+      supabase = createSupabaseBrowserClient();
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          await supabase.realtime.setAuth(data.session.access_token);
+        }
+      } catch {
+        // Reîncărcarea paginii rămâne fallback-ul.
+      }
+      if (!active) return;
+
+      channel = supabase
+        .channel(`notifications-${userId}`)
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "notifications" },
+          (payload) => {
+            if ((payload.new as { user_id?: string }).user_id !== userId) return;
+            void refresh();
+          },
+        )
+        .on(
+          "postgres_changes",
+          { event: "UPDATE", schema: "public", table: "notifications" },
+          (payload) => {
+            if ((payload.new as { user_id?: string }).user_id !== userId) return;
+            void refresh();
+          },
+        )
+        .subscribe();
+    };
+
+    void connect();
 
     return () => {
       active = false;
-      void supabase.removeChannel(channel);
+      if (channel && supabase) void supabase.removeChannel(channel);
     };
   }, [userId]);
 

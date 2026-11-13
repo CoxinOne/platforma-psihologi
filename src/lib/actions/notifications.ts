@@ -11,6 +11,9 @@ export async function markNotificationReadAction(formData: FormData): Promise<vo
   await session.supabase.rpc("mark_notification_read", { p_notification: id });
   revalidatePath("/dashboard/notificari");
   revalidatePath("/cabinet/notificari");
+  revalidatePath("/dashboard");
+  revalidatePath("/cabinet");
+  revalidatePath("/", "layout");
 }
 
 export async function markAllNotificationsReadAction(): Promise<void> {
@@ -18,5 +21,7 @@ export async function markAllNotificationsReadAction(): Promise<void> {
   await session.supabase.rpc("mark_all_notifications_read");
   revalidatePath("/dashboard/notificari");
   revalidatePath("/cabinet/notificari");
+  revalidatePath("/dashboard");
+  revalidatePath("/cabinet");
   revalidatePath("/", "layout");
 }

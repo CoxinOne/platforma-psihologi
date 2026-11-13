@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 import { ArrowLeft, Flag, Send } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/public-env";
 import { humanizeError } from "@/lib/errors";
 import { formatTime, localDateKey } from "@/lib/time";
-import { notifyMessageEmailAction } from "@/lib/actions/messaging";
+import { notifyMessageEmailAction, markConversationReadAction } from "@/lib/actions/messaging";
 import { Avatar, Alert, buttonClasses } from "@/components/ui";
 import type { Message } from "@/lib/types";
 
@@ -38,6 +40,12 @@ export function ChatRoom({
   const [error, setError] = useState<string | null>(null);
   const [connection, setConnection] = useState<"connecting" | "online" | "offline">("connecting");
   const bottomRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const markRead = useCallback(async () => {
+    await markConversationReadAction(conversationId);
+    router.refresh();
+  }, [conversationId, router]);
 
   const appendMessage = (message: Message) => {
     setMessages((previous) =>
@@ -46,42 +54,62 @@ export function ChatRoom({
   };
 
   useEffect(() => {
-    if (!isSupabaseConfigured()) {
-      setConnection("offline");
-      return;
-    }
-    const supabase = createSupabaseBrowserClient();
-    void supabase.rpc("mark_conversation_read", { p_conversation: conversationId });
+    let active = true;
+    let channel: RealtimeChannel | null = null;
+    let supabase: ReturnType<typeof createSupabaseBrowserClient> | null = null;
 
-    const channel = supabase
-      .channel(`conversation-${conversationId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "messages",
-          filter: `conversation_id=eq.${conversationId}`,
-        },
-        (payload) => {
-          const message = payload.new as Message;
-          appendMessage(message);
-          if (message.sender_id !== currentUserId) {
-            void supabase.rpc("mark_conversation_read", { p_conversation: conversationId });
-          }
-        },
-      )
-      .subscribe((status) => {
-        if (status === "SUBSCRIBED") setConnection("online");
-        else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
-          setConnection("offline");
+    const connect = async () => {
+      if (!isSupabaseConfigured()) {
+        setConnection("offline");
+        return;
+      }
+
+      supabase = createSupabaseBrowserClient();
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
+          await supabase.realtime.setAuth(data.session.access_token);
         }
-      });
+      } catch {
+        // Mesajele rămân disponibile prin reîncărcarea paginii.
+      }
+
+      if (!active) return;
+      void markRead();
+
+      channel = supabase
+        .channel(`conversation-${conversationId}`)
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "messages",
+          },
+          (payload) => {
+            const message = payload.new as Message;
+            if (message.conversation_id !== conversationId) return;
+            appendMessage(message);
+            if (message.sender_id !== currentUserId) {
+              void markRead();
+            }
+          },
+        )
+        .subscribe((status) => {
+          if (status === "SUBSCRIBED") setConnection("online");
+          else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+            setConnection("offline");
+          }
+        });
+    };
+
+    void connect();
 
     return () => {
-      void supabase.removeChannel(channel);
+      active = false;
+      if (channel && supabase) void supabase.removeChannel(channel);
     };
-  }, [conversationId, currentUserId]);
+  }, [conversationId, currentUserId, markRead]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });

@@ -109,22 +109,29 @@ export async function sendMessageAction(
   return actionSuccess();
 }
 
-export async function markConversationReadAction(
-  _previous: ActionResult | null,
-  formData: FormData,
-): Promise<ActionResult> {
+export async function markConversationReadAction(conversationId: string): Promise<void> {
   const session = await requireUser();
-  const conversationId = formString(formData, "conversationId");
-  if (!conversationId) return actionFailure("Conversația nu a fost identificată.");
+  if (!conversationId) return;
 
   const { error } = await session.supabase.rpc("mark_conversation_read", {
     p_conversation: conversationId,
   });
 
   if (error) {
-    return actionFailure(humanizeError(error));
+    logServerError("messaging.read", error);
+    return;
   }
-  return actionSuccess();
+
+  revalidatePath("/dashboard", "layout");
+  revalidatePath("/cabinet", "layout");
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/mesaje");
+  revalidatePath("/dashboard/notificari");
+  revalidatePath("/cabinet");
+  revalidatePath("/cabinet/mesaje");
+  revalidatePath("/cabinet/notificari");
+  revalidatePath(`/dashboard/mesaje/${conversationId}`);
+  revalidatePath(`/cabinet/mesaje/${conversationId}`);
 }
 
 export async function notifyMessageEmailAction(conversationId: string): Promise<void> {

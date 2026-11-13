@@ -6,6 +6,7 @@ import { formatDateTime } from "@/lib/time";
 import { notificationHref } from "@/lib/notifications";
 import { markAllNotificationsReadAction, markNotificationReadAction } from "@/lib/actions/notifications";
 import { NotificationPreferencesForm } from "@/components/account-forms";
+import { AutoMarkNotificationsRead } from "@/components/auto-mark-notifications-read";
 import { Badge, Card, EmptyState, PageHeader } from "@/components/ui";
 
 export default async function PsychologistNotificationsPage() {
@@ -18,6 +19,7 @@ export default async function PsychologistNotificationsPage() {
 
   return (
     <div className="space-y-6">
+      <AutoMarkNotificationsRead unread={unread} />
       <PageHeader
         eyebrow="Notificări"
         title="Notificările mele"
