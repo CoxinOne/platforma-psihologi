@@ -288,7 +288,7 @@ export default async function PsychologistProfilePage({
             ) : null}
           </div>
 
-          {psychologist.specialties.length > 0 ? (
+          {psychologist.specialties.length > 0 || psychologist.training.length > 0 ? (
             <section aria-labelledby="specializari" className="space-y-3">
               <h2 id="specializari" className="text-2xl font-semibold text-ink">Specializări</h2>
               <ul className="flex flex-wrap gap-2">
@@ -299,21 +299,12 @@ export default async function PsychologistProfilePage({
                     </Link>
                   </li>
                 ))}
+                {psychologist.training.map((item, index) => (
+                  <li key={`training-${index}`}>
+                    <Badge tone="brand" className="px-3 py-1.5 text-sm">{item}</Badge>
+                  </li>
+                ))}
               </ul>
-              {psychologist.training.length > 0 ? (
-                <div className="border-t border-line pt-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-brand">
-                    Formări profesionale
-                  </h3>
-                  <ul className="mt-2 flex flex-wrap gap-2">
-                    {psychologist.training.map((item, index) => (
-                      <li key={index}>
-                        <Badge tone="neutral" className="px-2.5 py-1 text-xs">{item}</Badge>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
             </section>
           ) : null}
 
