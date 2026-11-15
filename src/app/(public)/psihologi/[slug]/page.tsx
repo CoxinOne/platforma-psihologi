@@ -305,9 +305,11 @@ export default async function PsychologistProfilePage({
                   <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-brand">
                     Formări profesionale
                   </h3>
-                  <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted marker:text-terracotta">
+                  <ul className="mt-2 flex flex-wrap gap-2">
                     {psychologist.training.map((item, index) => (
-                      <li key={index}>{item}</li>
+                      <li key={index}>
+                        <Badge tone="neutral" className="px-2.5 py-1 text-xs">{item}</Badge>
+                      </li>
                     ))}
                   </ul>
                 </div>
