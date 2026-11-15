@@ -266,11 +266,11 @@ export default async function PsychologistProfilePage({
           <div className="grid gap-5 sm:grid-cols-2">
             {psychologist.education ? (
               <Card>
-                <h2 className="flex items-center gap-2 text-lg font-semibold text-ink">
+                <h2 className="flex items-center gap-2 text-xl font-semibold text-ink">
                   <GraduationCap className="h-5 w-5 text-brand" aria-hidden="true" />
                   Studii și calificări
                 </h2>
-                <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted">
+                <p className="mt-3 whitespace-pre-line text-base font-medium leading-relaxed text-ink/85">
                   {psychologist.education}
                 </p>
               </Card>
