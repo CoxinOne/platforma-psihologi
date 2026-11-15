@@ -263,16 +263,33 @@ export default async function PsychologistProfilePage({
             </>
           ) : null}
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            {psychologist.education ? (
+          <div className="grid items-start gap-5 sm:grid-cols-2">
+            {psychologist.education || psychologist.training.length > 0 ? (
               <Card>
                 <h2 className="flex items-center gap-2 text-lg font-semibold text-ink">
                   <GraduationCap className="h-5 w-5 text-brand" aria-hidden="true" />
                   Studii și calificări
                 </h2>
-                <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted">
-                  {psychologist.education}
-                </p>
+                {psychologist.education ? (
+                  <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted">
+                    {psychologist.education}
+                  </p>
+                ) : null}
+                {psychologist.training.length > 0 ? (
+                  <div className="mt-4 border-t border-line pt-4">
+                    <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-brand">
+                      Cursuri și formări
+                    </h3>
+                    <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-muted">
+                      {psychologist.training.map((item, index) => (
+                        <li key={index} className="flex gap-2">
+                          <span aria-hidden="true" className="shrink-0 text-terracotta">–</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
               </Card>
             ) : null}
             {psychologist.experience ? (
@@ -300,20 +317,6 @@ export default async function PsychologistProfilePage({
                   </li>
                 ))}
               </ul>
-              {psychologist.training.length > 0 ? (
-                <div className="border-t border-line pt-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-brand">
-                    Formări profesionale
-                  </h3>
-                  <ul className="mt-2 flex flex-wrap gap-2">
-                    {psychologist.training.map((item, index) => (
-                      <li key={index}>
-                        <Badge tone="neutral" className="px-2.5 py-1 text-xs">{item}</Badge>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
             </section>
           ) : null}
 
