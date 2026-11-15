@@ -282,10 +282,7 @@ export default async function PsychologistProfilePage({
                     </h3>
                     <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-muted">
                       {psychologist.training.map((item, index) => (
-                        <li key={index} className="flex gap-2">
-                          <span aria-hidden="true" className="shrink-0 text-terracotta">–</span>
-                          <span>{item}</span>
-                        </li>
+                        <li key={index}>– {item}</li>
                       ))}
                     </ul>
                   </div>
