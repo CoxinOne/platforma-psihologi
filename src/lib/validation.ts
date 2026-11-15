@@ -111,6 +111,10 @@ export const psychologistProfileSchema = z.object({
     emptyToUndefined,
     z.string().trim().max(1200, "Lista de servicii este prea lungă.").optional(),
   ),
+  training: z.preprocess(
+    emptyToUndefined,
+    z.string().trim().max(4000, "Lista de formări este prea lungă.").optional(),
+  ),
   registryNumber: z.preprocess(
     emptyToUndefined,
     z.string().trim().max(80, "Numărul de înregistrare este prea lung.").optional(),

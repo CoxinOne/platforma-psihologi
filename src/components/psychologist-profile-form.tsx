@@ -362,6 +362,22 @@ export function PsychologistProfileForm({
         />
       </Field>
 
+      <Field
+        label="Formări profesionale"
+        htmlFor="training"
+        hint="Opțional. O formare pe fiecare linie; apare lângă specializări, pe profil."
+        error={firstError(errors, "training")}
+      >
+        <textarea
+          id="training"
+          name="training"
+          rows={5}
+          maxLength={4000}
+          defaultValue={(profile?.training ?? []).join("\n")}
+          className={inputClasses(Boolean(firstError(errors, "training")))}
+        />
+      </Field>
+
       <div className="rounded-xl border border-brand-line bg-brand-soft/40 p-4 text-sm text-brand-strong">
         <p className="font-semibold">Prețul este în funcție de complexitate.</p>
         <p className="mt-1 text-brand-strong/80">

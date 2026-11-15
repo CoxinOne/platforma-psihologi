@@ -300,6 +300,18 @@ export default async function PsychologistProfilePage({
                   </li>
                 ))}
               </ul>
+              {psychologist.training.length > 0 ? (
+                <div className="border-t border-line pt-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-brand">
+                    Formări profesionale
+                  </h3>
+                  <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted marker:text-terracotta">
+                    {psychologist.training.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
             </section>
           ) : null}
 

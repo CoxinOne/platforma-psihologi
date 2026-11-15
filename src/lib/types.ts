@@ -101,6 +101,7 @@ export interface PublicPsychologist {
   motto: string | null;
   motto_author: string | null;
   services: string[];
+  training: string[];
   specialties: { slug: string; name: string }[];
   specialty_slugs: string[];
   cabinets: CabinetSummary[];
@@ -125,6 +126,7 @@ export interface PsychologistProfile {
   motto: string | null;
   motto_author: string | null;
   services: string[];
+  training: string[];
   status: ProfessionalStatus;
   is_accepting_new_clients: boolean;
   is_demo: boolean;
