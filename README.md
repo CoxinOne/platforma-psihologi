@@ -97,7 +97,7 @@ platforma-psihologi/
 │  │  ├─ (admin)/admin/            panoul administratorului
 │  │  ├─ api/health|account/export
 │  │  ├─ auth/callback|confirm/    callback Supabase Auth
-│  │  ├─ layout.tsx, error.tsx, not-found.tsx, robots.ts, sitemap.ts
+│  │  ├─ layout.tsx, error.tsx, not-found.tsx, robots.ts, sitemap.xml/route.ts, sitemaps/[section]/route.ts
 │  │  └─ globals.css
 │  ├─ components/                  UI, formulare, chat, raportări
 │  ├─ lib/
@@ -502,7 +502,7 @@ public. Nu expune niciodată cheia de serviciu în client.
 Site-ul are deja:
 
 - titluri și descrieri unice pentru pagina principală, directoriu, profiluri și specializări;
-- `sitemap.xml` dinamic, cu profiluri, specializări și pagini pe orașe;
+- `sitemap.xml` de tip index, cu 7 segmente: pagini, ghiduri, profiluri, specializări, orașe, oraș × specializare și imagini;
 - `robots.txt` care blochează doar zonele private;
 - date structurate JSON-LD pentru organizație, site, profil profesional și breadcrumbs;
 - pagini locale de tip `/psihologi/oras/pitesti`, `/psihologi/oras/curtea-de-arges`;

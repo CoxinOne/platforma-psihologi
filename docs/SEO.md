@@ -22,8 +22,8 @@
   doar când există cel puțin un profil aprobat pentru combinația respectivă (fără pagini goale).
 - **Interlinking**: homepage → orașe/specializări; oraș → specializările disponibile în oraș;
   specializare → orașele în care există specialiști; profil → specializări; ghiduri → directoriu.
-- **Sitemap dinamic** cu pagini statice, profiluri, specializări, orașe și combinații oraș ×
-  specializare; `robots.txt` actualizat; paginile de autentificare/utilitare sunt excluse.
+- **Sitemap index** cu 7 segmente: pagini statice, ghiduri, profiluri, specializări, orașe,
+  combinații oraș × specializare și imagini; `robots.txt` actualizat; paginile de autentificare/utilitare sunt excluse.
 - **Pagina `/cauta`** (rezultate de căutare) este `noindex, follow` — nu aduce valoare ca pagină
   indexată și poate genera conținut subțire/duplicat.
 - **Ghiduri de conținut** (`/resurse`) cu două articole utile despre alegerea psihologului și
