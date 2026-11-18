@@ -30,9 +30,19 @@ interface BioSections {
 
 function externalLinkLabel(url: string): string {
   try {
-    const host = new URL(url).hostname.replace(/^www\./, "");
-    if (host === "facebook.com" || host.endsWith(".facebook.com")) return "Postare Facebook";
-    if (host === "instagram.com" || host.endsWith(".instagram.com")) return "Postare Instagram";
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    if (host === "facebook.com" || host.endsWith(".facebook.com")) {
+      const path = parsed.pathname.toLowerCase();
+      const isPost =
+        path.includes("/posts/") ||
+        path.includes("/permalink") ||
+        path.includes("/story.php") ||
+        path.includes("/photo.php") ||
+        url.toLowerCase().includes("pfbid");
+      return isPost ? "Postare Facebook" : "Profil Facebook";
+    }
+    if (host === "instagram.com" || host.endsWith(".instagram.com")) return "Profil Instagram";
     if (host === "youtube.com" || host.endsWith(".youtube.com") || host === "youtu.be") return "Vezi videoclipul";
     return "Site-ul cabinetului";
   } catch {
