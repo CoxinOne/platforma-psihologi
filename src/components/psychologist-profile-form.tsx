@@ -332,6 +332,23 @@ export function PsychologistProfileForm({
       </Field>
 
       <Field
+        label="Alte linkuri publice"
+        htmlFor="additionalLinks"
+        hint="Opțional. Un link pe fiecare linie: Facebook, portofoliu, pagină profesională."
+        error={firstError(errors, "additionalLinks")}
+      >
+        <textarea
+          id="additionalLinks"
+          name="additionalLinks"
+          rows={3}
+          maxLength={1200}
+          defaultValue={(profile?.additional_links ?? []).join("\n")}
+          placeholder={"https://facebook.com/...\nhttps://..."}
+          className={inputClasses(Boolean(firstError(errors, "additionalLinks")))}
+        />
+      </Field>
+
+      <Field
         label="Motto personal"
         htmlFor="motto"
         hint="Opțional. Apare ca citat pe profilul public."

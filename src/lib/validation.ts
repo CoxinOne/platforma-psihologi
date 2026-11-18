@@ -108,6 +108,10 @@ export const psychologistProfileSchema = z.object({
       .regex(/^https?:\/\/\S+$/, "Adresa Instagram trebuie să înceapă cu http:// sau https://.")
       .optional(),
   ),
+  additionalLinks: z.preprocess(
+    emptyToUndefined,
+    z.string().trim().max(1200, "Lista de linkuri este prea lungă.").optional(),
+  ),
   motto: z.preprocess(
     emptyToUndefined,
     z.string().trim().max(600, "Motto-ul poate avea cel mult 600 de caractere.").optional(),

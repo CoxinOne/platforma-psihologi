@@ -99,6 +99,7 @@ export interface PublicPsychologist {
   published_at: string | null;
   website_url: string | null;
   instagram_url: string | null;
+  additional_links: string[];
   motto: string | null;
   motto_author: string | null;
   services: string[];
@@ -125,6 +126,7 @@ export interface PsychologistProfile {
   photo_path: string | null;
   website_url: string | null;
   instagram_url: string | null;
+  additional_links: string[];
   motto: string | null;
   motto_author: string | null;
   services: string[];

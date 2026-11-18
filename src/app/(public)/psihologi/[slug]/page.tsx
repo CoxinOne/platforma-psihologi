@@ -498,6 +498,19 @@ export default async function PsychologistProfilePage({
                 {externalLinkLabel(psychologist.instagram_url)}
               </a>
             ) : null}
+            {psychologist.additional_links.map((url, index) => (
+              <a
+                key={`${url}-${index}`}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-brand underline underline-offset-4"
+              >
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                {externalLinkLabel(url)}
+                {index > 0 ? ` (${index + 1})` : ""}
+              </a>
+            ))}
           </Card>
 
           <div className="mt-4 rounded-2xl border border-line bg-canvas p-4 text-xs text-muted">
