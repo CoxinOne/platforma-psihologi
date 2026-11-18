@@ -127,7 +127,7 @@ export default function ResourcesPage() {
         </h2>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
           Materiale de specialitate scrise de psihologii verificați ai platformei. Fiecare lucrare
-          este publicată cu numele autorului și poate fi descărcată în format PDF.
+          este publicată integral pe site, cu numele autorului.
         </p>
         <Card className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>

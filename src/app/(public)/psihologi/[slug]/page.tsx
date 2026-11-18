@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   BadgeCheck,
+  BookOpen,
   Building2,
   CalendarDays,
   ExternalLink,
@@ -22,6 +23,7 @@ import { JsonLd } from "@/components/json-ld";
 import { Avatar, Badge, buttonClasses, Card } from "@/components/ui";
 import { ContactPsychologist } from "@/components/contact-psychologist";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { FEATURED_PUBLICATIONS } from "@/lib/publications";
 
 interface BioSections {
   about: string[];
@@ -122,6 +124,7 @@ export default async function PsychologistProfilePage({
     ? `${publicEnv.supabaseUrl}/storage/v1/object/public/avatars/${psychologist.photo_path}`
     : `${baseUrl}/icon.svg`;
   const bioSections = psychologist.bio ? splitBio(psychologist.bio) : null;
+  const publication = FEATURED_PUBLICATIONS[psychologist.slug];
   const hasLongServices = psychologist.services.some((service) => service.length > 120);
 
   return (
@@ -311,6 +314,39 @@ export default async function PsychologistProfilePage({
               </Card>
             ) : null}
           </div>
+
+          {publication ? (
+            <section aria-labelledby="lucrari" className="space-y-3">
+              <h2 id="lucrari" className="flex items-center gap-2 text-2xl font-semibold text-ink">
+                <BookOpen className="h-5 w-5 text-brand" aria-hidden="true" />
+                Lucrări
+              </h2>
+              <Card className="relative overflow-hidden border-[#e4cdb8] bg-[#f8efe4] p-6 sm:p-7">
+                <span className="absolute inset-y-0 left-0 w-1 bg-terracotta" aria-hidden="true" />
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge tone="brand">{publication.kind}</Badge>
+                  <span className="text-xs font-semibold text-muted">{publication.year}</span>
+                </div>
+                <h3 className="mt-3 max-w-3xl font-display text-xl font-semibold leading-snug text-ink sm:text-2xl">
+                  {publication.title}
+                </h3>
+                <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
+                  {publication.description}
+                </p>
+                <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#e4cdb8] pt-4">
+                  <p className="text-xs text-muted">
+                    Autor: <span className="font-semibold text-ink">{psychologist.display_name}</span>
+                  </p>
+                  <Link
+                    href={publication.href}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-xs font-semibold text-cream hover:bg-brand-strong"
+                  >
+                    Citește lucrarea integrală
+                  </Link>
+                </div>
+              </Card>
+            </section>
+          ) : null}
 
           {psychologist.specialties.length > 0 || psychologist.training.length > 0 ? (
             <section aria-labelledby="specializari" className="space-y-3">
