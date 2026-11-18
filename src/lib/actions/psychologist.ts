@@ -62,6 +62,7 @@ export async function savePsychologistProfileAction(
     price_ron: null,
     timezone: parsed.data.timezone,
     website_url: parsed.data.websiteUrl ?? null,
+    instagram_url: parsed.data.instagramUrl ?? null,
     motto: parsed.data.motto ?? null,
     motto_author: parsed.data.mottoAuthor ?? null,
     services: (parsed.data.services ?? "")

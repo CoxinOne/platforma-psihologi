@@ -316,6 +316,22 @@ export function PsychologistProfileForm({
       </Field>
 
       <Field
+        label="Instagram"
+        htmlFor="instagramUrl"
+        hint="Opțional. Link către profilul public de Instagram."
+        error={firstError(errors, "instagramUrl")}
+      >
+        <input
+          id="instagramUrl"
+          name="instagramUrl"
+          type="url"
+          defaultValue={profile?.instagram_url ?? ""}
+          placeholder="https://instagram.com/..."
+          className={inputClasses(Boolean(firstError(errors, "instagramUrl")))}
+        />
+      </Field>
+
+      <Field
         label="Motto personal"
         htmlFor="motto"
         hint="Opțional. Apare ca citat pe profilul public."

@@ -98,6 +98,7 @@ export interface PublicPsychologist {
   timezone: string;
   published_at: string | null;
   website_url: string | null;
+  instagram_url: string | null;
   motto: string | null;
   motto_author: string | null;
   services: string[];
@@ -123,6 +124,7 @@ export interface PsychologistProfile {
   timezone: string;
   photo_path: string | null;
   website_url: string | null;
+  instagram_url: string | null;
   motto: string | null;
   motto_author: string | null;
   services: string[];

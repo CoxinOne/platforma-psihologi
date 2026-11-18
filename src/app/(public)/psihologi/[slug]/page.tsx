@@ -487,6 +487,17 @@ export default async function PsychologistProfilePage({
                 {externalLinkLabel(psychologist.website_url)}
               </a>
             ) : null}
+            {psychologist.instagram_url ? (
+              <a
+                href={psychologist.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline underline-offset-4"
+              >
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                {externalLinkLabel(psychologist.instagram_url)}
+              </a>
+            ) : null}
           </Card>
 
           <div className="mt-4 rounded-2xl border border-line bg-canvas p-4 text-xs text-muted">

@@ -109,7 +109,7 @@ platforma-psihologi/
 │  │  └─ ...
 │  └─ proxy.ts                     refresh sesiune + protecție rute
 ├─ supabase/
-│  ├─ migrations/                  31 migrații SQL (schema, funcții, RLS, views, realtime, storage)
+│  ├─ migrations/                  32 migrații SQL (schema, funcții, RLS, views, realtime, storage)
 │  └─ tests/00_supabase_stub.sql   stub local pentru roluri/auth
 ├─ tests/
 │  ├─ unit/logic.test.ts           14 teste
@@ -187,8 +187,8 @@ npx supabase db push
    `0023_add_psychology_specialties.sql`, `0024_add_divorce_expertise.sql`,
    `0025_add_schema_dbt_specialties.sql`, `0026_add_motto_author.sql`,
    `0027_add_experiential_humanistic.sql`, `0028_mark_conversation_notifications.sql`,
-   `0029_respect_in_app_preference.sql`, `0030_fix_message_notification_url.sql` sau
-   `0031_add_training.sql`.
+   `0029_respect_in_app_preference.sql`, `0030_fix_message_notification_url.sql`,
+   `0031_add_training.sql` sau `0032_add_instagram_url.sql`.
 
 4. În **Authentication → URL Configuration** setează:
    - Site URL: `http://localhost:3000` (în producție, domeniul real)
