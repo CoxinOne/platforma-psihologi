@@ -28,6 +28,18 @@ interface BioSections {
   intervention: { intro: string[]; bullets: string[] } | null;
 }
 
+function externalLinkLabel(url: string): string {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    if (host === "facebook.com" || host.endsWith(".facebook.com")) return "Postare Facebook";
+    if (host === "instagram.com" || host.endsWith(".instagram.com")) return "Postare Instagram";
+    if (host === "youtube.com" || host.endsWith(".youtube.com") || host === "youtu.be") return "Vezi videoclipul";
+    return "Site-ul cabinetului";
+  } catch {
+    return "Site-ul cabinetului";
+  }
+}
+
 /**
  * Profilurile au descrierea într-un singur câmp text. Când textul conține un paragraf
  * „Arii de intervenție:", îl scoatem într-o secțiune separată, cu listă, ca să fie ușor de citit.
@@ -462,7 +474,7 @@ export default async function PsychologistProfilePage({
                 className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline underline-offset-4"
               >
                 <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                Site-ul cabinetului
+                {externalLinkLabel(psychologist.website_url)}
               </a>
             ) : null}
           </Card>
