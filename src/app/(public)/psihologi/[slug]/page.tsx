@@ -29,6 +29,8 @@ interface BioSections {
 }
 
 function externalLinkLabel(url: string): string {
+  if (url.startsWith("/resurse/")) return "Lucrare publicată";
+  if (url.toLowerCase().endsWith(".pdf")) return "Lucrare PDF";
   try {
     const parsed = new URL(url);
     const host = parsed.hostname.replace(/^www\./, "");

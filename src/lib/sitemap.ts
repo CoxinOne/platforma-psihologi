@@ -104,6 +104,7 @@ const GUIDE_PATHS = [
   "/resurse/psiholog-pentru-copii",
   "/resurse/terapie-de-cuplu",
   "/resurse/cand-mergi-la-psiholog",
+  "/resurse/de-la-co-reglare-la-autoreglare",
 ];
 
 const STATIC_PATHS = [

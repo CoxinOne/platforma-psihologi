@@ -121,6 +121,42 @@ export default function ResourcesPage() {
         ))}
       </div>
 
+      <section className="mt-10" aria-labelledby="lucrari-specialisti">
+        <h2 id="lucrari-specialisti" className="text-2xl font-semibold text-ink">
+          Lucrări ale specialiștilor
+        </h2>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
+          Materiale de specialitate scrise de psihologii verificați ai platformei. Fiecare lucrare
+          este publicată cu numele autorului și poate fi descărcată în format PDF.
+        </p>
+        <Card className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">
+              Lucrare de specialitate · Sima Narcis Constantin
+            </p>
+            <h3 className="mt-2 max-w-2xl font-display text-xl font-semibold leading-snug text-ink">
+              <Link
+                href="/resurse/de-la-co-reglare-la-autoreglare"
+                className="hover:text-brand"
+              >
+                De la co-reglare la autoreglare: rolul specialiștilor în dezvoltarea capacității
+                de reglare emoțională a copilului
+              </Link>
+            </h3>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+              Prezentare de 17 slide-uri despre reglarea emoțională la copii, co-reglare,
+              autoreglare și intervenția în criză.
+            </p>
+          </div>
+          <Link
+            href="/resurse/de-la-co-reglare-la-autoreglare"
+            className="shrink-0 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-cream hover:bg-brand-strong"
+          >
+            Citește lucrarea
+          </Link>
+        </Card>
+      </section>
+
       <section className="mt-12 rounded-[var(--radius-card)] border border-line bg-surface p-6 sm:p-8">
         <h2 className="text-2xl font-semibold text-ink">Ai o întrebare concretă?</h2>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted">
